@@ -59,8 +59,8 @@ A modern full-stack project management platform that enables teams to collaborat
 
 ## 👨‍💻 Development Team
 
-- **Bhargavi Endla**
 - **Sai Bhavani**
+- **Bhargavi Endla**
 
 ---
 
