@@ -59,7 +59,7 @@ A modern full-stack project management platform that enables teams to collaborat
 
 ## 👨‍💻 Development Team
 
-- **Sai Bhavani**
+- **Yedla Sai Bhavani**
 - **Bhargavi Endla**
 
 ---
