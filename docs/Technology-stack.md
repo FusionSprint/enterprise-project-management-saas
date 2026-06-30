@@ -1,13 +1,4 @@
-# Technology Stack
-
-# Enterprise Project Management SaaS
-
-## Version
-
-- Project Version: 1.0
-- Document Version: 1.0
-
----
+## Enterprise Project Management SaaS
 
 # Overview
 
@@ -40,8 +31,6 @@ The goal is to ensure every team member understands the purpose of each technolo
                           │
                           ▼
                 MongoDB Community Server
-```
-
 ```
 ---
 # Frontend
