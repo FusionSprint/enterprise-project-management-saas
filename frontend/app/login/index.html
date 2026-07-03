@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login / Register | Project Management</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <main class="auth-page">
+    <div class="auth-container" id="authContainer">
+
+      <!-- LOGIN FORM -->
+      <section class="form-panel login-form-panel">
+        <div class="form-card">
+          <a href="../enterprise_landing_page/index.html" class="brand">
+            <span class="brand-icon material-symbols-outlined">terminal</span>
+            <span>Project Management</span>
+          </a>
+
+          <h1>Welcome back</h1>
+          <p class="subtitle">Enter your credentials to continue your workspace.</p>
+
+          <button class="google-btn" type="button">
+            <span class="google-logo">G</span>
+            Sign in with Google
+          </button>
+
+          <div class="divider">
+            <span></span>
+            <p>OR CONTINUE WITH</p>
+            <span></span>
+          </div>
+
+          <form id="loginForm">
+            <div class="input-group">
+              <label>Email</label>
+              <input type="email" placeholder="name@company.com" required />
+            </div>
+
+            <div class="input-group">
+              <div class="label-row">
+                <label>Password</label>
+                <a href="#">Forgot password?</a>
+              </div>
+
+              <div class="password-box">
+                <input type="password" placeholder="••••••••" class="password-input" required />
+                <button type="button" class="toggle-password">
+                  <span class="material-symbols-outlined">visibility</span>
+                </button>
+              </div>
+            </div>
+
+            <label class="remember">
+              <input type="checkbox" />
+              <span>Remember me for 30 days</span>
+            </label>
+
+            <button class="submit-btn" type="submit">
+              Login
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </form>
+
+         <p class="signup-text">
+         Don't have an account?
+        <button type="button" id="mobileRegisterBtn" class="text-switch-btn">Create an account</button>
+        </p>
+        </div>
+      </section>
+
+      <!-- REGISTER FORM -->
+      <section class="form-panel register-form-panel">
+        <div class="form-card">
+          <a href="../enterprise_landing_page/index.html" class="brand">
+            <span class="brand-icon material-symbols-outlined">deployed_code</span>
+            <span>Create Workspace</span>
+          </a>
+
+          <h1>Create account</h1>
+          <p class="subtitle">Start managing projects, tasks and team workflow.</p>
+
+          <button class="google-btn" type="button">
+            <span class="google-logo">G</span>
+            Sign up with Google
+          </button>
+
+          <div class="divider">
+            <span></span>
+            <p>OR REGISTER WITH EMAIL</p>
+            <span></span>
+          </div>
+
+          <form id="registerForm">
+            <div class="input-group">
+              <label>Full Name</label>
+              <input type="text" placeholder="Enter your name" required />
+            </div>
+
+            <div class="input-group">
+              <label>Email</label>
+              <input type="email" placeholder="name@company.com" required />
+            </div>
+
+            <div class="input-group">
+              <label>Password</label>
+              <div class="password-box">
+                <input type="password" placeholder="Create password" class="password-input" required />
+                <button type="button" class="toggle-password">
+                  <span class="material-symbols-outlined">visibility</span>
+                </button>
+              </div>
+            </div>
+
+            <button class="submit-btn" type="submit">
+              Register
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </form>
+          <p class="auth-switch-text">
+         Already have an account?
+         <button type="button" id="mobileLoginBtn">Login</button>
+        </p>
+
+          <p class="switch-mobile">
+            Already have an account?
+            <button type="button" id="mobileLoginBtn">Login</button>
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDING CREATIVE PANEL -->
+      <section class="slider-panel">
+        <div class="slider-content login-welcome">
+          <div class="creative-orbit">
+            <div class="orbit-ring ring-one"></div>
+            <div class="orbit-ring ring-two"></div>
+
+            <div class="center-widget">
+              <span class="material-symbols-outlined">dashboard</span>
+              <h3>Welcome Back</h3>
+              <p>Continue tracking projects, tasks, meetings and team analytics.</p>
+            </div>
+
+            <div class="mini-card card-a">
+              <span class="material-symbols-outlined">task_alt</span>
+              <p>24 tasks active</p>
+            </div>
+
+            <div class="mini-card card-b">
+              <span class="material-symbols-outlined">groups</span>
+              <p>8 members online</p>
+            </div>
+          </div>
+
+          <h2>Hello again!</h2>
+          <p>Login to access your project command center and continue your workflow.</p>
+
+          <button class="ghost-btn" id="showRegisterBtn" type="button">Create account</button>
+          
+        </div>
+
+        <div class="slider-content register-welcome">
+          <div class="creative-orbit">
+            <div class="orbit-ring ring-one"></div>
+            <div class="orbit-ring ring-two"></div>
+
+            <div class="center-widget">
+              <span class="material-symbols-outlined">rocket_launch</span>
+              <h3>Start Your Hub</h3>
+              <p>Build your workspace and organize your team from one dashboard.</p>
+            </div>
+
+            <div class="mini-card card-a">
+              <span class="material-symbols-outlined">folder_managed</span>
+              <p>Create projects</p>
+            </div>
+
+            <div class="mini-card card-b">
+              <span class="material-symbols-outlined">analytics</span>
+              <p>Track progress</p>
+            </div>
+          </div>
+
+          <h2>New here?</h2>
+          <p>Register now and create your enterprise project management workspace.</p>
+
+          <button class="ghost-btn" id="showLoginBtn">Login instead</button>
+          
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
