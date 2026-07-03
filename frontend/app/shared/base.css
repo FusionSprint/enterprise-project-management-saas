@@ -1,0 +1,3 @@
+/* Shared project-level styles. Feature-specific CSS lives in each feature folder. */
+html { scroll-behavior: smooth; }
+* { box-sizing: border-box; }
