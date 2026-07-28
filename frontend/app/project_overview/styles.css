@@ -1698,3 +1698,301 @@ body,
     background: var(--danger, #ff8d8d) !important;
 }
 
+
+/* =========================================================
+   Task Modal (Create / Edit task, with comments)
+   Additive only — mirrors the app's existing dark card design
+   language (--surface-2, --border, --primary) so it feels native.
+   ========================================================= */
+.task-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 6, 10, 0.65);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  padding: 24px;
+}
+
+.task-modal-overlay.open {
+  display: flex;
+}
+
+.task-modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  animation: taskModalIn 0.22s ease;
+}
+
+@keyframes taskModalIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.task-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--surface-2);
+  z-index: 1;
+}
+
+.task-modal-header h3 {
+  font-size: 17px;
+  color: var(--text);
+}
+
+.task-modal-close {
+  color: var(--muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s ease;
+}
+
+.task-modal-close:hover {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.task-modal-body {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.task-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.task-field-row {
+  display: flex;
+  gap: 16px;
+}
+
+.task-field label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.task-field input[type="text"],
+.task-field input[type="date"],
+.task-field select,
+.task-field textarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: 0.2s ease;
+  resize: vertical;
+  width: 100%;
+}
+
+.task-field input:focus,
+.task-field select:focus,
+.task-field textarea:focus {
+  border-color: var(--primary);
+}
+
+.task-modal-error {
+  background: rgba(255, 156, 156, 0.1);
+  border: 1px solid rgba(255, 156, 156, 0.3);
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 12px;
+  border-radius: 9px;
+}
+
+.task-comments-section {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-comments-section h4 {
+  font-size: 13px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.task-comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.task-comment-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.task-comment-item .task-comment-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.task-comment-item .task-comment-author {
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--text);
+}
+
+.task-comment-item .task-comment-time {
+  font-size: 11px;
+  color: var(--muted-2);
+  white-space: nowrap;
+}
+
+.task-comment-item .task-comment-body {
+  font-size: 13.5px;
+  color: var(--muted);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.task-comment-composer {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.task-comment-composer textarea {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13.5px;
+  resize: vertical;
+}
+
+.task-modal-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 22px 20px;
+  border-top: 1px solid var(--border);
+  position: sticky;
+  bottom: 0;
+  background: var(--surface-2);
+}
+
+.task-modal-btn {
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 13.5px;
+  transition: 0.2s ease;
+}
+
+.task-modal-btn-primary {
+  background: linear-gradient(135deg, #6a5cff, #5145dc);
+  color: #fff;
+}
+
+.task-modal-btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+.task-modal-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.task-modal-btn-secondary {
+  background: var(--surface-3);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.task-modal-btn-secondary:hover {
+  border-color: var(--primary);
+}
+
+.task-modal-btn-danger {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid rgba(255, 156, 156, 0.4);
+}
+
+.task-modal-btn-danger:hover {
+  background: rgba(255, 156, 156, 0.1);
+}
+
+.my-tasks-toggle-btn.active {
+  background: linear-gradient(135deg, #6a5cff, #5145dc);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Per-column "+" quick-add button, injected next to each column's count */
+.column-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.column-quick-add {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  transition: 0.2s ease;
+}
+
+.column-quick-add .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.column-quick-add:hover {
+  color: var(--text);
+  border-color: var(--primary);
+  background: var(--surface-3);
+}

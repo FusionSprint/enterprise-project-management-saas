@@ -34,7 +34,9 @@ if (searchBtn) {
 
 if (newTaskBtn) {
   newTaskBtn.addEventListener("click", () => {
-    if (window.__activeProject && window.EPM_API) {
+    if (window.__activeProject && window.EPM_API && window.openTaskModal) {
+      window.openTaskModal("create");
+    } else if (window.__activeProject && window.EPM_API) {
       createBackendTask();
     } else {
       createTaskCard();
@@ -250,15 +252,20 @@ if (addColumnBtn) {
 
     if (!columnName || !columnName.trim()) return;
 
+    const trimmedName = columnName.trim();
     const column = document.createElement("article");
     column.className = "kanban-column";
 
+    const div = document.createElement("div");
+    div.textContent = trimmedName;
+    const safeName = div.innerHTML; // reuse the browser's own HTML-escaping
+
     column.innerHTML = `
       <div class="column-header">
-        <h3>${columnName}</h3>
+        <h3>${safeName}</h3>
         <span class="task-count">0</span>
       </div>
-      <div class="task-list"></div>
+      <div class="task-list" data-status="${safeName}"></div>
     `;
 
     kanbanBoard.insertBefore(column, addColumnBtn);
@@ -266,6 +273,9 @@ if (addColumnBtn) {
     columnCounter++;
     enableDragAndDrop();
     updateTaskCounts();
+    if (window.augmentColumnHeader) {
+      window.augmentColumnHeader(column.querySelector(".column-header"), trimmedName);
+    }
     showToast("New column added");
   });
 }
@@ -599,6 +609,7 @@ if (logoutBtn) {
   window.__activeProject = { workspaceId, projectId };
 
   let currentTasks = [];
+  let currentUserId = null; // resolved once by wireMyTasksFilter(), shared with wireTaskFilters()
   let currentWikiPage = null; // { id, body, version } once loaded/created
   let currentProject = null;
   let currentCalendarEventList = [];
@@ -636,12 +647,6 @@ if (logoutBtn) {
     High: "orange-dot",
     Medium: "blue-dot",
     Low: "",
-  };
-  const STATUS_LIST_ID = {
-    Backlog: "backlogTaskList",
-    "To Do": "todoTaskList",
-    "In Progress": "inProgressTaskList",
-    Review: "reviewTaskList",
   };
   const STATUS_BADGE_CLASS = {
     Backlog: "backlog",
@@ -768,22 +773,21 @@ if (logoutBtn) {
   }
 
   function renderTaskBoard() {
-    Object.values(STATUS_LIST_ID).forEach((listId) => {
-      const el = document.getElementById(listId);
-      if (el) el.innerHTML = "";
+    const columnLists = Array.from(document.querySelectorAll(".task-list[data-status]"));
+    const fallbackList = document.getElementById("backlogTaskList") || columnLists[0];
+
+    columnLists.forEach((el) => {
+      el.innerHTML = "";
     });
 
     currentTasks.forEach((task) => {
-      const listId = STATUS_LIST_ID[task.status];
-      const container = listId
-        ? document.getElementById(listId)
-        : document.getElementById("backlogTaskList");
+      const container =
+        columnLists.find((el) => el.dataset.status === task.status) || fallbackList;
       if (container) container.appendChild(renderTaskCard(task));
     });
 
-    Object.entries(STATUS_LIST_ID).forEach(([label, listId]) => {
-      const container = document.getElementById(listId);
-      if (container && !container.children.length) {
+    columnLists.forEach((container) => {
+      if (!container.children.length) {
         container.innerHTML = `<p class="muted" style="padding: 4px 2px;">No tasks yet</p>`;
       }
     });
@@ -864,60 +868,352 @@ if (logoutBtn) {
   }
 
   async function openTaskDetails(task) {
-    const comments = await EPM_API.tasks.comments(workspaceId, projectId, task.id).catch(() => task.comments || []);
-    const commentSummary = comments.length
-      ? comments.map((comment) => `${comment.author_name || "Member"}: ${comment.body}`).join("\n")
-      : "No comments yet.";
-    const action = window.prompt(
-      `${task.title}\n\n${task.description || "No description."}\n\nStatus: ${task.status}\nPriority: ${task.priority}\nAssignee: ${(task.assignee && (task.assignee.full_name || task.assignee.email)) || "Unassigned"}\nLabels: ${(task.labels || []).join(", ") || "None"}\n\nComments:\n${commentSummary}\n\nEnter: edit, comment, delete, or cancel`,
-      ""
-    );
-    if (!action) return;
-    const normalized = action.trim().toLowerCase();
-    try {
-      if (normalized === "delete") {
-        if (!window.confirm(`Delete “${task.title}”? This cannot be undone.`)) return;
-        await EPM_API.tasks.remove(workspaceId, projectId, task.id);
-        showToast("Task deleted");
-      } else if (normalized === "comment") {
-        const body = window.prompt("Comment:");
-        if (!body || !body.trim()) return;
-        await EPM_API.tasks.addComment(workspaceId, projectId, task.id, body.trim());
-        showToast("Comment added");
-      } else if (normalized === "edit") {
-        const title = window.prompt("Task title:", task.title);
-        if (!title || !title.trim()) return;
-        const description = window.prompt("Description:", task.description || "");
-        const priority = window.prompt("Priority (Low, Medium, High):", task.priority);
-        const labels = window.prompt("Labels (comma separated):", (task.labels || []).join(", "));
-        const members = currentProject?.members || [];
-        const assigneeName = window.prompt(
-          `Assignee (leave blank to unassign):\n${members.map((member) => member.full_name || member.email).join("\n")}`,
-          (task.assignee && (task.assignee.full_name || task.assignee.email)) || ""
-        );
-        if (assigneeName === null) return;
-        const assignee = members.find((member) => (member.full_name || member.email) === assigneeName.trim());
-        if (assigneeName.trim() && !assignee) {
-          showToast("Choose a project member from the list.");
-          return;
-        }
-        await EPM_API.tasks.update(workspaceId, projectId, task.id, {
-          title: title.trim(), description: description || null,
-          priority: ["Low", "Medium", "High"].includes(priority) ? priority : task.priority,
-          labels: (labels || "").split(",").map((label) => label.trim()).filter(Boolean),
-          assignee_id: assignee ? assignee.user_id : null,
-        });
-        showToast("Task updated");
+    // Real modal (edit mode) replaces the old window.prompt() flow.
+    // Defined by wireTaskModal() further down in this same IIFE.
+    if (window.openTaskModal) {
+      window.openTaskModal("edit", task);
+    }
+  }
+
+  // ---- Task Modal: create + edit + comments (replaces window.prompt UI) ----
+  function wireTaskModal() {
+    const overlay = document.getElementById("taskModalOverlay");
+    if (!overlay) return;
+
+    const titleEl = document.getElementById("taskModalTitle");
+    const titleInput = document.getElementById("taskModalTitleInput");
+    const descInput = document.getElementById("taskModalDescInput");
+    const assigneeSelect = document.getElementById("taskModalAssigneeSelect");
+    const prioritySelect = document.getElementById("taskModalPrioritySelect");
+    const dueInput = document.getElementById("taskModalDueInput");
+    const labelsInput = document.getElementById("taskModalLabelsInput");
+    const statusField = document.getElementById("taskModalStatusField");
+    const statusSelect = document.getElementById("taskModalStatusSelect");
+    const errorEl = document.getElementById("taskModalError");
+    const commentsSection = document.getElementById("taskModalCommentsSection");
+    const commentsList = document.getElementById("taskModalCommentsList");
+    const commentInput = document.getElementById("taskModalCommentInput");
+    const commentBtn = document.getElementById("taskModalCommentBtn");
+    const deleteBtn = document.getElementById("taskModalDeleteBtn");
+    const cancelBtn = document.getElementById("taskModalCancelBtn");
+    const closeBtn = document.getElementById("taskModalCloseBtn");
+    const saveBtn = document.getElementById("taskModalSaveBtn");
+
+    let modalMode = "create"; // "create" | "edit"
+    let editingTask = null;
+
+    function showError(message) {
+      if (!errorEl) return;
+      if (!message) {
+        errorEl.style.display = "none";
+        errorEl.textContent = "";
       } else {
-        showToast("Choose edit, comment, or delete.");
+        errorEl.style.display = "block";
+        errorEl.textContent = message;
+      }
+    }
+
+    function populateAssigneeOptions(selectedUserId) {
+      const members = currentProject?.members || [];
+      assigneeSelect.innerHTML =
+        `<option value="">Unassigned</option>` +
+        members
+          .map(
+            (member) =>
+              `<option value="${escapeHtml(member.user_id)}">${escapeHtml(
+                member.full_name || member.email || "Member"
+              )}</option>`
+          )
+          .join("");
+      assigneeSelect.value = selectedUserId || "";
+    }
+
+    function availableStatuses() {
+      // Reflects whatever Kanban columns actually exist right now,
+      // including any custom columns added via "Add Column".
+      const fromBoard = Array.from(document.querySelectorAll(".task-list[data-status]"))
+        .map((el) => el.dataset.status)
+        .filter(Boolean);
+      const known = ["Backlog", "To Do", "In Progress", "Review"];
+      const combined = [...new Set([...known, ...fromBoard])];
+      return combined;
+    }
+
+    function populateStatusOptions(selectedStatus) {
+      const statuses = availableStatuses();
+      statusSelect.innerHTML = statuses
+        .map((s) => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`)
+        .join("");
+      statusSelect.value = statuses.includes(selectedStatus) ? selectedStatus : statuses[0];
+    }
+
+    function renderComments(comments) {
+      if (!comments || !comments.length) {
+        commentsList.innerHTML = `<p class="muted">No comments yet.</p>`;
         return;
       }
-      await loadTasks();
-      await loadCalendarEvents();
-    } catch (err) {
-      console.error("Couldn't update task —", err);
-      showToast(err.message || "Couldn't update the task");
+      commentsList.innerHTML = comments
+        .map((comment) => {
+          const when = new Date(comment.created_at);
+          const whenLabel = Number.isNaN(when.getTime()) ? "" : when.toLocaleString();
+          return `
+            <div class="task-comment-item">
+              <div class="task-comment-meta">
+                <span class="task-comment-author">${escapeHtml(comment.author_name || "Member")}</span>
+                <span class="task-comment-time">${escapeHtml(whenLabel)}</span>
+              </div>
+              <div class="task-comment-body">${escapeHtml(comment.body)}</div>
+            </div>
+          `;
+        })
+        .join("");
+      commentsList.scrollTop = commentsList.scrollHeight;
     }
+
+    async function refreshComments() {
+      if (!editingTask) return;
+      try {
+        const comments = await EPM_API.tasks.comments(workspaceId, projectId, editingTask.id);
+        renderComments(comments);
+      } catch (err) {
+        renderComments(editingTask.comments || []);
+      }
+    }
+
+    function open(mode, task, presetStatus) {
+      modalMode = mode;
+      editingTask = mode === "edit" ? task : null;
+      showError("");
+      commentInput.value = "";
+      statusField.style.display = "flex";
+
+      if (mode === "create") {
+        titleEl.textContent = "New Task";
+        saveBtn.textContent = "Create Task";
+        deleteBtn.style.display = "none";
+        commentsSection.style.display = "none";
+
+        titleInput.value = "";
+        descInput.value = "";
+        prioritySelect.value = "Medium";
+        dueInput.value = "";
+        labelsInput.value = "";
+        populateAssigneeOptions("");
+        populateStatusOptions(presetStatus || "Backlog");
+      } else {
+        titleEl.textContent = "Task Details";
+        saveBtn.textContent = "Save Changes";
+        deleteBtn.style.display = "inline-flex";
+        commentsSection.style.display = "flex";
+
+        titleInput.value = task.title || "";
+        descInput.value = task.description || "";
+        prioritySelect.value = task.priority || "Medium";
+        if (task.due_date) {
+          const d = new Date(task.due_date);
+          if (!Number.isNaN(d.getTime())) {
+            dueInput.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
+              d.getDate()
+            ).padStart(2, "0")}`;
+          } else {
+            dueInput.value = "";
+          }
+        } else {
+          dueInput.value = "";
+        }
+        labelsInput.value = (task.labels || []).join(", ");
+        populateAssigneeOptions(task.assignee ? task.assignee.user_id : "");
+        populateStatusOptions(task.status);
+        commentsList.innerHTML = `<p class="muted">Loading comments…</p>`;
+        refreshComments();
+      }
+
+      overlay.classList.add("open");
+      titleInput.focus();
+    }
+
+    function close() {
+      overlay.classList.remove("open");
+      editingTask = null;
+    }
+
+    function buildDueDateIso() {
+      if (!dueInput.value) return null;
+      return `${dueInput.value}T00:00:00`;
+    }
+
+    async function handleSave() {
+      const title = titleInput.value.trim();
+      if (!title) {
+        showError("Title is required.");
+        titleInput.focus();
+        return;
+      }
+      showError("");
+      saveBtn.disabled = true;
+
+      const payload = {
+        title,
+        description: descInput.value.trim() || null,
+        priority: prioritySelect.value,
+        due_date: buildDueDateIso(),
+        labels: labelsInput.value
+          .split(",")
+          .map((l) => l.trim())
+          .filter(Boolean),
+        assignee_id: assigneeSelect.value || null,
+      };
+
+      try {
+        if (modalMode === "create") {
+          payload.status = statusSelect.value || "Backlog";
+          await EPM_API.tasks.create(workspaceId, projectId, payload);
+          showToast(payload.assignee_id ? "Task created and assigned" : "New task added");
+        } else {
+          payload.status = statusSelect.value;
+          await EPM_API.tasks.update(workspaceId, projectId, editingTask.id, payload);
+          showToast("Task updated");
+        }
+        close();
+        await loadTasks();
+        await loadCalendarEvents();
+      } catch (err) {
+        console.error("Couldn't save task —", err);
+        showError(err.message || "Couldn't save the task");
+      } finally {
+        saveBtn.disabled = false;
+      }
+    }
+
+    async function handleDelete() {
+      if (!editingTask) return;
+      if (!window.confirm(`Delete "${editingTask.title}"? This cannot be undone.`)) return;
+      try {
+        await EPM_API.tasks.remove(workspaceId, projectId, editingTask.id);
+        showToast("Task deleted");
+        close();
+        await loadTasks();
+        await loadCalendarEvents();
+      } catch (err) {
+        showToast(err.message || "Couldn't delete the task");
+      }
+    }
+
+    async function handleAddComment() {
+      if (!editingTask) return;
+      const body = commentInput.value.trim();
+      if (!body) return;
+      commentBtn.disabled = true;
+      try {
+        await EPM_API.tasks.addComment(workspaceId, projectId, editingTask.id, body);
+        commentInput.value = "";
+        await refreshComments();
+        showToast("Comment added");
+      } catch (err) {
+        showToast(err.message || "Couldn't post the comment");
+      } finally {
+        commentBtn.disabled = false;
+      }
+    }
+
+    saveBtn.addEventListener("click", handleSave);
+    deleteBtn.addEventListener("click", handleDelete);
+    commentBtn.addEventListener("click", handleAddComment);
+    commentInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) handleAddComment();
+    });
+    cancelBtn.addEventListener("click", close);
+    closeBtn.addEventListener("click", close);
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) close();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && overlay.classList.contains("open")) close();
+    });
+
+    window.openTaskModal = open;
+  }
+
+  // ---- Per-column quick add: a "+" on each Kanban column header that
+  // opens the Task Modal pre-set to that column's status. Exposed on
+  // window so the "Add Column" handler (defined earlier, outside this
+  // IIFE) can wire newly-created columns the same way. ----
+  function augmentColumnHeader(headerEl, columnStatus) {
+    if (!headerEl || headerEl.querySelector(".column-quick-add")) return;
+
+    const countEl = headerEl.querySelector(".task-count");
+    const right = document.createElement("div");
+    right.className = "column-header-right";
+
+    const addBtn = document.createElement("button");
+    addBtn.type = "button";
+    addBtn.className = "column-quick-add";
+    addBtn.setAttribute("aria-label", `Add task to ${columnStatus}`);
+    addBtn.innerHTML = `<span class="material-symbols-outlined">add</span>`;
+    addBtn.addEventListener("click", () => {
+      if (window.openTaskModal) window.openTaskModal("create", null, columnStatus);
+    });
+
+    if (countEl) {
+      countEl.replaceWith(right);
+      right.appendChild(countEl);
+      right.appendChild(addBtn);
+    } else {
+      right.appendChild(addBtn);
+      headerEl.appendChild(right);
+    }
+  }
+  window.augmentColumnHeader = augmentColumnHeader;
+
+  function wireColumnQuickAdd() {
+    document.querySelectorAll(".kanban-column").forEach((column) => {
+      const header = column.querySelector(".column-header");
+      const list = column.querySelector(".task-list");
+      const status = (list && list.dataset.status) || header?.querySelector("h3")?.textContent?.trim();
+      if (header && status) augmentColumnHeader(header, status);
+    });
+  }
+
+  // ---- "Assigned to me" quick filter — the assignee's task menu within
+  // the project, so they can find and finish what's assigned to them. ----
+  async function wireMyTasksFilter() {
+    const toolbar = document.querySelector(".tasks-toolbar");
+    if (!toolbar || document.getElementById("myTasksFilterBtn")) return;
+
+    let me = EPM_API.getCurrentUser();
+    if (!me || !me.id) {
+      // Sessions that logged in before profile caching was added won't
+      // have a cached user yet — fetch it once and cache it now.
+      try {
+        const profileResult = await EPM_API.auth.profile();
+        me = profileResult.user;
+        EPM_API.setCurrentUser(me);
+      } catch (err) {
+        console.error("Couldn't resolve current user for the 'Assigned to Me' filter —", err);
+        return;
+      }
+    }
+    if (!me || !me.id) return;
+    currentUserId = me.id;
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.id = "myTasksFilterBtn";
+    btn.className = "new-task-btn my-tasks-toggle-btn";
+    btn.textContent = "Assigned to Me";
+    btn.addEventListener("click", async () => {
+      const isActive = btn.classList.toggle("active");
+      if (isActive) {
+        taskQuery = { ...taskQuery, assignee_id: currentUserId };
+        showToast("Showing tasks assigned to you");
+      } else {
+        const { assignee_id, ...rest } = taskQuery;
+        taskQuery = rest;
+        showToast("Showing all tasks");
+      }
+      await loadTasks();
+    });
+    toolbar.querySelector(".task-toolbar-right")?.prepend(btn);
   }
 
   function wireTaskFilters() {
@@ -936,7 +1232,7 @@ if (logoutBtn) {
       const status = window.prompt("Status: Backlog, To Do, In Progress, Review (leave blank for all):", taskQuery.status || "");
       if (status === null) return;
       const members = currentProject?.members || [];
-      const assigneeName = window.prompt(`Assignee (leave blank for all):\n${members.map((member) => member.full_name || member.email).join("\n")}`, "");
+      const assigneeName = window.prompt(`Assignee (leave blank to keep the current "Assigned to Me" setting, if any):\n${members.map((member) => member.full_name || member.email).join("\n")}`, "");
       if (assigneeName === null) return;
       const assignee = members.find((member) => (member.full_name || member.email) === assigneeName.trim());
       if (assigneeName.trim() && !assignee) {
@@ -945,11 +1241,25 @@ if (logoutBtn) {
       }
       const sortBy = window.prompt("Sort by: created_at, updated_at, due_date, priority, title:", taskQuery.sort_by || "created_at");
       if (sortBy === null) return;
+
+      const myTasksBtn = document.getElementById("myTasksFilterBtn");
+      let assigneeIdToUse = null;
+      if (assignee) {
+        // An explicit assignee was chosen — that wins. Keep the "Assigned
+        // to Me" toggle's visual state truthful to what's actually applied.
+        assigneeIdToUse = assignee.user_id;
+        if (myTasksBtn) myTasksBtn.classList.toggle("active", assignee.user_id === currentUserId);
+      } else if (myTasksBtn && myTasksBtn.classList.contains("active") && currentUserId) {
+        // No explicit assignee chosen — preserve "Assigned to Me" instead
+        // of silently dropping it.
+        assigneeIdToUse = currentUserId;
+      }
+
       taskQuery = {
         ...(search.trim() ? { search: search.trim() } : {}),
         ...(["Low", "Medium", "High"].includes(priority.trim()) ? { priority: priority.trim() } : {}),
         ...(status.trim() ? { status: status.trim() } : {}),
-        ...(assignee ? { assignee_id: assignee.user_id } : {}),
+        ...(assigneeIdToUse ? { assignee_id: assigneeIdToUse } : {}),
         ...(sortBy.trim() ? { sort_by: sortBy.trim() } : {}),
       };
       await loadTasks();
@@ -1225,7 +1535,10 @@ if (logoutBtn) {
   loadTasks();
   loadCalendarEvents();
   loadWiki();
+  wireTaskModal();
+  wireColumnQuickAdd();
   wireTaskFilters();
+  wireMyTasksFilter();
   wireProjectSettings();
   wireCalendarActions();
   wireWikiNavigation();

@@ -79,6 +79,14 @@ document.addEventListener("DOMContentLoaded", () => {
           passwordInput.value
         );
         window.EPM_API.setToken(result.access_token);
+        try {
+          const profileResult = await window.EPM_API.auth.profile();
+          window.EPM_API.setCurrentUser(profileResult.user);
+        } catch (profileErr) {
+          // Non-fatal — pages that personalize by user (e.g. "Assigned to
+          // Me") will just fall back to their default view.
+          console.error("Couldn't load user profile after login —", profileErr);
+        }
         window.location.href = "../workspace_dashboard/index.html";
       } catch (err) {
         errorEl.textContent = err.message || "Login failed. Please try again.";

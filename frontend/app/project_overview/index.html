@@ -1177,6 +1177,84 @@
 
   <div class="toast" id="toast">Action completed</div>
 
+  <!-- Task Modal: used for both "New Task" (create mode) and clicking an
+       existing task card (edit mode). Comments + Delete are hidden in
+       create mode since they only make sense once a task exists. -->
+  <div class="task-modal-overlay" id="taskModalOverlay">
+    <div class="task-modal" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+      <div class="task-modal-header">
+        <h3 id="taskModalTitle">New Task</h3>
+        <button type="button" class="task-modal-close" id="taskModalCloseBtn" aria-label="Close">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="task-modal-body">
+        <div class="task-field">
+          <label for="taskModalTitleInput">Title</label>
+          <input type="text" id="taskModalTitleInput" maxlength="200" placeholder="e.g. Draft Q3 rollout plan" />
+        </div>
+
+        <div class="task-field">
+          <label for="taskModalDescInput">Description</label>
+          <textarea id="taskModalDescInput" rows="3" maxlength="2000" placeholder="Add more detail (optional)"></textarea>
+        </div>
+
+        <div class="task-field-row">
+          <div class="task-field">
+            <label for="taskModalAssigneeSelect">Assign to</label>
+            <select id="taskModalAssigneeSelect">
+              <option value="">Unassigned</option>
+            </select>
+          </div>
+          <div class="task-field">
+            <label for="taskModalPrioritySelect">Priority</label>
+            <select id="taskModalPrioritySelect">
+              <option value="Low">Low</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="High">High</option>
+              <option value="Critical">Critical</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="task-field-row">
+          <div class="task-field">
+            <label for="taskModalDueInput">Due date</label>
+            <input type="date" id="taskModalDueInput" />
+          </div>
+          <div class="task-field" id="taskModalStatusField" style="display:none;">
+            <label for="taskModalStatusSelect">Status</label>
+            <select id="taskModalStatusSelect"></select>
+          </div>
+        </div>
+
+        <div class="task-field">
+          <label for="taskModalLabelsInput">Labels</label>
+          <input type="text" id="taskModalLabelsInput" placeholder="Comma separated, e.g. backend, urgent" />
+        </div>
+
+        <div class="task-modal-error" id="taskModalError" style="display:none;"></div>
+
+        <div class="task-comments-section" id="taskModalCommentsSection" style="display:none;">
+          <h4>Comments</h4>
+          <div class="task-comments-list" id="taskModalCommentsList">
+            <p class="muted">No comments yet.</p>
+          </div>
+          <div class="task-comment-composer">
+            <textarea id="taskModalCommentInput" rows="2" maxlength="2000" placeholder="Write a comment… (use @email to mention someone)"></textarea>
+            <button type="button" class="task-modal-btn task-modal-btn-secondary" id="taskModalCommentBtn">Post</button>
+          </div>
+        </div>
+      </div>
+      <div class="task-modal-footer">
+        <button type="button" class="task-modal-btn task-modal-btn-danger" id="taskModalDeleteBtn" style="display:none;">Delete</button>
+        <span style="flex:1;"></span>
+        <button type="button" class="task-modal-btn task-modal-btn-secondary" id="taskModalCancelBtn">Cancel</button>
+        <button type="button" class="task-modal-btn task-modal-btn-primary" id="taskModalSaveBtn">Create Task</button>
+      </div>
+    </div>
+  </div>
+
   <script src="../shared/api-client.js"></script>
   <script src="../shared/notification-badge.js"></script>
   <script src="../shared/search_panel.js"></script>
