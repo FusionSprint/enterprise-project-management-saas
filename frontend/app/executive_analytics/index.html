@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Executive Analytics | Acme Corp</title>
+
+  <link rel="stylesheet" href="../shared/base.css" />
+  <link rel="stylesheet" href="./styles.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../shared/enterprise-footer.css">
+</head>
+
+<body>
+  <aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-icon">A</div>
+    <div>
+      <h2>Acme Corp</h2>
+      <p>Enterprise</p>
+    </div>
+  </div>
+
+  <button class="search-box" id="searchBtn">
+    <span>Search</span>
+    <span class="material-symbols-outlined">search</span>
+  </button>
+
+  <nav class="side-nav">
+    <a href="../workspace_dashboard/index.html">
+      <span class="material-symbols-outlined">dashboard</span>
+      Dashboard
+    </a>
+
+    <a href="../project_overview/index.html">
+      <span class="material-symbols-outlined">tactic</span>
+      Projects
+    </a>
+
+    <a href="../team_management/index.html">
+      <span class="material-symbols-outlined">group</span>
+      Team
+    </a>
+
+    <a href="../meeting_scheduler/index.html">
+      <span class="material-symbols-outlined">video_call</span>
+      Meetings
+    </a>
+
+    <a href="../developer_hub/index.html">
+      <span class="material-symbols-outlined">terminal</span>
+      Dev Hub
+    </a>
+
+    <a href="#" class="active">
+      <span class="material-symbols-outlined">analytics</span>
+      Analytics
+    </a>
+    <a href="../inbox/index.html">
+        <span class="material-symbols-outlined">inbox</span>
+        Inbox
+      </a>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <a href="../favorites/index.html">
+      <span class="material-symbols-outlined">star</span>
+      Favorites
+    </a>
+
+    <a href="../settings/index.html">
+      <span class="material-symbols-outlined">settings</span>
+      Settings
+    </a>
+
+    <a href="../profile_settings/index.html" class="profile-link">
+      <span class="material-symbols-outlined">account_circle</span>
+      Profile
+    </a>
+    <!-- NEW: Connected Logout Link -->
+<a href="../enterprise_landing_page/index.html" id="logout-sidebar-btn" class="logout-link">
+  <span class="material-symbols-outlined">logout</span>
+  Logout
+</a>
+
+    <div class="user-card">
+      <div class="user-avatar">AR</div>
+      <div>
+        <h4>Alex Rivera</h4>
+        <p>Lead Architect</p>
+      </div>
+    </div>
+  </div>
+</aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+
+      <div class="topbar-left">
+        <h1>Analytics</h1>
+
+        <nav class="top-nav">
+          <a href="#" data-view="overview" class="active">Overview</a>
+          <a href="#" data-view="reports">Reports</a>
+          <a href="#" data-view="workload">Workload</a>
+          <a href="#" data-view="health">Health</a>
+        </nav>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="date-btn" id="dateBtn">
+          <span class="material-symbols-outlined">calendar_month</span>
+          Current Week
+          <span class="material-symbols-outlined arrow">expand_more</span>
+        </button>
+
+        <!-- Professional Notification Dropdown -->
+<div class="notif-wrapper" style="position: relative; display: inline-block;">
+    <button class="icon-btn" id="notif-trigger" type="button" style="position: relative; background: transparent; cursor: pointer; color: inherit;">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="notif-dot pulse" id="bell-dot"></span>
+    </button>
+
+    <div class="dropdown-panel" id="notif-menu">
+        <div class="notif-header">
+            <div class="notif-title-group">
+                <h3>Notifications</h3>
+                <span class="unread-badge" id="header-unread-count">6</span>
+            </div>
+            <button id="mark-all-read" class="mark-link">Mark all read</button>
+        </div>
+
+        <ul class="notif-list-container" id="notif-list">
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-blue">assignment_ind</span>
+                <div class="notif-info">
+                    <p class="notif-headline">Task Assigned</p>
+                    <p class="notif-sub">Sai assigned you "Implement Login API"</p>
+                    <span class="notif-moment">2 mins ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-red">notification_important</span>
+                <div class="notif-info">
+                    <p class="notif-headline">Deadline Warning <span class="tag-urgent">HIGH</span></p>
+                    <p class="notif-sub">Dashboard UI - Due Tomorrow, 11:59 PM</p>
+                    <span class="notif-moment">1 hour ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-cyan">alternate_email</span>
+                <div class="notif-info">
+                    <p class="notif-headline">@ Mention</p>
+                    <p class="notif-sub">Bhavani mentioned you in Project Alpha</p>
+                    <span class="notif-moment">3 hours ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-orange">published_with_changes</span>
+                <div class="notif-info">
+                    <p class="notif-headline">Project Update</p>
+                    <p class="notif-sub">Authentication: Status set to Completed</p>
+                    <span class="notif-moment">5 hours ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+        </ul>
+
+        <div class="notif-footer">
+            <button id="view-all-notifs">View all notifications</button>
+        </div>
+    </div>
+</div>
+ <!-- Messages (Beside Notification) -->
+  <div class="notif-wrapper">
+    <button class="icon-btn" id="msg-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+      <span class="material-symbols-outlined">forum</span>
+      <span class="notif-dot pulse bg-secondary" id="msg-dot"></span>
+    </button>
+    <div class="dropdown-panel msg-panel-width" id="msg-menu">
+      <div class="notif-header border-none pb-0">
+        <div class="notif-title-group">
+          <h3>Messages</h3>
+          <span class="unread-badge bg-secondary-alpha text-secondary" id="msg-unread-count">12</span>
+        </div>
+        <button id="mark-msgs-read" class="mark-link text-secondary">Mark all read</button>
+      </div>
+      
+      <div class="px-4 py-3">
+        <div class="msg-search-box">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" id="msg-search" placeholder="Search conversations...">
+        </div>
+      </div>
+
+      <div class="max-h-[380px] overflow-y-auto custom-scrollbar">
+        <!-- Pinned -->
+        <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Pinned</div>
+        <ul class="msg-list">
+          <li class="msg-item unread" data-name="Enterprise SaaS Team">
+            <div class="avatar-box bg-primary-strong">ET</div>
+            <div class="msg-body">
+              <div class="msg-top">
+                <span class="msg-name">Enterprise SaaS Team</span>
+                <span class="msg-time">10:45 AM</span>
+              </div>
+              <p class="msg-text">Alex: I've updated the Figma design...</p>
+              <div class="tag-mention">@MENTION</div>
+            </div>
+            <div class="dot-indicator bg-secondary"></div>
+          </li>
+        </ul>
+
+        <!-- Direct Messages -->
+        <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Direct Messages</div>
+        <ul class="msg-list">
+          <li class="msg-item unread" data-name="Sai Bhavani">
+            <div class="avatar-box">
+              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSJl441Mhxjix1FWsEaKwCpCvqaBUDs69WGQERAGR_FZIqdbmLR-claoFayeYu3KCMglo2zS4bYq8RMvvMoXleEQFQoTT8QrPhSKRVJf4gpjiMUx5xFAMvkb0LqyMHXUFTO5M-8uVgKJ0zVIRWapcKhDH6XN9sZYTasQ82XEUJ3ysQFwTmIKenyDMDa9Vt-Er_b8VjftbuvupmrR3pTIKFRJfQ6aH6RUtoeUXqeE3gnvc6TPU6k4E8_g" alt="">
+              <span class="online-status status-online"></span>
+            </div>
+            <div class="msg-body">
+              <div class="msg-top">
+                <span class="msg-name">Sai Bhavani</span>
+                <span class="msg-time">2m ago</span>
+              </div>
+              <p class="msg-text typing-target">Can you review the Login API?</p>
+              <div class="read-receipt">✓✓ Read</div>
+            </div>
+            <div class="dot-indicator bg-secondary"></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="notif-footer">
+    <button id="view-all-messages" onclick="window.location.href='../messages/index.html'">
+        View all messages
+    </button>
+</div>
+    </div>
+  </div>
+        <a href="../profile_settings/index.html" class="top-avatar-link" aria-label="Profile Settings">
+    <div class="top-avatar">A</div>
+     </a>
+
+        <button class="export-btn" id="exportBtn">
+          <span class="material-symbols-outlined">download</span>
+          Export Report
+        </button>
+      </div>
+    </header>
+
+    <section class="analytics-page">
+      <!-- OVERVIEW: Executive Dashboard content inside Analytics -->
+      <section class="analytics-view active" id="overviewView">
+        <div class="overview-hero">
+          <div>
+            <p class="eyebrow">Executive Overview</p>
+            <h2>Good Morning, Alexander</h2>
+          </div>
+
+          <div class="overview-actions">
+            <button class="overview-date">
+              <span class="material-symbols-outlined">calendar_today</span>
+              Oct 12 - Oct 19, 2023
+            </button>
+
+            <button class="overview-report">
+              <span class="material-symbols-outlined">download</span>
+              Report
+            </button>
+          </div>
+        </div>
+
+        <section class="overview-kpi-grid">
+          <article class="overview-card overview-kpi">
+            <div class="overview-kpi-top">
+              <span class="overview-icon blue">
+                <span class="material-symbols-outlined">grid_view</span>
+              </span>
+              <span class="overview-badge blue-badge">+12%</span>
+            </div>
+            <p>Total Workspaces</p>
+            <h3>42</h3>
+          </article>
+
+          <article class="overview-card overview-kpi">
+            <div class="overview-kpi-top">
+              <span class="overview-icon purple">
+                <span class="material-symbols-outlined">rocket_launch</span>
+              </span>
+              <span class="overview-badge purple-badge">Stable</span>
+            </div>
+            <p>Active Projects</p>
+            <h3>156</h3>
+          </article>
+
+          <article class="overview-card overview-kpi">
+            <div class="overview-kpi-top">
+              <span class="overview-icon red">
+                <span class="material-symbols-outlined">warning</span>
+              </span>
+              <span class="overview-badge red-badge">High</span>
+            </div>
+            <p>Projects At Risk</p>
+            <h3>8</h3>
+          </article>
+
+          <article class="overview-card overview-kpi">
+            <div class="overview-kpi-top">
+              <span class="overview-icon orange">
+                <span class="material-symbols-outlined">bolt</span>
+              </span>
+              <div class="small-circles">
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            <p>Productivity Score</p>
+            <h3>85% <span class="trend">↗</span></h3>
+          </article>
+
+          <article class="overview-card overview-kpi">
+            <div class="overview-kpi-top">
+              <span class="overview-icon">
+                <span class="material-symbols-outlined">favorite</span>
+              </span>
+            </div>
+            <p>Health Score</p>
+            <div class="overview-health-progress">
+              <div></div>
+            </div>
+            <small>92/100</small>
+          </article>
+        </section>
+
+        <section class="overview-grid">
+          <article class="overview-card overview-velocity">
+            <div class="overview-section-title">
+              <h3>Completion Velocity</h3>
+              <div class="legend">
+                <span><i class="dot purple"></i> Tasks Done</span>
+                <span><i class="dot muted"></i> Projection</span>
+              </div>
+            </div>
+
+            <div class="overview-bar-chart">
+              <div class="overview-bar" style="height: 40%"><span>40</span></div>
+              <div class="overview-bar" style="height: 60%"><span>60</span></div>
+              <div class="overview-bar" style="height: 55%"><span>55</span></div>
+              <div class="overview-bar" style="height: 80%"><span>80</span></div>
+              <div class="overview-bar active" style="height: 85%"><span>85</span></div>
+              <div class="overview-bar" style="height: 70%"><span>70</span></div>
+              <div class="overview-bar" style="height: 90%"><span>90</span></div>
+              <div class="overview-bar" style="height: 45%"><span>45</span></div>
+              <div class="overview-bar" style="height: 65%"><span>65</span></div>
+              <div class="overview-bar" style="height: 30%"><span>30</span></div>
+            </div>
+
+            <div class="overview-days">
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+              <span>Sun</span>
+            </div>
+          </article>
+
+          <article class="overview-card overview-effort">
+            <h3>Effort Distribution</h3>
+
+            <div class="overview-donut-wrap">
+              <div class="overview-donut">
+                <div class="overview-donut-inner">
+                  <strong>1,240</strong>
+                  <span>Total Hrs</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="overview-effort-list">
+              <div>
+                <span><i class="dot purple"></i> Development</span>
+                <b>640h</b>
+              </div>
+              <div>
+                <span><i class="dot blue"></i> Design</span>
+                <b>320h</b>
+              </div>
+              <div>
+                <span><i class="dot orange"></i> Marketing</span>
+                <b>280h</b>
+              </div>
+            </div>
+          </article>
+
+          <article class="overview-card overview-activity">
+            <div class="overview-section-title">
+              <h3>Recent Activity</h3>
+              <button>View All</button>
+            </div>
+
+            <div class="overview-activity-list">
+              <div class="overview-activity-item">
+                <span class="overview-activity-icon">
+                  <span class="material-symbols-outlined">terminal</span>
+                </span>
+                <div>
+                  <p><b>Sarah Connor</b> committed to <mark>feature/auth-provider</mark></p>
+                  <small>2 mins ago • GitHub</small>
+                </div>
+              </div>
+
+              <div class="overview-activity-item">
+                <span class="overview-activity-icon">
+                  <span class="material-symbols-outlined">check_circle</span>
+                </span>
+                <div>
+                  <p><b>Project Apollo</b> milestone reached: <em>Beta Phase Launch</em></p>
+                  <small>45 mins ago • System</small>
+                </div>
+              </div>
+
+              <div class="overview-activity-item">
+                <span class="overview-activity-icon">
+                  <span class="material-symbols-outlined">chat_bubble</span>
+                </span>
+                <div>
+                  <p><b>Marcus Wright</b> commented on <em>"UI Refactor - Sidebar"</em></p>
+                  <small>2 hours ago • Figma</small>
+                </div>
+              </div>
+
+              <div class="overview-activity-item danger">
+                <span class="overview-activity-icon">
+                  <span class="material-symbols-outlined">emergency_home</span>
+                </span>
+                <div>
+                  <p><b>Critical Alert:</b> API response time increased by 200% in US-EAST-1</p>
+                  <small>4 hours ago • CloudWatch</small>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="overview-card overview-team">
+            <h3>Online Team</h3>
+
+            <div class="overview-team-list">
+              <div class="overview-team-row">
+                <div class="overview-team-avatar">AR</div>
+                <div>
+                  <h4>Alex Rivera</h4>
+                  <p>Dev Lead</p>
+                </div>
+                <span>Rank #1</span>
+              </div>
+
+              <div class="overview-team-row">
+                <div class="overview-team-avatar">LC</div>
+                <div>
+                  <h4>Lena Chen</h4>
+                  <p>Product Designer</p>
+                </div>
+                <span>Rank #2</span>
+              </div>
+
+              <div class="overview-team-row muted-row">
+                <div class="overview-team-avatar">DR</div>
+                <div>
+                  <h4>David Ross</h4>
+                  <p>Project Manager</p>
+                </div>
+                <span>Rank #3</span>
+              </div>
+            </div>
+
+            <button class="leaderboard-btn">View Productivity Leaderboard</button>
+          </article>
+
+          <div class="overview-right-stack">
+            <article class="overview-card overview-milestones">
+              <h3>Milestones</h3>
+
+              <div class="overview-milestone danger-line">
+                <h4>Q4 Revenue Review</h4>
+                <p>Tomorrow, 10:00 AM</p>
+              </div>
+
+              <div class="overview-milestone purple-line">
+                <h4>v2.4 Production Deployment</h4>
+                <p>Oct 18, 2023</p>
+              </div>
+
+              <div class="overview-milestone blue-line">
+                <h4>Brand Identity Pitch</h4>
+                <p>Oct 21, 2023</p>
+              </div>
+            </article>
+
+            <article class="overview-card overview-quick">
+              <h3>Quick Actions</h3>
+
+              <div class="overview-quick-grid">
+                <button>
+                  <span class="material-symbols-outlined">add_task</span>
+                  New Proj
+                </button>
+
+                <button>
+                  <span class="material-symbols-outlined">event</span>
+                  Meet
+                </button>
+
+                <button>
+                  <span class="material-symbols-outlined">mail</span>
+                  Email Team
+                </button>
+
+                <button>
+                  <span class="material-symbols-outlined">history_edu</span>
+                  Log Effort
+                </button>
+              </div>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <!-- REPORTS: your original analytics design -->
+      <section class="analytics-view" id="reportsView">
+        <section class="metrics-grid">
+          <article class="metric-card hover-card">
+            <div class="metric-top">
+              <span>Avg. Velocity</span>
+              <b class="positive">
+                <span class="material-symbols-outlined">trending_up</span>
+                +12%
+              </b>
+            </div>
+            <h2>42.8</h2>
+            <p>Points per sprint</p>
+          </article>
+
+          <article class="metric-card hover-card">
+            <div class="metric-top">
+              <span>Health Score</span>
+              <b>Target: 90%</b>
+            </div>
+            <h2 class="purple-text">88.4<span>%</span></h2>
+            <div class="progress">
+              <div style="width: 88.4%"></div>
+            </div>
+          </article>
+
+          <article class="metric-card hover-card">
+            <div class="metric-top">
+              <span>Throughput</span>
+              <b class="negative">
+                <span class="material-symbols-outlined">trending_down</span>
+                -4%
+              </b>
+            </div>
+            <h2>164</h2>
+            <p>Tasks completed</p>
+          </article>
+
+          <article class="metric-card hover-card">
+            <div class="metric-top">
+              <span>Deployment Frequency</span>
+              <b class="blue-text">High Performance</b>
+            </div>
+            <h2>3.2<span>/day</span></h2>
+            <p>Main branch merges</p>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="panel velocity-panel hover-card">
+            <div class="panel-title">
+              <div>
+                <h3>Sprint Velocity</h3>
+                <p>Commitment vs. Completed points across last 6 sprints</p>
+              </div>
+
+              <div class="legend">
+                <span><i class="dot purple"></i> Committed</span>
+                <span><i class="dot blue"></i> Completed</span>
+              </div>
+            </div>
+
+            <div class="line-chart">
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path class="line committed" d="M0 78 L20 60 L40 74 L60 40 L80 50 L100 20"></path>
+                <path class="line completed" d="M0 84 L20 65 L40 79 L60 55 L80 60 L100 34"></path>
+              </svg>
+
+              <div class="chart-labels">
+                <span>Sprint 14</span>
+                <span>Sprint 15</span>
+                <span>Sprint 16</span>
+                <span>Sprint 17</span>
+                <span>Sprint 18</span>
+                <span>Sprint 19</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel health-panel hover-card">
+            <h3>Health Trend</h3>
+
+            <div class="health-head">
+              <div class="health-icon">
+                <span class="material-symbols-outlined">monitor_heart</span>
+              </div>
+              <div>
+                <h4>Reliability Index</h4>
+                <p>+2.4% this month</p>
+              </div>
+            </div>
+
+            <div class="health-bars">
+              <div class="bar-row">
+                <div>
+                  <span>Uptime</span>
+                  <b>99.98%</b>
+                </div>
+                <div class="small-progress purple-bar"><span style="width: 99%"></span></div>
+              </div>
+
+              <div class="bar-row">
+                <div>
+                  <span>Bug Density</span>
+                  <b>0.42 / KLOC</b>
+                </div>
+                <div class="small-progress blue-bar"><span style="width: 40%"></span></div>
+              </div>
+
+              <div class="bar-row">
+                <div>
+                  <span>Review Turnaround</span>
+                  <b>4.2h</b>
+                </div>
+                <div class="small-progress orange-bar"><span style="width: 65%"></span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel burndown-panel hover-card">
+            <div class="panel-title">
+              <h3>Burn Down Chart</h3>
+              <button>Sprint 19: 4 days left</button>
+            </div>
+
+            <div class="burn-chart">
+              <svg class="guide" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <line x1="0" y1="10" x2="100" y2="100"></line>
+              </svg>
+
+              <div class="burn-bars">
+                <span style="height: 86%"></span>
+                <span style="height: 82%"></span>
+                <span style="height: 70%"></span>
+                <span style="height: 68%"></span>
+                <span style="height: 50%"></span>
+                <span style="height: 48%"></span>
+                <span style="height: 40%"></span>
+                <div class="projected">Projected</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel workload-panel hover-card">
+            <h3>Workload Distribution</h3>
+
+            <div class="workload-list">
+              <div class="workload-item">
+                <div class="workload-heading">
+                  <span>Engineering</span>
+                  <b>420h Capacity</b>
+                </div>
+                <div class="stacked-bar">
+                  <span class="core" style="width: 45%">DEV</span>
+                  <span class="verify" style="width: 25%">QA</span>
+                  <span class="admin" style="width: 15%">MTG</span>
+                  <span class="empty" style="width: 15%"></span>
+                </div>
+              </div>
+
+              <div class="workload-item">
+                <div class="workload-heading">
+                  <span>Design & Product</span>
+                  <b>160h Capacity</b>
+                </div>
+                <div class="stacked-bar">
+                  <span class="core" style="width: 30%">UI</span>
+                  <span class="verify" style="width: 40%">RES</span>
+                  <span class="admin" style="width: 20%">PRD</span>
+                  <span class="empty" style="width: 10%"></span>
+                </div>
+              </div>
+
+              <div class="workload-item">
+                <div class="workload-heading">
+                  <span>DevOps & Infra</span>
+                  <b>80h Capacity</b>
+                </div>
+                <div class="stacked-bar">
+                  <span class="core" style="width: 60%">SYS</span>
+                  <span class="verify" style="width: 20%">SEC</span>
+                  <span class="empty" style="width: 20%"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="workload-legend">
+              <span><i class="dot purple"></i> Core Work</span>
+              <span><i class="dot blue"></i> Verification</span>
+              <span><i class="dot orange"></i> Admin/Sync</span>
+            </div>
+          </article>
+
+          <article class="panel ranking-panel hover-card">
+            <div class="panel-title">
+              <h3>Team Productivity Rankings</h3>
+              <a href="#">View All Members <span class="material-symbols-outlined">chevron_right</span></a>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Member</th>
+                    <th>Commit Velocity</th>
+                    <th>Review Quality</th>
+                    <th>Tasks Closed</th>
+                    <th>Trend</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td><span class="rank active">1</span></td>
+                    <td>
+                      <div class="member">
+                        <div class="member-avatar">SC</div>
+                        Sarah Chen
+                      </div>
+                    </td>
+                    <td>12.4 commits/day</td>
+                    <td class="blue-text">98.2%</td>
+                    <td>48</td>
+                    <td class="positive">+14%</td>
+                  </tr>
+
+                  <tr>
+                    <td><span class="rank">2</span></td>
+                    <td>
+                      <div class="member">
+                        <div class="member-avatar">MW</div>
+                        Marcus Wright
+                      </div>
+                    </td>
+                    <td>9.8 commits/day</td>
+                    <td class="blue-text">94.5%</td>
+                    <td>42</td>
+                    <td class="positive">+8%</td>
+                  </tr>
+
+                  <tr>
+                    <td><span class="rank">3</span></td>
+                    <td>
+                      <div class="member">
+                        <div class="member-avatar">AV</div>
+                        Aisha Vance
+                      </div>
+                    </td>
+                    <td>8.2 commits/day</td>
+                    <td class="blue-text">99.1%</td>
+                    <td>36</td>
+                    <td class="negative">-2%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <!-- WORKLOAD: only workload content -->
+      <section class="analytics-view" id="workloadView">
+        <article class="panel workload-panel hover-card single-panel">
+          <h3>Workload Distribution</h3>
+
+          <div class="workload-list">
+            <div class="workload-item">
+              <div class="workload-heading">
+                <span>Engineering</span>
+                <b>420h Capacity</b>
+              </div>
+              <div class="stacked-bar">
+                <span class="core" style="width: 45%">DEV</span>
+                <span class="verify" style="width: 25%">QA</span>
+                <span class="admin" style="width: 15%">MTG</span>
+                <span class="empty" style="width: 15%"></span>
+              </div>
+            </div>
+
+            <div class="workload-item">
+              <div class="workload-heading">
+                <span>Design & Product</span>
+                <b>160h Capacity</b>
+              </div>
+              <div class="stacked-bar">
+                <span class="core" style="width: 30%">UI</span>
+                <span class="verify" style="width: 40%">RES</span>
+                <span class="admin" style="width: 20%">PRD</span>
+                <span class="empty" style="width: 10%"></span>
+              </div>
+            </div>
+
+            <div class="workload-item">
+              <div class="workload-heading">
+                <span>DevOps & Infra</span>
+                <b>80h Capacity</b>
+              </div>
+              <div class="stacked-bar">
+                <span class="core" style="width: 60%">SYS</span>
+                <span class="verify" style="width: 20%">SEC</span>
+                <span class="empty" style="width: 20%"></span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- HEALTH: only health content -->
+      <section class="analytics-view" id="healthView">
+        <article class="panel health-panel hover-card single-panel">
+          <h3>Health Trend</h3>
+
+          <div class="health-head">
+            <div class="health-icon">
+              <span class="material-symbols-outlined">monitor_heart</span>
+            </div>
+            <div>
+              <h4>Reliability Index</h4>
+              <p>+2.4% this month</p>
+            </div>
+          </div>
+
+          <div class="health-bars">
+            <div class="bar-row">
+              <div>
+                <span>Uptime</span>
+                <b>99.98%</b>
+              </div>
+              <div class="small-progress purple-bar"><span style="width: 99%"></span></div>
+            </div>
+
+            <div class="bar-row">
+              <div>
+                <span>Bug Density</span>
+                <b>0.42 / KLOC</b>
+              </div>
+              <div class="small-progress blue-bar"><span style="width: 40%"></span></div>
+            </div>
+
+            <div class="bar-row">
+              <div>
+                <span>Review Turnaround</span>
+                <b>4.2h</b>
+              </div>
+              <div class="small-progress orange-bar"><span style="width: 65%"></span></div>
+            </div>
+          </div>
+        </article>
+      </section>
+           <!-- Unified Enterprise Footer (Custom CSS Styled) -->
+      <footer class="enterprise-footer">
+        <div class="footer-grid">
+          
+          <!-- Col 1: Brand & Live Status Indicator -->
+          <div class="footer-col brand-col">
+            <div class="footer-brand">
+              <div class="brand-icon-box">A</div>
+              <div class="brand-text-box">
+                <h4>Acme Corp</h4>
+                <p>Enterprise Engine</p>
+              </div>
+            </div>
+            <p class="brand-desc">Simplifying collaborative developer workflows and deep enterprise operations analytics.</p>
+            
+            <!-- Live Status Pulsing Indicator -->
+            <div class="status-badge">
+              <span class="status-pulse-container">
+                <span class="pulse-ring"></span>
+                <span class="pulse-dot"></span>
+              </span>
+              <span class="status-text">All Systems Operational</span>
+            </div>
+          </div>
+
+          <!-- Col 2: Engineering Blogs -->
+          <div class="footer-col links-col">
+            <h4>Engineering Blogs</h4>
+            <ul>
+              <li>
+                <a href="#">SSO Sharding Best Practices</a>
+              </li>
+              <li>
+                <a href="#">Next.js Performance tuning</a>
+              </li>
+              <li>
+                <a href="#">MongoDB vs PostgreSQL at Scale</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Support & Contact Details -->
+          <div class="footer-col links-col">
+            <h4>Support & Contacts</h4>
+            <ul class="contact-list">
+              <li>
+                <span class="material-symbols-outlined">mail</span>
+                <span>ops@acme.corp</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">phone_in_talk</span>
+                <span>+1 (800) 555-ACME</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">support_agent</span>
+                <a href="#">Submit Incident Ticket</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 4: Newsletter Sign-up -->
+          <div class="footer-col newsletter-col">
+            <h4>Developer Broadcasts</h4>
+            <p class="newsletter-desc">Subscribe to get notified on API patch versions and downtime warnings.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); if(typeof triggerToast === 'function') { triggerToast('Subscribed to broadcasts successfully!'); } else if (typeof showToast === 'function') { showToast('Subscribed successfully!'); }">
+              <input type="email" placeholder="dev@acme.corp" required autocomplete="off">
+              <button type="submit">JOIN</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Divider line -->
+        <div class="footer-divider"></div>
+
+        <!-- Bottom Metadata Section -->
+        <div class="footer-bottom">
+          <div class="copyright-section">
+            <span>&copy; 2026 Acme Corp. All rights reserved.</span>
+            <span class="version-tag">v2.4.2-stable</span>
+          </div>
+          
+          <!-- Keyboard shortcuts visual helper -->
+          <div class="shortcut-section">
+            <span>Search Shortcuts:</span>
+            <kbd>Ctrl</kbd>
+            <span>+</span>
+            <kbd>K</kbd>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Bottom spacer inside scroll viewport -->
+      <div class="h-16"></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast">Action completed</div>
+
+  <script src="../shared/search_panel.js"></script>
+  <script src="./script.js"></script>
+  <script src="../shared/enterprise-footer.js"></script>
+</body>
+</html>

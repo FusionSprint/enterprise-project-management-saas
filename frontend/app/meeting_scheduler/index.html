@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meetings | Acme Corp</title>
+
+  <link rel="stylesheet" href="../shared/base.css" />
+  <link rel="stylesheet" href="./styles.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Material+Symbols+Outlined"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../shared/enterprise-footer.css">
+</head>
+
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-icon">A</div>
+      <div>
+        <h2>Acme Corp</h2>
+        <p>Enterprise</p>
+      </div>
+    </div>
+
+    <button class="search-box" id="searchBtn">
+    <span>Search</span>
+    <span class="material-symbols-outlined">search</span>
+  </button>
+
+    <nav class="side-nav">
+      <a href="../workspace_dashboard/index.html">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </a>
+
+      <a href="../project_overview/index.html">
+        <span class="material-symbols-outlined">tactic</span>
+        Projects
+      </a>
+
+      <a href="../team_management/index.html">
+        <span class="material-symbols-outlined">group</span>
+        Team
+      </a>
+
+      <a href="./index.html" class="active">
+        <span class="material-symbols-outlined">video_call</span>
+        Meetings
+      </a>
+
+      <a href="../developer_hub/index.html">
+        <span class="material-symbols-outlined">terminal</span>
+        Dev Hub
+      </a>
+
+      <a href="../executive_analytics/index.html">
+        <span class="material-symbols-outlined">analytics</span>
+        Analytics
+      </a>
+      <a href="../inbox/index.html">
+        <span class="material-symbols-outlined">inbox</span>
+        Inbox
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a href="../favorites/index.html">
+        <span class="material-symbols-outlined">star</span>
+        Favorites
+      </a>
+
+      <a href="../settings/index.html">
+        <span class="material-symbols-outlined">settings</span>
+        Settings
+      </a>
+
+      <a href="../profile_settings/index.html">
+        <span class="material-symbols-outlined">account_circle</span>
+        Profile
+      </a>
+      <!-- NEW: Connected Logout Link -->
+<a href="../enterprise_landing_page/index.html" id="logout-sidebar-btn" class="logout-link">
+  <span class="material-symbols-outlined">logout</span>
+  Logout
+</a>
+      <div class="user-card">
+        <div class="user-avatar">AR</div>
+        <div>
+          <h4>Alex Rivera</h4>
+          <p>Lead Architect</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+
+      <div class="topbar-left">
+        <h1>Meetings</h1>
+
+        <nav class="meeting-top-nav">
+          <a href="#" class="meeting-tab active" data-meeting-view="overviewView">Overview</a>
+          <a href="#" class="meeting-tab" data-meeting-view="scheduleView">Schedule</a>
+          <a href="#" class="meeting-tab" data-meeting-view="recordingsView">Recordings</a>
+        </nav>
+      </div>
+
+      <div class="topbar-actions">
+  <button class="new-meeting-btn" id="newMeetingBtn">
+    <span class="material-symbols-outlined">add</span>
+    New Meeting
+  </button>
+
+  <!-- Notifications -->
+  <div class="notif-wrapper">
+    <button class="icon-btn" id="notif-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+      <span class="material-symbols-outlined">notifications</span>
+      <span class="notif-dot pulse" id="bell-dot"></span>
+    </button>
+    <div class="dropdown-panel" id="notif-menu">
+      <div class="notif-header">
+        <div class="notif-title-group">
+          <h3>Notifications</h3>
+          <span class="unread-badge" id="header-unread-count">6</span>
+        </div>
+        <button id="mark-all-read" class="mark-link">Mark all read</button>
+      </div>
+      <ul class="notif-list-container" id="notif-list">
+        <!-- Notification Items -->
+        <li class="notif-row unread">
+          <span class="material-symbols-outlined icon-blue">assignment_ind</span>
+          <div class="notif-info">
+            <p class="notif-headline">Task Assigned</p>
+            <p class="notif-sub">Sai assigned you "Implement Login API"</p>
+            <span class="notif-moment">2 mins ago</span>
+          </div>
+          <div class="dot-indicator"></div>
+        </li>
+        <li class="notif-row unread">
+          <span class="material-symbols-outlined icon-red">notification_important</span>
+          <div class="notif-info">
+            <p class="notif-headline">Deadline Warning <span class="tag-urgent">HIGH</span></p>
+            <p class="notif-sub">Dashboard UI - Due Tomorrow</p>
+            <span class="notif-moment">1 hour ago</span>
+          </div>
+          <div class="dot-indicator"></div>
+        </li>
+      </ul>
+      <div class="notif-footer">
+        <button onclick="window.location.href='../notification_center/index.html'">View all notifications</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Messages (Beside Notification) -->
+  <div class="notif-wrapper">
+    <button class="icon-btn" id="msg-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+      <span class="material-symbols-outlined">forum</span>
+      <span class="notif-dot pulse bg-secondary" id="msg-dot"></span>
+    </button>
+    <div class="dropdown-panel msg-panel-width" id="msg-menu">
+      <div class="notif-header border-none pb-0">
+        <div class="notif-title-group">
+          <h3>Messages</h3>
+          <span class="unread-badge bg-secondary-alpha text-secondary" id="msg-unread-count">12</span>
+        </div>
+        <button id="mark-msgs-read" class="mark-link text-secondary">Mark all read</button>
+      </div>
+      
+      <div class="px-4 py-3">
+        <div class="msg-search-box">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" id="msg-search" placeholder="Search conversations...">
+        </div>
+      </div>
+
+      <div class="max-h-[380px] overflow-y-auto custom-scrollbar">
+        <!-- Pinned -->
+        <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Pinned</div>
+        <ul class="msg-list">
+          <li class="msg-item unread" data-name="Enterprise SaaS Team">
+            <div class="avatar-box bg-primary-strong">ET</div>
+            <div class="msg-body">
+              <div class="msg-top">
+                <span class="msg-name">Enterprise SaaS Team</span>
+                <span class="msg-time">10:45 AM</span>
+              </div>
+              <p class="msg-text">Alex: I've updated the Figma design...</p>
+              <div class="tag-mention">@MENTION</div>
+            </div>
+            <div class="dot-indicator bg-secondary"></div>
+          </li>
+        </ul>
+
+        <!-- Direct Messages -->
+        <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Direct Messages</div>
+        <ul class="msg-list">
+          <li class="msg-item unread" data-name="Sai Bhavani">
+            <div class="avatar-box">
+              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSJl441Mhxjix1FWsEaKwCpCvqaBUDs69WGQERAGR_FZIqdbmLR-claoFayeYu3KCMglo2zS4bYq8RMvvMoXleEQFQoTT8QrPhSKRVJf4gpjiMUx5xFAMvkb0LqyMHXUFTO5M-8uVgKJ0zVIRWapcKhDH6XN9sZYTasQ82XEUJ3ysQFwTmIKenyDMDa9Vt-Er_b8VjftbuvupmrR3pTIKFRJfQ6aH6RUtoeUXqeE3gnvc6TPU6k4E8_g" alt="">
+              <span class="online-status status-online"></span>
+            </div>
+            <div class="msg-body">
+              <div class="msg-top">
+                <span class="msg-name">Sai Bhavani</span>
+                <span class="msg-time">2m ago</span>
+              </div>
+              <p class="msg-text typing-target">Can you review the Login API?</p>
+              <div class="read-receipt">✓✓ Read</div>
+            </div>
+            <div class="dot-indicator bg-secondary"></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="notif-footer">
+    <button id="view-all-messages" onclick="window.location.href='../messages/index.html'">
+        View all messages
+    </button>
+</div>
+    </div>
+  </div>
+  <a href="../profile_settings/index.html" class="top-avatar-link" aria-label="Profile Settings">
+  <div class="top-avatar">A</div>
+  </a>
+</div>
+    </header>
+
+    <section class="meeting-page">
+      <!-- OVERVIEW -->
+      <section class="meeting-view active" id="overviewView">
+        <section class="meeting-grid">
+          <div class="meeting-left">
+            <article class="meeting-hero meeting-card">
+              <div class="hero-bg-icon">
+                <span class="material-symbols-outlined">video_chat</span>
+              </div>
+
+              <div class="meeting-status-row">
+                <span class="live-badge">In Progress</span>
+                <p>• 42 mins remaining</p>
+              </div>
+
+              <h2>Sprint Planning: Q4 Infra Upgrade</h2>
+
+              <p class="hero-desc">
+                Aligning team resources for the upcoming architecture migration and database
+                sharding initiative. Priority: P0 Critical.
+              </p>
+
+              <div class="hero-bottom-layout">
+                <div class="hero-info meet-input-wrap">
+                  <div class="info-icon">
+                    <span class="material-symbols-outlined">videocam</span>
+                  </div>
+
+                  <div class="hero-meet-field">
+                    <small>Meet Link</small>
+
+                    <input
+                      type="url"
+                      id="heroMeetLink"
+                      placeholder="Enter Google Meet link"
+                      value="https://meet.google.com/acm-pjmg-dev"
+                    />
+
+                    <p id="meetLinkError" class="meet-error"></p>
+                  </div>
+                </div>
+
+                <div class="hero-actions">
+                  <button class="primary-action" id="joinMeetBtn">
+                    <span class="material-symbols-outlined">login</span>
+                    Join Google Meet
+                  </button>
+
+                  <button class="secondary-action" id="viewAgendaBtn">
+                    View Full Agenda
+                  </button>
+                </div>
+
+                <div class="hero-info attendees-info">
+                  <div class="avatar-stack">
+                    <span>SB</span>
+                    <span>B</span>
+                    <span>+12</span>
+                  </div>
+
+                  <div>
+                    <small>Attendees</small>
+                    <p>14 Confirmed</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <section class="agenda-grid" id="agendaSection">
+              <article class="meeting-card">
+                <div class="card-title">
+                  <h3>
+                    <span class="material-symbols-outlined">checklist</span>
+                    Meeting Agenda
+                  </h3>
+                  <small>4 Items</small>
+                </div>
+
+                <div class="agenda-list">
+                  <div>
+                    <span>01.</span>
+                    <section>
+                      <h4>Infrastructure Audit Review</h4>
+                      <p>Review findings from last night's system stress test.</p>
+                    </section>
+                  </div>
+
+                  <div>
+                    <span>02.</span>
+                    <section>
+                      <h4>CI/CD Pipeline Optimization</h4>
+                      <p>Discuss deployment bottlenecks in the staging environment.</p>
+                    </section>
+                  </div>
+
+                  <div>
+                    <span>03.</span>
+                    <section>
+                      <h4>Q4 Resource Allocation</h4>
+                      <p>Assign leads for the upcoming platform refactor.</p>
+                    </section>
+                  </div>
+
+                  <div>
+                    <span>04.</span>
+                    <section>
+                      <h4>Q&A / Open Floor</h4>
+                      <p>Final remarks and scheduling sync sessions.</p>
+                    </section>
+                  </div>
+                </div>
+              </article>
+
+              <article class="meeting-card">
+                <div class="card-title">
+                  <h3>
+                    <span class="material-symbols-outlined blue-icon">task_alt</span>
+                    Live Action Items
+                  </h3>
+
+                  <button class="mini-add-btn" id="addActionBtn">
+                    <span class="material-symbols-outlined">add</span>
+                  </button>
+                </div>
+
+                <div class="action-list">
+                  <label class="action-item done">
+                    <input type="checkbox" checked />
+                    <div>
+                      <p>Upload audit logs to Dev Hub</p>
+                      <div>
+                        <span>@SarahC</span>
+                        <small>Done</small>
+                      </div>
+                    </div>
+                  </label>
+
+                  <label class="action-item">
+                    <input type="checkbox" />
+                    <div>
+                      <p>Draft migration timeline for board</p>
+                      <div>
+                        <span>@MarcusD</span>
+                        <small>Due Tomorrow</small>
+                      </div>
+                    </div>
+                  </label>
+
+                  <label class="action-item">
+                    <input type="checkbox" />
+                    <div>
+                      <p>Update security protocol headers</p>
+                      <div>
+                        <span>@InfraTeam</span>
+                        <small class="danger-text">Overdue</small>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </article>
+            </section>
+          </div>
+
+          <aside class="meeting-right">
+            <article class="meeting-card upcoming-card">
+              <div class="right-card-head">
+                <h3>Upcoming Today</h3>
+                <span>Oct 24</span>
+              </div>
+
+              <div class="upcoming-list">
+                <div class="upcoming-item">
+                  <div>
+                    <small>14:00 - 14:45</small>
+                    <h4>Daily Sync: Frontend Team</h4>
+                    <p>
+                      <span class="material-symbols-outlined">location_on</span>
+                      Huddle Room B / Google Meet
+                    </p>
+                  </div>
+                  <div class="small-dots">
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+
+                <div class="upcoming-item">
+                  <div>
+                    <small>15:30 - 16:30</small>
+                    <h4>Architecture Review</h4>
+                    <p>
+                      <span class="material-symbols-outlined">videocam</span>
+                      meet.google.com/xyz-abc
+                    </p>
+                  </div>
+                  <div class="small-dots">
+                    <span></span>
+                  </div>
+                </div>
+
+                <div class="upcoming-item">
+                  <div>
+                    <small>17:00 - 18:00</small>
+                    <h4>Design Crit: Mobile V2</h4>
+                    <p>
+                      <span class="material-symbols-outlined">brush</span>
+                      Figma Live Session
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <button class="full-calendar-btn" data-meeting-view-button="scheduleView">
+                View Full Calendar
+              </button>
+            </article>
+
+            <article class="meeting-card recordings-small">
+              <h3>Recent Recordings</h3>
+
+              <div class="recording-list-small">
+                <div>
+                  <div class="recording-thumb">
+                    <span class="material-symbols-outlined">play_arrow</span>
+                  </div>
+                  <section>
+                    <h4>Backend Sync - Oct 23</h4>
+                    <p>58 mins • 128 MB</p>
+                  </section>
+                </div>
+
+                <div>
+                  <div class="recording-thumb">
+                    <span class="material-symbols-outlined">play_arrow</span>
+                  </div>
+                  <section>
+                    <h4>Product Roadmapping</h4>
+                    <p>1h 12m • 245 MB</p>
+                  </section>
+                </div>
+
+                <div>
+                  <div class="recording-thumb">
+                    <span class="material-symbols-outlined">play_arrow</span>
+                  </div>
+                  <section>
+                    <h4>Brainstorming: V3 UI</h4>
+                    <p>42 mins • 92 MB</p>
+                  </section>
+                </div>
+              </div>
+            </article>
+          </aside>
+        </section>
+      </section>
+
+      <!-- SCHEDULE -->
+      <section class="meeting-view" id="scheduleView">
+        <div class="page-head">
+          <p class="eyebrow">Meeting Schedule</p>
+          <h2>Weekly Meeting Calendar</h2>
+          <p>Plan syncs, reviews, architecture calls, team updates, and client discussions.</p>
+        </div>
+
+        <section class="schedule-grid">
+          <article class="meeting-card schedule-card">
+            <div class="schedule-time">Mon • 10:00 AM</div>
+            <h3>Engineering Standup</h3>
+            <p>Frontend and backend team daily update.</p>
+            <span class="schedule-tag">Google Meet</span>
+          </article>
+
+          <article class="meeting-card schedule-card">
+            <div class="schedule-time">Tue • 02:00 PM</div>
+            <h3>Sprint Review</h3>
+            <p>Review sprint progress, blockers, and completed tasks.</p>
+            <span class="schedule-tag">Conference Room A</span>
+          </article>
+
+          <article class="meeting-card schedule-card">
+            <div class="schedule-time">Wed • 04:00 PM</div>
+            <h3>Architecture Review</h3>
+            <p>Discuss API mesh, auth flow, and deployment plan.</p>
+            <span class="schedule-tag">Google Meet</span>
+          </article>
+
+          <article class="meeting-card schedule-card">
+            <div class="schedule-time">Fri • 03:30 PM</div>
+            <h3>Demo Preparation</h3>
+            <p>Prepare presentation, demo video, and final project report.</p>
+            <span class="schedule-tag">Hybrid</span>
+          </article>
+        </section>
+      </section>
+
+      <!-- RECORDINGS -->
+      <section class="meeting-view" id="recordingsView">
+        <div class="page-head">
+          <p class="eyebrow">Recordings</p>
+          <h2>Meeting Recordings Library</h2>
+          <p>Access previous meeting recordings, notes, agenda summaries, and action items.</p>
+        </div>
+
+        <section class="recordings-grid">
+          <article class="meeting-card recording-card">
+            <div class="recording-preview">
+              <span class="material-symbols-outlined">play_arrow</span>
+            </div>
+            <h3>Backend Sync - Oct 23</h3>
+            <p>API design, database schema, and deployment plan discussion.</p>
+            <small>58 mins • 128 MB</small>
+          </article>
+
+          <article class="meeting-card recording-card">
+            <div class="recording-preview">
+              <span class="material-symbols-outlined">play_arrow</span>
+            </div>
+            <h3>Product Roadmapping</h3>
+            <p>Roadmap planning for EPM dashboard and workspace modules.</p>
+            <small>1h 12m • 245 MB</small>
+          </article>
+
+          <article class="meeting-card recording-card">
+            <div class="recording-preview">
+              <span class="material-symbols-outlined">play_arrow</span>
+            </div>
+            <h3>Brainstorming: V3 UI</h3>
+            <p>Design discussion for sidebar, analytics, hover effects, and cards.</p>
+            <small>42 mins • 92 MB</small>
+          </article>
+        </section>
+      </section>
+      <!-- Unified Enterprise Footer (Custom CSS Styled) -->
+      <footer class="enterprise-footer">
+        <div class="footer-grid">
+          
+          <!-- Col 1: Brand & Live Status Indicator -->
+          <div class="footer-col brand-col">
+            <div class="footer-brand">
+              <div class="brand-icon-box">A</div>
+              <div class="brand-text-box">
+                <h4>Acme Corp</h4>
+                <p>Enterprise Engine</p>
+              </div>
+            </div>
+            <p class="brand-desc">Simplifying collaborative developer workflows and deep enterprise operations analytics.</p>
+            
+            <!-- Live Status Pulsing Indicator -->
+            <div class="status-badge">
+              <span class="status-pulse-container">
+                <span class="pulse-ring"></span>
+                <span class="pulse-dot"></span>
+              </span>
+              <span class="status-text">All Systems Operational</span>
+            </div>
+          </div>
+
+          <!-- Col 2: Engineering Blogs -->
+          <div class="footer-col links-col">
+            <h4>Engineering Blogs</h4>
+            <ul>
+              <li>
+                <a href="#">SSO Sharding Best Practices</a>
+              </li>
+              <li>
+                <a href="#">Next.js Performance tuning</a>
+              </li>
+              <li>
+                <a href="#">MongoDB vs PostgreSQL at Scale</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Support & Contact Details -->
+          <div class="footer-col links-col">
+            <h4>Support & Contacts</h4>
+            <ul class="contact-list">
+              <li>
+                <span class="material-symbols-outlined">mail</span>
+                <span>ops@acme.corp</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">phone_in_talk</span>
+                <span>+1 (800) 555-ACME</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">support_agent</span>
+                <a href="#">Submit Incident Ticket</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 4: Newsletter Sign-up -->
+          <div class="footer-col newsletter-col">
+            <h4>Developer Broadcasts</h4>
+            <p class="newsletter-desc">Subscribe to get notified on API patch versions and downtime warnings.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); if(typeof triggerToast === 'function') { triggerToast('Subscribed to broadcasts successfully!'); } else if (typeof showToast === 'function') { showToast('Subscribed successfully!'); }">
+              <input type="email" placeholder="dev@acme.corp" required autocomplete="off">
+              <button type="submit">JOIN</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Divider line -->
+        <div class="footer-divider"></div>
+
+        <!-- Bottom Metadata Section -->
+        <div class="footer-bottom">
+          <div class="copyright-section">
+            <span>&copy; 2026 Acme Corp. All rights reserved.</span>
+            <span class="version-tag">v2.4.2-stable</span>
+          </div>
+          
+          <!-- Keyboard shortcuts visual helper -->
+          <div class="shortcut-section">
+            <span>Search Shortcuts:</span>
+            <kbd>Ctrl</kbd>
+            <span>+</span>
+            <kbd>K</kbd>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Bottom spacer inside scroll viewport -->
+      <div class="h-16"></div>
+    </section>
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal hidden" id="scheduleModal">
+    <div class="modal-backdrop" data-close-modal></div>
+
+    <article class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h3>Schedule Meeting</h3>
+          <p>Coordinate sync sessions across the organization.</p>
+        </div>
+
+        <button class="modal-close" data-close-modal>
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <label>
+          <span>Meeting Title</span>
+          <input type="text" placeholder="e.g., Weekly Infrastructure Sync" />
+        </label>
+
+        <div class="modal-grid">
+          <label>
+            <span>Date</span>
+            <input type="date" />
+          </label>
+
+          <label>
+            <span>Time</span>
+            <input type="time" />
+          </label>
+        </div>
+
+        <label>
+          <span>Add Participants</span>
+          <input type="text" placeholder="Type names or emails..." />
+        </label>
+
+        <div class="meet-link-box">
+          <label>
+            <span>Meet Link</span>
+            <div class="meet-link-input">
+              <span class="material-symbols-outlined">videocam</span>
+              <input
+                type="url"
+                id="modalMeetLinkInput"
+                placeholder="Enter Google Meet link"
+              />
+            </div>
+          </label>
+
+          <p class="meet-hint">
+            Example: https://meet.google.com/abc-defg-hij
+          </p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="cancel-btn" data-close-modal>Cancel</button>
+        <button class="schedule-btn" id="scheduleMeetingBtn">Schedule Meeting</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="toast" id="toast">Action completed</div>
+
+  <script src="../shared/search_panel.js"></script>
+  <script src="./script.js"></script>
+  <script src="../shared/enterprise-footer.js"></script>
+</body>
+</html>

@@ -39,7 +39,7 @@ A modern full-stack project management platform that enables teams to collaborat
 - FastAPI
 
 ### Database
-- PostgreSQL
+- MongoDB
 
 ### Authentication
 - Auth.js (or Clerk)
@@ -68,10 +68,10 @@ A modern full-stack project management platform that enables teams to collaborat
 
 - [x] GitHub Organization Setup
 - [x] Repository Creation
-- [ ] Local Development Setup
-- [ ] Project Architecture
-- [ ] Database Design
-- [ ] Frontend Development
+- [x] Local Development Setup
+- [x] Project Architecture
+- [x] Database Design
+- [x] Frontend Development
 - [ ] Backend Development
 - [ ] Integration
 - [ ] Testing

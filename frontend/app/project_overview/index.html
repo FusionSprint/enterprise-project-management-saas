@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Project Overview | Project Management</title>
+
+  <link rel="stylesheet" href="../shared/base.css" />
+  <link rel="stylesheet" href="./styles.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Material+Symbols+Outlined"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../shared/enterprise-footer.css">
+</head>
+
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-icon">A</div>
+      <div>
+        <h2>Acme Corp</h2>
+        <p>Enterprise</p>
+      </div>
+    </div>
+
+    <button class="search-box" id="searchBtn">
+    <span>Search</span>
+    <span class="material-symbols-outlined">search</span>
+  </button>
+
+    <nav class="side-nav">
+      <a href="../workspace_dashboard/index.html">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </a>
+
+      <a href="#" class="active">
+        <span class="material-symbols-outlined">tactic</span>
+        Projects
+      </a>
+
+      <a href="../team_management/index.html">
+        <span class="material-symbols-outlined">group</span>
+        Team
+      </a>
+
+      <a href="../meeting_scheduler/index.html">
+        <span class="material-symbols-outlined">video_call</span>
+        Meetings
+      </a>
+
+      <a href="../developer_hub/index.html">
+        <span class="material-symbols-outlined">terminal</span>
+        Dev Hub
+      </a>
+
+      <a href="../executive_analytics/index.html">
+        <span class="material-symbols-outlined">analytics</span>
+        Analytics
+      </a>
+      <a href="../inbox/index.html">
+        <span class="material-symbols-outlined">inbox</span>
+        Inbox
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a href="../favorites/index.html">
+        <span class="material-symbols-outlined">star</span>
+        Favorites
+      </a>
+
+      <a href="../settings/index.html">
+        <span class="material-symbols-outlined">settings</span>
+        Settings
+      </a>
+
+       <a href="../profile_settings/index.html">
+    <span class="material-symbols-outlined">account_circle</span>
+    Profile
+  </a>
+  <!-- NEW: Connected Logout Link -->
+<a href="../enterprise_landing_page/index.html" id="logout-sidebar-btn" class="logout-link">
+  <span class="material-symbols-outlined">logout</span>
+  Logout
+</a>
+
+      <div class="user-card">
+        <div class="user-avatar">AR</div>
+        <div>
+          <h4>Alex Rivera</h4>
+          <p>Lead Architect</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+
+      <div class="topbar-left">
+        <h1>Project Management</h1>
+        <span id="activeProjectName" class="active-project-name"></span>
+
+        <nav class="top-nav">
+          <button class="top-tab active" data-page="overviewPage">Overview</button>
+          <button class="top-tab" data-page="tasksPage">Tasks</button>
+          <button class="top-tab" data-page="calendarPage">Calendar</button>
+          <button class="top-tab" data-page="wikiPage">Wiki</button>
+        </nav>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="icon-btn" id="projectSettingsBtn" type="button" title="Project settings">
+          <span class="material-symbols-outlined">settings</span>
+        </button>
+        <!-- Professional Notification Dropdown -->
+<div class="notif-wrapper" style="position: relative; display: inline-block;">
+    <button class="icon-btn" id="notif-trigger" type="button" style="position: relative; background: transparent; cursor: pointer; color: inherit;">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="notif-dot pulse" id="bell-dot"></span>
+    </button>
+
+    <div class="dropdown-panel" id="notif-menu">
+        <div class="notif-header">
+            <div class="notif-title-group">
+                <h3>Notifications</h3>
+                <span class="unread-badge" id="header-unread-count">6</span>
+            </div>
+            <button id="mark-all-read" class="mark-link">Mark all read</button>
+        </div>
+
+        <ul class="notif-list-container" id="notif-list">
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-blue">assignment_ind</span>
+                <div class="notif-info">
+                    <p class="notif-headline">Task Assigned</p>
+                    <p class="notif-sub">Sai assigned you "Implement Login API"</p>
+                    <span class="notif-moment">2 mins ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-red">notification_important</span>
+                <div class="notif-info">
+                    <p class="notif-headline">Deadline Warning <span class="tag-urgent">HIGH</span></p>
+                    <p class="notif-sub">Dashboard UI - Due Tomorrow, 11:59 PM</p>
+                    <span class="notif-moment">1 hour ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-cyan">alternate_email</span>
+                <div class="notif-info">
+                    <p class="notif-headline">@ Mention</p>
+                    <p class="notif-sub">Bhavani mentioned you in Project Alpha</p>
+                    <span class="notif-moment">3 hours ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-orange">published_with_changes</span>
+                <div class="notif-info">
+                    <p class="notif-headline">Project Update</p>
+                    <p class="notif-sub">Authentication: Status set to Completed</p>
+                    <span class="notif-moment">5 hours ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+        </ul>
+
+        <div class="notif-footer">
+            <button id="view-all-notifs">View all notifications</button>
+        </div>
+    </div>
+</div>
+    <!-- Messages Dropdown -->
+    <div class="notif-wrapper">
+      <button class="icon-btn" id="msg-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+        <span class="material-symbols-outlined">forum</span>
+        <span class="notif-dot pulse bg-secondary" id="msg-dot"></span>
+      </button>
+
+      <div class="dropdown-panel msg-panel-width" id="msg-menu">
+        <div class="notif-header border-none pb-0">
+          <div class="notif-title-group">
+            <h3>Messages</h3>
+            <span class="unread-badge bg-secondary-alpha text-secondary" id="msg-unread-count">12</span>
+          </div>
+          <button id="mark-msgs-read" class="mark-link text-secondary">Mark all read</button>
+        </div>
+        
+        <div class="px-4 py-3">
+          <div class="msg-search-box">
+            <span class="material-symbols-outlined">search</span>
+            <input type="text" id="msg-search" placeholder="Search conversations...">
+          </div>
+        </div>
+
+        <div class="max-h-[380px] overflow-y-auto custom-scrollbar">
+          <!-- Pinned -->
+          <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Pinned</div>
+          <ul class="msg-list">
+            <li class="msg-item unread" data-name="Enterprise SaaS Team">
+              <div class="avatar-box bg-primary-strong">ET</div>
+              <div class="msg-body">
+                <div class="msg-top">
+                  <span class="msg-name">Enterprise SaaS Team</span>
+                  <span class="msg-time">10:45 AM</span>
+                </div>
+                <p class="msg-text">Alex: I've updated the Figma design...</p>
+                <div class="tag-mention">@MENTION</div>
+              </div>
+              <div class="dot-indicator bg-secondary"></div>
+            </li>
+          </ul>
+
+          <!-- Direct Messages -->
+          <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Direct Messages</div>
+          <ul class="msg-list">
+            <li class="msg-item unread" data-name="Sai Bhavani">
+              <div class="avatar-box">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSJl441Mhxjix1FWsEaKwCpCvqaBUDs69WGQERAGR_FZIqdbmLR-claoFayeYu3KCMglo2zS4bYq8RMvvMoXleEQFQoTT8QrPhSKRVJf4gpjiMUx5xFAMvkb0LqyMHXUFTO5M-8uVgKJ0zVIRWapcKhDH6XN9sZYTasQ82XEUJ3ysQFwTmIKenyDMDa9Vt-Er_b8VjftbuvupmrR3pTIKFRJfQ6aH6RUtoeUXqeE3gnvc6TPU6k4E8_g" alt="">
+                <span class="online-status status-online"></span>
+              </div>
+              <div class="msg-body">
+                <div class="msg-top">
+                  <span class="msg-name">Sai Bhavani</span>
+                  <span class="msg-time">2m ago</span>
+                </div>
+                <p class="msg-text typing-target">Can you review the Login API?</p>
+                <div class="read-receipt">✓✓ Read</div>
+              </div>
+              <div class="dot-indicator bg-secondary"></div>
+            </li>
+          </ul>
+        </div>
+        <div class="notif-footer">
+    <button id="view-all-messages" onclick="window.location.href='../messages/index.html'">
+        View all messages
+    </button>
+</div>
+      </div> <!-- Closes dropdown-panel (msg-menu) -->
+    </div> <!-- Closes messages notif-wrapper -->
+
+        <button class="icon-btn">
+          <span class="material-symbols-outlined">help</span>
+        </button>
+
+        <a href="../profile_settings/index.html" class="top-avatar-link" aria-label="Profile Settings">
+        <div class="top-avatar">A</div>
+        </a>
+      </div>
+    </header>
+
+    <section class="page-content" id="pageContent">
+      <!-- OVERVIEW PAGE -->
+      <section class="app-page active" id="overviewPage">
+        <section class="stats-grid">
+          <article class="card stat-card">
+            <div class="stat-top">
+              <p>Overall Progress</p>
+              <span class="material-symbols-outlined purple">analytics</span>
+            </div>
+
+            <div>
+              <div class="stat-value">
+                <h2 id="overviewProgressValue">72%</h2>
+                <span class="orange-text" id="overviewProgressDelta">+4.2% vs last week</span>
+              </div>
+
+              <div class="progress-track">
+                <div class="progress-fill purple-fill" id="overviewProgressBar" style="width: 72%"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card stat-card">
+            <div class="stat-top">
+              <p>Risk Level</p>
+              <span class="material-symbols-outlined blue">security</span>
+            </div>
+
+            <div>
+              <div class="risk-level">
+                <span></span>
+                <h2 id="overviewRiskValue">Low</h2>
+              </div>
+              <p class="muted" id="overviewRiskDescription">No overdue tasks</p>
+            </div>
+          </article>
+
+          <article class="card stat-card">
+            <div class="stat-top">
+              <p>Health Score</p>
+              <span class="material-symbols-outlined orange">monitor_heart</span>
+            </div>
+
+            <div>
+              <div class="health-score">
+                <h2 id="overviewTaskCount">0</h2>
+                <span>/ 100</span>
+              </div>
+              <p class="muted" id="overviewTaskDescription">Tasks in this project</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="main-grid">
+          <article class="card roadmap-card">
+            <div class="card-header">
+              <h3>Project Roadmap</h3>
+
+              <div class="switch-buttons">
+                <button>Month</button>
+                <button class="active">Quarter</button>
+              </div>
+            </div>
+
+            <div class="roadmap-scroll">
+              <div class="roadmap-table">
+                <div class="table-head">
+                  <span>Phase</span>
+                  <span>Timeline (Q3-Q4)</span>
+                </div>
+
+                <div class="roadmap-row">
+                  <div class="phase">
+                    <i class="line purple-line"></i>
+                    <div>
+                      <h4>Core Infra</h4>
+                      <p>Completed</p>
+                    </div>
+                  </div>
+
+                  <div class="timeline">
+                    <div class="timeline-bar core-bar" style="left: 0; width: 26%">100%</div>
+                  </div>
+                </div>
+
+                <div class="roadmap-row">
+                  <div class="phase">
+                    <i class="line blue-line"></i>
+                    <div>
+                      <h4>API Mesh</h4>
+                      <p>In Progress</p>
+                    </div>
+                  </div>
+
+                  <div class="timeline">
+                    <div class="timeline-bar api-bar" style="left: 20%; width: 42%">45%</div>
+                  </div>
+                </div>
+
+                <div class="roadmap-row">
+                  <div class="phase">
+                    <i class="line orange-line"></i>
+                    <div>
+                      <h4>Edge Auth</h4>
+                      <p>Next</p>
+                    </div>
+                  </div>
+
+                  <div class="timeline">
+                    <div class="timeline-bar edge-bar" style="left: 50%; width: 34%">Pending</div>
+                  </div>
+                </div>
+
+                <div class="roadmap-row">
+                  <div class="phase">
+                    <i class="line gray-line"></i>
+                    <div>
+                      <h4>Client SDK</h4>
+                      <p>Backlog</p>
+                    </div>
+                  </div>
+
+                  <div class="timeline">
+                    <div class="timeline-bar sdk-bar" style="left: 80%; width: 15%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="roadmap-note">
+              <span class="material-symbols-outlined">info</span>
+              <p>
+                Timeline reflects current velocity. Edge Auth start date moved forward by 4 days due
+                to early Infra completion.
+              </p>
+            </div>
+          </article>
+
+          <aside class="side-panels">
+            <article class="card workload-card">
+              <div class="card-header">
+                <h3>Team Workload</h3>
+                <button class="small-icon">
+                  <span class="material-symbols-outlined">more_horiz</span>
+                </button>
+              </div>
+
+              <div class="workload-list">
+                <div class="workload-item">
+                  <div class="workload-title">
+                    <span>Sarah Chen</span>
+                    <b>92%</b>
+                  </div>
+                  <div class="mini-track">
+                    <div class="danger-fill" style="width: 92%"></div>
+                  </div>
+                  <small class="danger-text">At Capacity</small>
+                </div>
+
+                <div class="workload-item">
+                  <div class="workload-title">
+                    <span>Marcus Aurelius</span>
+                    <b>64%</b>
+                  </div>
+                  <div class="mini-track">
+                    <div class="purple-fill" style="width: 64%"></div>
+                  </div>
+                  <small>Steady</small>
+                </div>
+
+                <div class="workload-item">
+                  <div class="workload-title">
+                    <span>Elena Petrova</span>
+                    <b>42%</b>
+                  </div>
+                  <div class="mini-track">
+                    <div class="blue-fill" style="width: 42%"></div>
+                  </div>
+                  <small class="blue">Available</small>
+                </div>
+              </div>
+            </article>
+
+            <article class="card activity-card">
+              <h3>Recent Activity</h3>
+
+              <div class="activity-list" id="recentActivityList">
+                <div class="activity-item">
+                  <span class="activity-icon purple-bg">
+                    <span class="material-symbols-outlined">commit</span>
+                  </span>
+                  <div>
+                    <p>Marcus committed <mark>#1292</mark></p>
+                    <span>Patch: fix recursive loop in mesh router</span>
+                    <small>12m ago</small>
+                  </div>
+                </div>
+
+                <div class="activity-item">
+                  <span class="activity-icon blue-bg">
+                    <span class="material-symbols-outlined">chat_bubble</span>
+                  </span>
+                  <div>
+                    <p>Elena commented on <b>Security Sprint</b></p>
+                    <span>"Need to review the IAM policy before merging..."</span>
+                    <small>1h ago</small>
+                  </div>
+                </div>
+
+                <div class="activity-item">
+                  <span class="activity-icon orange-bg">
+                    <span class="material-symbols-outlined">verified</span>
+                  </span>
+                  <div>
+                    <p>Core Infra marked as <b class="orange-text">Complete</b></p>
+                    <span>Final validation passed automated smoke tests</span>
+                    <small>4h ago</small>
+                  </div>
+                </div>
+              </div>
+
+              <button class="view-all-btn">View All Activity</button>
+            </article>
+          </aside>
+        </section>
+      </section>
+
+      <!-- TASKS PAGE -->
+      <section class="app-page" id="tasksPage">
+        <div class="tasks-toolbar">
+          <div class="task-view-tabs">
+            <button class="task-tab active" data-task="taskBoard">Board</button>
+            <button class="task-tab" data-task="taskList">List</button>
+            <button class="task-tab" data-task="taskCalendar">Calendar</button>
+            <button class="task-tab" data-task="taskTimeline">Timeline</button>
+          </div>
+
+          <div class="task-toolbar-right">
+            <div class="task-avatars" id="taskAvatarsBar">
+              <span>SB</span>
+              <span>AK</span>
+              <span>JD</span>
+              <span>+12</span>
+            </div>
+
+            <button class="new-task-btn" id="newTaskBtn">
+              <span class="material-symbols-outlined">add</span>
+              New Task
+            </button>
+          </div>
+        </div>
+
+        <section class="task-panel active" id="taskBoard">
+          <div class="kanban-board" id="kanbanBoard">
+            <article class="kanban-column">
+              <div class="column-header">
+                <h3>Backlog</h3>
+                <span class="task-count">2</span>
+              </div>
+
+              <div class="task-list" id="backlogTaskList" data-status="Backlog">
+                <div class="task-card" draggable="true">
+                  <div class="task-meta">
+                    <span class="tag orange-tag">Research</span>
+                    <i></i>
+                  </div>
+                  <h4>Audit legacy authentication flows for SSO migration</h4>
+                  <div class="task-footer">
+                    <span>Oct 12</span>
+                    <b>SB</b>
+                  </div>
+                </div>
+
+                <div class="task-card" draggable="true">
+                  <div class="task-meta">
+                    <span class="tag purple-tag">Engineering</span>
+                    <i class="blue-dot"></i>
+                  </div>
+                  <h4>Update documentation for API v2.4</h4>
+                  <div class="task-footer">
+                    <span>Oct 15</span>
+                    <b>JD</b>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="kanban-column">
+              <div class="column-header">
+                <h3>To Do</h3>
+                <span class="task-count">1</span>
+              </div>
+
+              <div class="task-list" id="todoTaskList" data-status="To Do">
+                <div class="task-card" draggable="true">
+                  <div class="task-meta">
+                    <span class="tag blue-tag">Design</span>
+                    <i class="orange-dot"></i>
+                  </div>
+                  <h4>Refine bento grid component for dashboard</h4>
+                  <div class="task-footer">
+                    <span>3 files</span>
+                    <b>AK</b>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="kanban-column">
+              <div class="column-header">
+                <h3>In Progress</h3>
+                <span class="task-count">1</span>
+              </div>
+
+              <div class="task-list" id="inProgressTaskList" data-status="In Progress">
+                <div class="task-card highlight" draggable="true">
+                  <div class="task-meta">
+                    <span class="tag purple-tag">Infrastructure</span>
+                    <i></i>
+                  </div>
+                  <h4>Implement WebSocket provider for real-time board updates</h4>
+                  <div class="task-footer">
+                    <span>8 comments</span>
+                    <b>SB</b>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="kanban-column">
+              <div class="column-header">
+                <h3>Review</h3>
+                <span class="task-count">1</span>
+              </div>
+
+              <div class="task-list" id="reviewTaskList" data-status="Review">
+                <div class="task-card" draggable="true">
+                  <div class="task-meta">
+                    <span class="tag blue-tag">Design</span>
+                    <i></i>
+                  </div>
+                  <h4>Dark mode color contrast optimization</h4>
+                  <div class="task-footer">
+                    <span>Today</span>
+                    <b>LC</b>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <button class="add-column-card compact-add-column" id="addColumnBtn">
+              <span class="material-symbols-outlined">add</span>
+              <small>Add Column</small>
+            </button>
+          </div>
+        </section>
+
+        <section class="task-panel" id="taskList">
+          <article class="card task-table-card">
+            <h3>List View</h3>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Status</th>
+                  <th>Owner</th>
+                  <th>Priority</th>
+                  <th>Due</th>
+                </tr>
+              </thead>
+
+              <tbody id="taskListTableBody">
+                <tr>
+                  <td>Audit legacy authentication flows</td>
+                  <td><span class="status backlog">Backlog</span></td>
+                  <td>Sarah</td>
+                  <td>High</td>
+                  <td>Oct 12</td>
+                </tr>
+
+                <tr>
+                  <td>Refine bento grid component</td>
+                  <td><span class="status todo">To Do</span></td>
+                  <td>Arun</td>
+                  <td>Medium</td>
+                  <td>Oct 14</td>
+                </tr>
+
+                <tr>
+                  <td>WebSocket provider</td>
+                  <td><span class="status progress">In Progress</span></td>
+                  <td>Sai</td>
+                  <td>High</td>
+                  <td>Oct 18</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+        </section>
+
+        <section class="task-panel" id="taskCalendar">
+          <article class="card task-calendar-card">
+            <h3>Task Calendar</h3>
+
+            <div class="mini-calendar" id="taskMiniCalendar">
+              <div><small>Mon</small><b>12</b><span>SSO audit</span></div>
+              <div><small>Tue</small><b>13</b><span>Design review</span></div>
+              <div><small>Wed</small><b>14</b><span>Grid UI</span></div>
+              <div><small>Thu</small><b>15</b><span>Docs update</span></div>
+              <div><small>Fri</small><b>16</b><span>API sync</span></div>
+              <div><small>Sat</small><b>17</b><span>Testing</span></div>
+              <div><small>Sun</small><b>18</b><span>Deploy plan</span></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="task-panel" id="taskTimeline">
+          <article class="card task-timeline-card">
+            <h3>Timeline View</h3>
+
+            <div class="timeline-list" id="taskTimelineList">
+              <div>
+                <span class="timeline-dot purple-fill"></span>
+                <h4>SSO Audit</h4>
+                <p>Oct 12 - Oct 13</p>
+              </div>
+
+              <div>
+                <span class="timeline-dot blue-fill"></span>
+                <h4>Design System Update</h4>
+                <p>Oct 14 - Oct 16</p>
+              </div>
+
+              <div>
+                <span class="timeline-dot danger-fill"></span>
+                <h4>WebSocket Provider</h4>
+                <p>Oct 16 - Oct 19</p>
+              </div>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <!-- CALENDAR PAGE -->
+      <section class="app-page" id="calendarPage">
+        <article class="card live-calendar-card">
+          <div class="live-calendar-header">
+            <div>
+              <p class="eyebrow">Schedule Overview</p>
+              <h3>Live Calendar</h3>
+            </div>
+
+            <div class="calendar-controls">
+              <button class="today-btn" id="addCalendarEventBtn">Add Event</button>
+              <button class="calendar-nav-btn" id="prevMonthBtn">‹</button>
+              <h4 id="calendarMonthYear">Month Year</h4>
+              <button class="calendar-nav-btn" id="nextMonthBtn">›</button>
+              <button class="today-btn" id="todayBtn">Today</button>
+            </div>
+          </div>
+
+          <div class="calendar-weekdays">
+            <span>Sun</span>
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+          </div>
+
+          <div class="live-calendar-grid" id="calendarGrid"></div>
+        </article>
+      </section>
+
+      <!-- WIKI PAGE -->
+      <section class="app-page" id="wikiPage">
+        <article class="card wiki-card">
+          <div class="wiki-doc-header">
+            <div>
+              <p class="eyebrow">Project Documentation</p>
+              <h3>📖 Wiki</h3>
+              <p>
+                Welcome to the Enterprise Project Management Wiki. This wiki serves as the central
+                knowledge base for the project.
+              </p>
+            </div>
+
+            <button class="wiki-action-btn" id="updateDocsBtn">Update Docs</button>
+            <button class="wiki-action-btn" id="newWikiPageBtn">New Page</button>
+            <button class="wiki-action-btn" id="wikiPagesBtn">Pages</button>
+            <button class="wiki-action-btn" id="wikiSearchBtn">Search</button>
+            <button class="wiki-action-btn" id="wikiHistoryBtn">Version History</button>
+          </div>
+
+          <div class="wiki-content">
+            <section class="wiki-section">
+              <h4>Overview</h4>
+              <p>
+                This wiki contains project documentation, technical architecture, development
+                guidelines, meeting notes, and important decisions.
+              </p>
+            </section>
+
+            <section class="wiki-section">
+              <h4>Requirements</h4>
+
+              <div class="wiki-block">
+                <h5>Project Goal</h5>
+                <p>
+                  Develop an enterprise-grade project management platform that enables organizations
+                  to manage workspaces, projects, tasks, teams, meetings, developer workflows, and
+                  analytics from a single application.
+                </p>
+              </div>
+
+              <div class="wiki-block">
+                <h5>Core Features</h5>
+                <div class="wiki-chip-grid">
+                  <span>User Authentication</span>
+                  <span>Workspace Management</span>
+                  <span>Project Management</span>
+                  <span>Task Tracking</span>
+                  <span>Team Collaboration</span>
+                  <span>Meeting Scheduler</span>
+                  <span>Developer Hub</span>
+                  <span>Analytics Dashboard</span>
+                  <span>Notifications</span>
+                  <span>Time Tracking</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="wiki-section">
+              <h4>Architecture</h4>
+
+              <div class="wiki-tech-grid">
+                <div>
+                  <span class="material-symbols-outlined">web</span>
+                  <h5>Frontend</h5>
+                  <ul>
+                    <li>Next.js</li>
+                    <li>React</li>
+                    <li>TypeScript</li>
+                    <li>Tailwind CSS</li>
+                    <li>shadcn/ui</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <span class="material-symbols-outlined">dns</span>
+                  <h5>Backend</h5>
+                  <ul>
+                    <li>FastAPI</li>
+                    <li>Python</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <span class="material-symbols-outlined">database</span>
+                  <h5>Database</h5>
+                  <ul>
+                    <li>MongoDB</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <span class="material-symbols-outlined">rocket_launch</span>
+                  <h5>Deployment</h5>
+                  <ul>
+                    <li>Vercel Frontend</li>
+                    <li>Render Backend</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <section class="wiki-section">
+              <h4>API Documentation</h4>
+
+              <div class="api-grid">
+                <div>
+                  <h5>Authentication APIs</h5>
+                  <p>Register User</p>
+                  <p>Login User</p>
+                  <p>Logout User</p>
+                </div>
+
+                <div>
+                  <h5>Workspace APIs</h5>
+                  <p>Create Workspace</p>
+                  <p>Update Workspace</p>
+                  <p>Delete Workspace</p>
+                </div>
+
+                <div>
+                  <h5>Project APIs</h5>
+                  <p>Create Project</p>
+                  <p>Update Project</p>
+                  <p>Archive Project</p>
+                </div>
+
+                <div>
+                  <h5>Task APIs</h5>
+                  <p>Create Task</p>
+                  <p>Assign Task</p>
+                  <p>Update Status</p>
+                  <p>Delete Task</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="wiki-section">
+              <h4>Meeting Notes</h4>
+
+              <div class="wiki-block">
+                <h5>Sprint Planning Meeting</h5>
+                <p>Date: July 2026</p>
+
+                <h6>Discussion</h6>
+                <ul>
+                  <li>Finalized Landing Page</li>
+                  <li>Completed Login & Register UI</li>
+                  <li>Planned Workspace Dashboard</li>
+                  <li>Selected MongoDB as Database</li>
+                </ul>
+
+                <h6>Action Items</h6>
+                <ul>
+                  <li>Build Dashboard</li>
+                  <li>Implement Project Module</li>
+                  <li>Create Task Board</li>
+                </ul>
+              </div>
+            </section>
+
+            <section class="wiki-section">
+              <h4>Sprint Notes</h4>
+
+              <div class="sprint-grid">
+                <div>
+                  <h5>Sprint 1</h5>
+                  <strong>Completed</strong>
+                  <ul>
+                    <li>Landing Page</li>
+                    <li>Login Page</li>
+                    <li>Register Page</li>
+                    <li>Repository Setup</li>
+                    <li>Git Workflow</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h5>In Progress</h5>
+                  <ul>
+                    <li>Workspace Module</li>
+                    <li>Dashboard</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h5>Upcoming</h5>
+                  <ul>
+                    <li>Project Module</li>
+                    <li>Task Board</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <section class="wiki-section">
+              <h4>Decision Log</h4>
+
+              <div class="decision-table">
+                <div class="decision-head">
+                  <span>Date</span>
+                  <span>Decision</span>
+                  <span>Reason</span>
+                </div>
+
+                <div class="decision-row">
+                  <span>July 2026</span>
+                  <span>Use MongoDB</span>
+                  <span>Flexible schema for project data</span>
+                </div>
+
+                <div class="decision-row">
+                  <span>July 2026</span>
+                  <span>Use FastAPI</span>
+                  <span>High performance and simple API development</span>
+                </div>
+
+                <div class="decision-row">
+                  <span>July 2026</span>
+                  <span>Use Next.js</span>
+                  <span>Modern React framework with App Router</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="wiki-section">
+              <h4>Coding Standards</h4>
+
+              <ul class="check-list">
+                <li>Use meaningful variable names.</li>
+                <li>Follow consistent folder structure.</li>
+                <li>Write reusable components.</li>
+                <li>Use feature branches for every task.</li>
+                <li>Review code before merging.</li>
+                <li>Write clear commit messages.</li>
+              </ul>
+            </section>
+
+            <section class="wiki-section">
+              <h4>Project Timeline</h4>
+
+              <div class="timeline-phase-grid">
+                <div>
+                  <h5>Phase 1</h5>
+                  <p>Authentication</p>
+                  <p>Landing Page</p>
+                  <p>Dashboard</p>
+                </div>
+
+                <div>
+                  <h5>Phase 2</h5>
+                  <p>Workspace</p>
+                  <p>Projects</p>
+                  <p>Tasks</p>
+                </div>
+
+                <div>
+                  <h5>Phase 3</h5>
+                  <p>Meetings</p>
+                  <p>Team Management</p>
+                  <p>Developer Hub</p>
+                </div>
+
+                <div>
+                  <h5>Phase 4</h5>
+                  <p>Analytics</p>
+                  <p>Reports</p>
+                  <p>Notifications</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="wiki-section">
+              <h4>Team Members</h4>
+
+              <div class="team-wiki-grid">
+                <div class="team-member-card">
+                    <img src="./images/sai-bhavani.jpeg" alt="Avatar" class="team-initial" />
+                  <h5>Sai Bhavani</h5>
+                  <p>Student</p>
+                </div>
+
+                <div class="team-member-card">
+                  <img src="./images/Bhargavi.jpeg" alt="Avatar" class="team-initial" />
+                  <h5>Bhargavi</h5>
+                  <p>Student</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="wiki-section">
+              <h4>Changelog</h4>
+
+              <div class="wiki-block">
+                <h5>Version 1.0</h5>
+                <ul>
+                  <li>Initial project setup</li>
+                  <li>Landing Page</li>
+                  <li>Login</li>
+                  <li>Registration</li>
+                  <li>Git repository configured</li>
+                </ul>
+              </div>
+            </section>
+
+            <section class="wiki-section faq-section">
+              <h4>FAQ</h4>
+
+              <div class="faq-list">
+                <details open>
+                  <summary>What is Enterprise Project Management?</summary>
+                  <p>
+                    A platform that helps organizations manage projects, teams, meetings,
+                    development workflows, and analytics from one place.
+                  </p>
+                </details>
+
+                <details>
+                  <summary>Who can use this platform?</summary>
+                  <p>Administrators, Project Managers, and Team Members.</p>
+                </details>
+
+                <details>
+                  <summary>Can multiple projects exist in one workspace?</summary>
+                  <p>Yes, each workspace can contain multiple projects.</p>
+                </details>
+
+                <details>
+                  <summary>How are tasks managed?</summary>
+                  <p>Through Kanban boards, task lists, calendars, and timelines.</p>
+                </details>
+
+                <details>
+                  <summary>Can developers connect GitHub?</summary>
+                  <p>Version 1 uses mock data. Version 2 will support GitHub API integration.</p>
+                </details>
+              </div>
+            </section>
+          </div>
+        </article>
+      </section>
+      <!-- Unified Enterprise Footer (Custom CSS Styled) -->
+      <footer class="enterprise-footer">
+        <div class="footer-grid">
+          
+          <!-- Col 1: Brand & Live Status Indicator -->
+          <div class="footer-col brand-col">
+            <div class="footer-brand">
+              <div class="brand-icon-box">A</div>
+              <div class="brand-text-box">
+                <h4>Acme Corp</h4>
+                <p>Enterprise Engine</p>
+              </div>
+            </div>
+            <p class="brand-desc">Simplifying collaborative developer workflows and deep enterprise operations analytics.</p>
+            
+            <!-- Live Status Pulsing Indicator -->
+            <div class="status-badge">
+              <span class="status-pulse-container">
+                <span class="pulse-ring"></span>
+                <span class="pulse-dot"></span>
+              </span>
+              <span class="status-text">All Systems Operational</span>
+            </div>
+          </div>
+
+          <!-- Col 2: Engineering Blogs -->
+          <div class="footer-col links-col">
+            <h4>Engineering Blogs</h4>
+            <ul>
+              <li>
+                <a href="#">SSO Sharding Best Practices</a>
+              </li>
+              <li>
+                <a href="#">Next.js Performance tuning</a>
+              </li>
+              <li>
+                <a href="#">MongoDB vs PostgreSQL at Scale</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Support & Contact Details -->
+          <div class="footer-col links-col">
+            <h4>Support & Contacts</h4>
+            <ul class="contact-list">
+              <li>
+                <span class="material-symbols-outlined">mail</span>
+                <span>ops@acme.corp</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">phone_in_talk</span>
+                <span>+1 (800) 555-ACME</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">support_agent</span>
+                <a href="#">Submit Incident Ticket</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 4: Newsletter Sign-up -->
+          <div class="footer-col newsletter-col">
+            <h4>Developer Broadcasts</h4>
+            <p class="newsletter-desc">Subscribe to get notified on API patch versions and downtime warnings.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); if(typeof triggerToast === 'function') { triggerToast('Subscribed to broadcasts successfully!'); } else if (typeof showToast === 'function') { showToast('Subscribed successfully!'); }">
+              <input type="email" placeholder="dev@acme.corp" required autocomplete="off">
+              <button type="submit">JOIN</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Divider line -->
+        <div class="footer-divider"></div>
+
+        <!-- Bottom Metadata Section -->
+        <div class="footer-bottom">
+          <div class="copyright-section">
+            <span>&copy; 2026 Acme Corp. All rights reserved.</span>
+            <span class="version-tag">v2.4.2-stable</span>
+          </div>
+          
+          <!-- Keyboard shortcuts visual helper -->
+          <div class="shortcut-section">
+            <span>Search Shortcuts:</span>
+            <kbd>Ctrl</kbd>
+            <span>+</span>
+            <kbd>K</kbd>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Bottom spacer inside scroll viewport -->
+      <div class="h-16"></div>
+    </section> <!-- This tag closes the scrollable #pageContent container -->
+  </main>
+
+  <div class="toast" id="toast">Action completed</div>
+
+  <script src="../shared/api-client.js"></script>
+  <script src="../shared/notification-badge.js"></script>
+  <script src="../shared/search_panel.js"></script>
+  <script src="./script.js"></script>
+  <script src="../shared/enterprise-footer.js"></script>
+</body>
+</html>

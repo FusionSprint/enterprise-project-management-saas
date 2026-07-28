@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Team Management | Acme Corp</title>
+
+  <link rel="stylesheet" href="../shared/base.css" />
+  <link rel="stylesheet" href="./styles.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Material+Symbols+Outlined"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../shared/enterprise-footer.css">
+</head>
+
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-icon">A</div>
+      <div>
+        <h2>Acme Corp</h2>
+        <p>Enterprise</p>
+      </div>
+    </div>
+
+    <button class="search-box" id="searchBtn">
+    <span>Search</span>
+    <span class="material-symbols-outlined">search</span>
+  </button>
+
+    <nav class="side-nav">
+      <a href="../workspace_dashboard/index.html">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </a>
+
+      <a href="../project_overview/index.html">
+        <span class="material-symbols-outlined">tactic</span>
+        Projects
+      </a>
+
+      <a href="./index.html" class="active">
+        <span class="material-symbols-outlined">group</span>
+        Team
+      </a>
+
+      <a href="../meeting_scheduler/index.html">
+        <span class="material-symbols-outlined">video_call</span>
+        Meetings
+      </a>
+
+      <a href="../developer_hub/index.html">
+        <span class="material-symbols-outlined">terminal</span>
+        Dev Hub
+      </a>
+
+      <a href="../executive_analytics/index.html">
+        <span class="material-symbols-outlined">analytics</span>
+        Analytics
+      </a>
+      <a href="../inbox/index.html">
+        <span class="material-symbols-outlined">inbox</span>
+        Inbox
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a href="../favorites/index.html">
+        <span class="material-symbols-outlined">star</span>
+        Favorites
+      </a>
+
+      <a href="../settings/index.html">
+        <span class="material-symbols-outlined">settings</span>
+        Settings
+      </a>
+
+      <a href="../profile_settings/index.html">
+        <span class="material-symbols-outlined">account_circle</span>
+        Profile
+      </a>
+      <!-- NEW: Connected Logout Link -->
+<a href="../enterprise_landing_page/index.html" id="logout-sidebar-btn" class="logout-link">
+  <span class="material-symbols-outlined">logout</span>
+  Logout
+</a>
+      <div class="user-card">
+        <div class="user-avatar">AR</div>
+        <div>
+          <h4>Alex Rivera</h4>
+          <p>Lead Architect</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+
+      <div class="topbar-left">
+        <h1>Team Management</h1>
+
+        <nav class="team-top-nav">
+          <a href="#" class="team-tab active" data-team-view="overviewView">Overview</a>
+          <a href="#" class="team-tab" data-team-view="directoryView">Directory</a>
+          <a href="#" class="team-tab" data-team-view="rolesView">Roles</a>
+          <a href="#" class="team-tab" data-team-view="performanceView">Performance</a>
+        </nav>
+      </div>
+
+      <div class="topbar-actions">
+        <!-- Professional Notification Dropdown -->
+<div class="notif-wrapper" style="position: relative; display: inline-block;">
+    <button class="icon-btn" id="notif-trigger" type="button" style="position: relative; background: transparent; cursor: pointer; color: inherit;">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="notif-dot pulse" id="bell-dot"></span>
+    </button>
+
+    <div class="dropdown-panel" id="notif-menu">
+        <div class="notif-header">
+            <div class="notif-title-group">
+                <h3>Notifications</h3>
+                <span class="unread-badge" id="header-unread-count">6</span>
+            </div>
+            <button id="mark-all-read" class="mark-link">Mark all read</button>
+        </div>
+
+        <ul class="notif-list-container" id="notif-list">
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-blue">assignment_ind</span>
+                <div class="notif-info">
+                    <p class="notif-headline">Task Assigned</p>
+                    <p class="notif-sub">Sai assigned you "Implement Login API"</p>
+                    <span class="notif-moment">2 mins ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-red">notification_important</span>
+                <div class="notif-info">
+                    <p class="notif-headline">Deadline Warning <span class="tag-urgent">HIGH</span></p>
+                    <p class="notif-sub">Dashboard UI - Due Tomorrow, 11:59 PM</p>
+                    <span class="notif-moment">1 hour ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-cyan">alternate_email</span>
+                <div class="notif-info">
+                    <p class="notif-headline">@ Mention</p>
+                    <p class="notif-sub">Bhavani mentioned you in Project Alpha</p>
+                    <span class="notif-moment">3 hours ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-orange">published_with_changes</span>
+                <div class="notif-info">
+                    <p class="notif-headline">Project Update</p>
+                    <p class="notif-sub">Authentication: Status set to Completed</p>
+                    <span class="notif-moment">5 hours ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+        </ul>
+
+        <div class="notif-footer">
+            <button id="view-all-notifs">View all notifications</button>
+        </div>
+    </div>
+</div>
+<!-- Messages Dropdown -->
+    <div class="notif-wrapper">
+      <button class="icon-btn" id="msg-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+        <span class="material-symbols-outlined">forum</span>
+        <span class="notif-dot pulse bg-secondary" id="msg-dot"></span>
+      </button>
+
+      <div class="dropdown-panel msg-panel-width" id="msg-menu">
+        <div class="notif-header border-none pb-0">
+          <div class="notif-title-group">
+            <h3>Messages</h3>
+            <span class="unread-badge bg-secondary-alpha text-secondary" id="msg-unread-count">12</span>
+          </div>
+          <button id="mark-msgs-read" class="mark-link text-secondary">Mark all read</button>
+        </div>
+        
+        <div class="px-4 py-3">
+          <div class="msg-search-box">
+            <span class="material-symbols-outlined">search</span>
+            <input type="text" id="msg-search" placeholder="Search conversations...">
+          </div>
+        </div>
+
+        <div class="max-h-[380px] overflow-y-auto custom-scrollbar">
+          <!-- Pinned -->
+          <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Pinned</div>
+          <ul class="msg-list">
+            <li class="msg-item unread" data-name="Enterprise SaaS Team">
+              <div class="avatar-box bg-primary-strong">ET</div>
+              <div class="msg-body">
+                <div class="msg-top">
+                  <span class="msg-name">Enterprise SaaS Team</span>
+                  <span class="msg-time">10:45 AM</span>
+                </div>
+                <p class="msg-text">Alex: I've updated the Figma design...</p>
+                <div class="tag-mention">@MENTION</div>
+              </div>
+              <div class="dot-indicator bg-secondary"></div>
+            </li>
+          </ul>
+
+          <!-- Direct Messages -->
+          <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Direct Messages</div>
+          <ul class="msg-list">
+            <li class="msg-item unread" data-name="Sai Bhavani">
+              <div class="avatar-box">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSJl441Mhxjix1FWsEaKwCpCvqaBUDs69WGQERAGR_FZIqdbmLR-claoFayeYu3KCMglo2zS4bYq8RMvvMoXleEQFQoTT8QrPhSKRVJf4gpjiMUx5xFAMvkb0LqyMHXUFTO5M-8uVgKJ0zVIRWapcKhDH6XN9sZYTasQ82XEUJ3ysQFwTmIKenyDMDa9Vt-Er_b8VjftbuvupmrR3pTIKFRJfQ6aH6RUtoeUXqeE3gnvc6TPU6k4E8_g" alt="">
+                <span class="online-status status-online"></span>
+              </div>
+              <div class="msg-body">
+                <div class="msg-top">
+                  <span class="msg-name">Sai Bhavani</span>
+                  <span class="msg-time">2m ago</span>
+                </div>
+                <p class="msg-text typing-target">Can you review the Login API?</p>
+                <div class="read-receipt">✓✓ Read</div>
+              </div>
+              <div class="dot-indicator bg-secondary"></div>
+            </li>
+          </ul>
+        </div>
+        <div class="notif-footer">
+    <button id="view-all-messages" onclick="window.location.href='../messages/index.html'">
+        View all messages
+    </button>
+</div>
+      </div> <!-- Closes dropdown-panel (msg-menu) -->
+    </div> <!-- Closes messages notif-wrapper -->
+
+
+        <button class="icon-btn">
+          <span class="material-symbols-outlined">help</span>
+        </button>
+
+        <button class="new-member-btn" id="newMemberBtn">
+          <span class="material-symbols-outlined">add</span>
+          New Member
+        </button>
+      <a href="../profile_settings/index.html" class="top-avatar-link" aria-label="Profile Settings">
+      <div class="top-avatar">A</div>
+      </a>
+      </div>
+    </header>
+
+    <section class="team-page custom-scrollbar">
+      <!-- OVERVIEW -->
+      <section class="team-view active" id="overviewView">
+        <div class="team-page-head">
+          <div>
+            <p class="team-eyebrow">Team Overview</p>
+            <h2>Team Control Center</h2>
+            <p>Quick summary of team members, work progress, availability, and productivity.</p>
+          </div>
+        </div>
+
+        <section class="team-kpi-grid">
+          <article class="team-card kpi-card">
+            <span class="material-symbols-outlined">groups</span>
+            <p>Total Team Members</p>
+            <h3>24</h3>
+          </article>
+
+          <article class="team-card kpi-card">
+            <span class="material-symbols-outlined">verified_user</span>
+            <p>Active Members</p>
+            <h3>21</h3>
+          </article>
+
+          <article class="team-card kpi-card">
+            <span class="material-symbols-outlined">radio_button_checked</span>
+            <p>Online Members</p>
+            <h3>14</h3>
+          </article>
+
+          <article class="team-card kpi-card">
+            <span class="material-symbols-outlined">workspace_premium</span>
+            <p>Team Leads</p>
+            <h3>3</h3>
+          </article>
+
+          <article class="team-card kpi-card">
+            <span class="material-symbols-outlined">timer</span>
+            <p>Total Hours This Week</p>
+            <h3>320h</h3>
+          </article>
+
+          <article class="team-card kpi-card">
+            <span class="material-symbols-outlined">task_alt</span>
+            <p>Tasks Completed</p>
+            <h3>146</h3>
+          </article>
+
+          <article class="team-card kpi-card">
+            <span class="material-symbols-outlined">pending_actions</span>
+            <p>Tasks In Progress</p>
+            <h3>38</h3>
+          </article>
+
+          <article class="team-card kpi-card">
+            <span class="material-symbols-outlined">trending_up</span>
+            <p>Productivity Score</p>
+            <h3>92%</h3>
+          </article>
+        </section>
+
+        <section class="team-overview-grid">
+          <article class="team-card wide-card">
+            <h3>Current Sprint Progress</h3>
+            <p class="muted-text">Q4 Enterprise Project Management sprint is running with stable velocity.</p>
+
+            <div class="sprint-progress">
+              <div class="progress-info">
+                <span>Frontend UI</span>
+                <b>82%</b>
+              </div>
+              <div class="bar"><span style="width: 82%"></span></div>
+            </div>
+
+            <div class="sprint-progress">
+              <div class="progress-info">
+                <span>Backend APIs</span>
+                <b>68%</b>
+              </div>
+              <div class="bar"><span style="width: 68%"></span></div>
+            </div>
+
+            <div class="sprint-progress">
+              <div class="progress-info">
+                <span>Testing & Deployment</span>
+                <b>54%</b>
+              </div>
+              <div class="bar"><span style="width: 54%"></span></div>
+            </div>
+          </article>
+
+          <article class="team-card">
+            <h3>Upcoming Meetings</h3>
+            <div class="mini-list">
+              <div>
+                <b>Daily Standup</b>
+                <span>Today, 10:00 AM</span>
+              </div>
+              <div>
+                <b>Sprint Review</b>
+                <span>Tomorrow, 2:00 PM</span>
+              </div>
+              <div>
+                <b>Deployment Sync</b>
+                <span>Friday, 4:00 PM</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="team-card">
+            <h3>Recent Team Activity</h3>
+            <div class="activity-feed">
+              <p><b>Sai Bhavani</b> completed Dashboard UI task.</p>
+              <p><b>Bhargavi</b> pushed backend API update.</p>
+              <p><b>Alex</b> reviewed sprint progress.</p>
+              <p><b>Sarah</b> updated project documentation.</p>
+            </div>
+          </article>
+
+          <article class="team-card">
+            <h3>Team Availability</h3>
+            <div class="availability-grid">
+              <span class="online">14 Online</span>
+              <span class="busy">5 Busy</span>
+              <span class="away">2 Away</span>
+              <span class="offline">3 Offline</span>
+            </div>
+          </article>
+
+          <article class="team-card wide-card">
+            <h3>Workload Distribution</h3>
+            <div class="workload-chart">
+              <div style="height: 84%"><span>Sai</span></div>
+              <div style="height: 92%"><span>Bhargavi</span></div>
+              <div style="height: 70%"><span>Alex</span></div>
+              <div style="height: 62%"><span>Sarah</span></div>
+              <div style="height: 58%"><span>Jordan</span></div>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <!-- DIRECTORY -->
+      <section class="team-view" id="directoryView">
+        <div class="team-page-head">
+          <div>
+            <p class="team-eyebrow">Team Directory</p>
+            <h2>All Team Members</h2>
+            <p>View employee details, assigned projects, availability, and weekly work hours.</p>
+          </div>
+
+          <div class="team-actions">
+            <input type="text" id="memberSearch" placeholder="Search member..." />
+            <select id="roleFilter">
+              <option>All Roles</option>
+              <option>Frontend Developer</option>
+              <option>Full Stack Developer</option>
+              <option>Project Manager</option>
+              <option>Cloud Architect</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="team-card table-card">
+          <table class="team-table">
+            <thead>
+              <tr>
+                <th>Member</th>
+                <th>Employee ID</th>
+                <th>Role</th>
+                <th>Department</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Project</th>
+                <th>Tasks</th>
+                <th>Status</th>
+                <th>Hours</th>
+                <th>Join Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>
+                  <div class="member-cell">
+                    <div class="member-avatar">SB</div>
+                    <div>
+                      <b>Sai Bhavani</b>
+                      <span>Frontend Developer</span>
+                    </div>
+                  </div>
+                </td>
+                <td>EMP-101</td>
+                <td>Frontend Developer</td>
+                <td>Engineering</td>
+                <td>sai@acme.io</td>
+                <td>+91 90000 00001</td>
+                <td>EPM</td>
+                <td>18</td>
+                <td><span class="status online">Online</span></td>
+                <td>38h</td>
+                <td>Jul 2026</td>
+                <td><button class="view-btn">View Profile</button></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="member-cell">
+                    <div class="member-avatar">B</div>
+                    <div>
+                      <b>Bhargavi</b>
+                      <span>Full Stack Developer</span>
+                    </div>
+                  </div>
+                </td>
+                <td>EMP-102</td>
+                <td>Full Stack Developer</td>
+                <td>Engineering</td>
+                <td>bhargavi@acme.io</td>
+                <td>+91 90000 00002</td>
+                <td>EPM</td>
+                <td>21</td>
+                <td><span class="status busy">Busy</span></td>
+                <td>42h</td>
+                <td>Jul 2026</td>
+                <td><button class="view-btn">View Profile</button></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="member-cell">
+                    <div class="member-avatar">AR</div>
+                    <div>
+                      <b>Alex Rivera</b>
+                      <span>Project Manager</span>
+                    </div>
+                  </div>
+                </td>
+                <td>EMP-103</td>
+                <td>Project Manager</td>
+                <td>Management</td>
+                <td>alex@acme.io</td>
+                <td>+91 90000 00003</td>
+                <td>EPM</td>
+                <td>12</td>
+                <td><span class="status away">Away</span></td>
+                <td>35h</td>
+                <td>Jun 2026</td>
+                <td><button class="view-btn">View Profile</button></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="member-cell">
+                    <div class="member-avatar">SC</div>
+                    <div>
+                      <b>Sarah Chen</b>
+                      <span>Principal Engineer</span>
+                    </div>
+                  </div>
+                </td>
+                <td>EMP-104</td>
+                <td>Cloud Architect</td>
+                <td>Engineering</td>
+                <td>sarah@acme.io</td>
+                <td>+91 90000 00004</td>
+                <td>Cloud Infra</td>
+                <td>15</td>
+                <td><span class="status online">Online</span></td>
+                <td>40h</td>
+                <td>May 2026</td>
+                <td><button class="view-btn">View Profile</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ROLES -->
+      <section class="team-view" id="rolesView">
+        <div class="team-page-head">
+          <div>
+            <p class="team-eyebrow">Roles & Permissions</p>
+            <h2>Team Access Management</h2>
+            <p>Manage roles, permissions, access levels, and members per role.</p>
+          </div>
+        </div>
+
+        <section class="role-grid">
+          <article class="team-card role-card">
+            <span class="material-symbols-outlined">admin_panel_settings</span>
+            <h3>Administrator</h3>
+            <p>Full organization access.</p>
+            <ul>
+              <li>Manage Organization</li>
+              <li>Create Workspaces</li>
+              <li>Manage Users</li>
+              <li>View Analytics</li>
+              <li>Configure Settings</li>
+            </ul>
+          </article>
+
+          <article class="team-card role-card">
+            <span class="material-symbols-outlined">assignment_ind</span>
+            <h3>Project Manager</h3>
+            <p>Manage project delivery.</p>
+            <ul>
+              <li>Create Projects</li>
+              <li>Assign Tasks</li>
+              <li>Schedule Meetings</li>
+              <li>View Reports</li>
+              <li>Manage Team</li>
+            </ul>
+          </article>
+
+          <article class="team-card role-card">
+            <span class="material-symbols-outlined">person</span>
+            <h3>Team Member</h3>
+            <p>Work on assigned tasks.</p>
+            <ul>
+              <li>Update Tasks</li>
+              <li>Join Meetings</li>
+              <li>Track Time</li>
+              <li>Upload Files</li>
+              <li>View Assigned Projects</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="team-overview-grid">
+          <article class="team-card">
+            <h3>Role Distribution</h3>
+            <div class="donut-box">
+              <div class="donut"></div>
+              <p><b>1</b> Admin • <b>2</b> Managers • <b>8</b> Members</p>
+            </div>
+          </article>
+
+          <article class="team-card wide-card">
+            <h3>Members per Role</h3>
+            <table class="team-table small-table">
+              <thead>
+                <tr>
+                  <th>Role</th>
+                  <th>Members</th>
+                  <th>Permissions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Administrator</td>
+                  <td>1</td>
+                  <td>Full Access</td>
+                </tr>
+                <tr>
+                  <td>Project Manager</td>
+                  <td>2</td>
+                  <td>Project Management</td>
+                </tr>
+                <tr>
+                  <td>Team Member</td>
+                  <td>8</td>
+                  <td>Assigned Work</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+        </section>
+      </section>
+
+      <!-- PERFORMANCE -->
+      <section class="team-view" id="performanceView">
+        <div class="team-page-head">
+          <div>
+            <p class="team-eyebrow">Team Performance</p>
+            <h2>Productivity Analytics</h2>
+            <p>Evaluate productivity, hours worked, completed tasks, and performance insights.</p>
+          </div>
+        </div>
+
+        <section class="team-kpi-grid performance-kpis">
+          <article class="team-card kpi-card">
+            <span class="material-symbols-outlined">speed</span>
+            <p>Average Productivity</p>
+            <h3>92%</h3>
+          </article>
+
+          <article class="team-card kpi-card">
+            <span class="material-symbols-outlined">schedule</span>
+            <p>Total Hours Worked</p>
+            <h3>320h</h3>
+          </article>
+
+          <article class="team-card kpi-card">
+            <span class="material-symbols-outlined">done_all</span>
+            <p>Tasks Completed</p>
+            <h3>146</h3>
+          </article>
+
+          <article class="team-card kpi-card">
+            <span class="material-symbols-outlined">event_available</span>
+            <p>On-Time Completion</p>
+            <h3>89%</h3>
+          </article>
+        </section>
+
+        <section class="team-overview-grid">
+          <article class="team-card wide-card">
+            <h3>Weekly Hours Worked</h3>
+            <div class="workload-chart">
+              <div style="height: 76%"><span>Sai</span></div>
+              <div style="height: 84%"><span>Bhargavi</span></div>
+              <div style="height: 70%"><span>Alex</span></div>
+              <div style="height: 64%"><span>Sarah</span></div>
+              <div style="height: 58%"><span>Jordan</span></div>
+            </div>
+          </article>
+
+          <article class="team-card">
+            <h3>Top Performers</h3>
+            <div class="mini-list">
+              <div><b>🏆 Employee of the Week</b><span>Bhargavi</span></div>
+              <div><b>⏱️ Most Hours Worked</b><span>Bhargavi - 42h</span></div>
+              <div><b>✅ Most Tasks Completed</b><span>Bhargavi - 27 tasks</span></div>
+              <div><b>🚀 Fastest Completion</b><span>Sai Bhavani</span></div>
+            </div>
+          </article>
+
+          <article class="team-card wide-card">
+            <h3>Performance Table</h3>
+            <table class="team-table small-table">
+              <thead>
+                <tr>
+                  <th>Member</th>
+                  <th>Hours</th>
+                  <th>Completed Tasks</th>
+                  <th>Productivity</th>
+                  <th>Performance</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Sai Bhavani</td>
+                  <td>38h</td>
+                  <td>24</td>
+                  <td>94%</td>
+                  <td>⭐ Excellent</td>
+                </tr>
+                <tr>
+                  <td>Bhargavi</td>
+                  <td>42h</td>
+                  <td>27</td>
+                  <td>97%</td>
+                  <td>⭐ Excellent</td>
+                </tr>
+                <tr>
+                  <td>Alex</td>
+                  <td>35h</td>
+                  <td>18</td>
+                  <td>82%</td>
+                  <td>👍 Good</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="team-card">
+            <h3>Insights</h3>
+            <div class="insight-list">
+              <p>Team Productivity: <b>92%</b></p>
+              <p>Average Hours/Member: <b>40h</b></p>
+              <p>On-Time Task Completion: <b>89%</b></p>
+              <p>Members Requiring Attention: <b>2</b></p>
+            </div>
+          </article>
+        </section>
+      </section>
+      <!-- Unified Enterprise Footer (Custom CSS Styled) -->
+      <footer class="enterprise-footer">
+        <div class="footer-grid">
+          
+          <!-- Col 1: Brand & Live Status Indicator -->
+          <div class="footer-col brand-col">
+            <div class="footer-brand">
+              <div class="brand-icon-box">A</div>
+              <div class="brand-text-box">
+                <h4>Acme Corp</h4>
+                <p>Enterprise Engine</p>
+              </div>
+            </div>
+            <p class="brand-desc">Simplifying collaborative developer workflows and deep enterprise operations analytics.</p>
+            
+            <!-- Live Status Pulsing Indicator -->
+            <div class="status-badge">
+              <span class="status-pulse-container">
+                <span class="pulse-ring"></span>
+                <span class="pulse-dot"></span>
+              </span>
+              <span class="status-text">All Systems Operational</span>
+            </div>
+          </div>
+
+          <!-- Col 2: Engineering Blogs -->
+          <div class="footer-col links-col">
+            <h4>Engineering Blogs</h4>
+            <ul>
+              <li>
+                <a href="#">SSO Sharding Best Practices</a>
+              </li>
+              <li>
+                <a href="#">Next.js Performance tuning</a>
+              </li>
+              <li>
+                <a href="#">MongoDB vs PostgreSQL at Scale</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Support & Contact Details -->
+          <div class="footer-col links-col">
+            <h4>Support & Contacts</h4>
+            <ul class="contact-list">
+              <li>
+                <span class="material-symbols-outlined">mail</span>
+                <span>ops@acme.corp</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">phone_in_talk</span>
+                <span>+1 (800) 555-ACME</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">support_agent</span>
+                <a href="#">Submit Incident Ticket</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 4: Newsletter Sign-up -->
+          <div class="footer-col newsletter-col">
+            <h4>Developer Broadcasts</h4>
+            <p class="newsletter-desc">Subscribe to get notified on API patch versions and downtime warnings.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); if(typeof triggerToast === 'function') { triggerToast('Subscribed to broadcasts successfully!'); } else if (typeof showToast === 'function') { showToast('Subscribed successfully!'); }">
+              <input type="email" placeholder="dev@acme.corp" required autocomplete="off">
+              <button type="submit">JOIN</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Divider line -->
+        <div class="footer-divider"></div>
+
+        <!-- Bottom Metadata Section -->
+        <div class="footer-bottom">
+          <div class="copyright-section">
+            <span>&copy; 2026 Acme Corp. All rights reserved.</span>
+            <span class="version-tag">v2.4.2-stable</span>
+          </div>
+          
+          <!-- Keyboard shortcuts visual helper -->
+          <div class="shortcut-section">
+            <span>Search Shortcuts:</span>
+            <kbd>Ctrl</kbd>
+            <span>+</span>
+            <kbd>K</kbd>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Bottom spacer inside scroll viewport -->
+      <div class="h-16"></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast">Action completed</div>
+
+  <script src="../shared/search_panel.js"></script>
+  <script src="./script.js"></script>
+  <script src="../shared/enterprise-footer.js"></script>
+</body>
+</html>

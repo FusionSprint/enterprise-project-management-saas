@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workspace Overview | Acme Corp</title>
+
+  <!-- Shared CSS from your project -->
+  <link rel="stylesheet" href="../shared/base.css" />
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="./styles.css" />
+
+  <!-- Fonts and Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../shared/enterprise-footer.css">
+</head>
+
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-icon">A</div>
+      <div>
+        <h2>Acme Corp</h2>
+        <p>Enterprise</p>
+      </div>
+    </div>
+
+    <button class="search-box" id="searchBtn">
+    <span>Search</span>
+    <span class="material-symbols-outlined">search</span>
+  </button>
+
+    <nav class="side-nav">
+      <a href="../workspace_dashboard/index.html" class="active">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </a>
+      <a href="../project_overview/index.html">
+        <span class="material-symbols-outlined">tactic</span>
+        Projects
+      </a>
+      <a href="../team_management/index.html">
+        <span class="material-symbols-outlined">group</span>
+        Team
+      </a>
+      <a href="../meeting_scheduler/index.html">
+        <span class="material-symbols-outlined">video_call</span>
+        Meetings
+      </a>
+      <a href="../developer_hub/index.html">
+        <span class="material-symbols-outlined">terminal</span>
+        Dev Hub
+      </a>
+      <a href="../executive_analytics/index.html">
+        <span class="material-symbols-outlined">analytics</span>
+        Analytics
+      </a>
+      <a href="../inbox/index.html">
+        <span class="material-symbols-outlined">inbox</span>
+        Inbox
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+  <a href="../favorites/index.html">
+    <span class="material-symbols-outlined">star</span>
+    Favorites
+  </a>
+
+  <a href="../settings/index.html">
+    <span class="material-symbols-outlined">settings</span>
+    Settings
+  </a>
+
+  <a href="../profile_settings/index.html">
+    <span class="material-symbols-outlined">account_circle</span>
+    Profile
+  </a>
+  <!-- NEW: Connected Logout Link -->
+<a href="../enterprise_landing_page/index.html" id="logout-sidebar-btn" class="logout-link">
+  <span class="material-symbols-outlined">logout</span>
+  Logout
+</a>
+
+  <div class="user-card">
+    <div class="user-avatar">AR</div>
+    <div>
+      <h4>Alex Rivera</h4>
+      <p>Lead Architect</p>
+    </div>
+  </div>
+</div>
+    
+
+  </aside>
+
+  <header class="topbar">
+    <button class="menu-btn" id="menuBtn">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+
+    <div class="topbar-left">
+      <h1 id="wsOvTitle">Workspace Overview</h1>
+      <nav class="top-nav">
+        <a href="../workspace_dashboard/index.html">Dashboard</a>
+        <a href="#" class="active" id="wsOvCrumb">Workspace</a>
+      </nav>
+    </div>
+
+    <div class="topbar-actions">
+      <!-- Professional Notification Dropdown -->
+<div class="notif-wrapper" style="position: relative; display: inline-block;">
+    <button class="icon-btn" id="notif-trigger" type="button" style="position: relative; background: transparent; cursor: pointer; color: inherit;">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="notif-dot pulse" id="bell-dot"></span>
+    </button>
+
+    <div class="dropdown-panel" id="notif-menu">
+        <div class="notif-header">
+            <div class="notif-title-group">
+                <h3>Notifications</h3>
+                <span class="unread-badge" id="header-unread-count">6</span>
+            </div>
+            <button id="mark-all-read" class="mark-link">Mark all read</button>
+        </div>
+
+        <ul class="notif-list-container" id="notif-list">
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-blue">assignment_ind</span>
+                <div class="notif-info">
+                    <p class="notif-headline">Task Assigned</p>
+                    <p class="notif-sub">Sai assigned you "Implement Login API"</p>
+                    <span class="notif-moment">2 mins ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-red">notification_important</span>
+                <div class="notif-info">
+                    <p class="notif-headline">Deadline Warning <span class="tag-urgent">HIGH</span></p>
+                    <p class="notif-sub">Dashboard UI - Due Tomorrow, 11:59 PM</p>
+                    <span class="notif-moment">1 hour ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-cyan">alternate_email</span>
+                <div class="notif-info">
+                    <p class="notif-headline">@ Mention</p>
+                    <p class="notif-sub">Bhavani mentioned you in Project Alpha</p>
+                    <span class="notif-moment">3 hours ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+            <li class="notif-row unread">
+                <span class="material-symbols-outlined icon-orange">published_with_changes</span>
+                <div class="notif-info">
+                    <p class="notif-headline">Project Update</p>
+                    <p class="notif-sub">Authentication: Status set to Completed</p>
+                    <span class="notif-moment">5 hours ago</span>
+                </div>
+                <div class="dot-indicator"></div>
+            </li>
+        </ul>
+
+        <div class="notif-footer">
+            <button id="view-all-notifs">View all notifications</button>
+        </div>
+    </div>
+</div>
+<!-- Messages Dropdown -->
+    <div class="notif-wrapper">
+      <button class="icon-btn" id="msg-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+        <span class="material-symbols-outlined">forum</span>
+        <span class="notif-dot pulse bg-secondary" id="msg-dot"></span>
+      </button>
+
+      <div class="dropdown-panel msg-panel-width" id="msg-menu">
+        <div class="notif-header border-none pb-0">
+          <div class="notif-title-group">
+            <h3>Messages</h3>
+            <span class="unread-badge bg-secondary-alpha text-secondary" id="msg-unread-count">12</span>
+          </div>
+          <button id="mark-msgs-read" class="mark-link text-secondary">Mark all read</button>
+        </div>
+        
+        <div class="px-4 py-3">
+          <div class="msg-search-box">
+            <span class="material-symbols-outlined">search</span>
+            <input type="text" id="msg-search" placeholder="Search conversations...">
+          </div>
+        </div>
+
+        <div class="max-h-[380px] overflow-y-auto custom-scrollbar">
+          <!-- Pinned -->
+          <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Pinned</div>
+          <ul class="msg-list">
+            <li class="msg-item unread" data-name="Enterprise SaaS Team">
+              <div class="avatar-box bg-primary-strong">ET</div>
+              <div class="msg-body">
+                <div class="msg-top">
+                  <span class="msg-name">Enterprise SaaS Team</span>
+                  <span class="msg-time">10:45 AM</span>
+                </div>
+                <p class="msg-text">Alex: I've updated the Figma design...</p>
+                <div class="tag-mention">@MENTION</div>
+              </div>
+              <div class="dot-indicator bg-secondary"></div>
+            </li>
+          </ul>
+
+          <!-- Direct Messages -->
+          <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Direct Messages</div>
+          <ul class="msg-list">
+            <li class="msg-item unread" data-name="Sai Bhavani">
+              <div class="avatar-box">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSJl441Mhxjix1FWsEaKwCpCvqaBUDs69WGQERAGR_FZIqdbmLR-claoFayeYu3KCMglo2zS4bYq8RMvvMoXleEQFQoTT8QrPhSKRVJf4gpjiMUx5xFAMvkb0LqyMHXUFTO5M-8uVgKJ0zVIRWapcKhDH6XN9sZYTasQ82XEUJ3ysQFwTmIKenyDMDa9Vt-Er_b8VjftbuvupmrR3pTIKFRJfQ6aH6RUtoeUXqeE3gnvc6TPU6k4E8_g" alt="">
+                <span class="online-status status-online"></span>
+              </div>
+              <div class="msg-body">
+                <div class="msg-top">
+                  <span class="msg-name">Sai Bhavani</span>
+                  <span class="msg-time">2m ago</span>
+                </div>
+                <p class="msg-text typing-target">Can you review the Login API?</p>
+                <div class="read-receipt">✓✓ Read</div>
+              </div>
+              <div class="dot-indicator bg-secondary"></div>
+            </li>
+          </ul>
+        </div>
+        <div class="notif-footer">
+    <button id="view-all-messages" onclick="window.location.href='../messages/index.html'">
+        View all messages
+    </button>
+</div>
+      </div> <!-- Closes dropdown-panel (msg-menu) -->
+    </div> <!-- Closes messages notif-wrapper -->
+      <a href="../profile_settings/index.html" class="top-avatar-link" aria-label="Profile Settings">
+      <div class="avatar">A</div>
+      </a>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- =========================================================
+         WORKSPACE HEADER / INFO
+         ========================================================= -->
+    <section class="hero ws-ov-hero">
+      <div class="ws-ov-title-block">
+        <div class="workspace-icon purple" id="wsOvIcon">
+          <span class="material-symbols-outlined">rocket_launch</span>
+        </div>
+        <div>
+          <div class="ws-ov-name-row">
+            <h2 id="wsOvName">Loading workspace…</h2>
+            <span class="ws-archived-badge" id="wsOvArchivedBadge" style="display:none;">Archived</span>
+          </div>
+          <p id="wsOvMeta">—</p>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <button class="outline-btn" id="wsOvFavoriteBtn" type="button">
+          <span class="material-symbols-outlined">star</span>
+          <span id="wsOvFavoriteLabel">Favorite</span>
+        </button>
+        <button class="outline-btn" id="wsOvInviteBtn" type="button">
+          <span class="material-symbols-outlined">person_add</span>
+          Invite Members
+        </button>
+        <button class="outline-btn" id="wsOvSettingsBtn" type="button">
+          <span class="material-symbols-outlined">settings_suggest</span>
+          Workspace Settings
+        </button>
+        <button class="outline-btn" id="wsOvArchiveBtn" type="button">
+          <span class="material-symbols-outlined">archive</span>
+          <span id="wsOvArchiveLabel">Archive</span>
+        </button>
+        <button class="primary-btn" id="wsOvCreateProjectBtn" type="button">
+          <span class="material-symbols-outlined">add</span>
+          Create Project
+        </button>
+      </div>
+    </section>
+
+    <section class="dashboard-grid ws-ov-grid">
+      <!-- Left column: workspace info + stats + activity + announcements -->
+      <article class="card featured-card" style="grid-column: span 12;">
+        <div class="ws-stats-grid" id="wsOvStatsGrid">
+          <div class="ws-stat-card">
+            <span class="material-symbols-outlined">group</span>
+            <div><b id="wsOvStatMembers">0</b><small>Members</small></div>
+          </div>
+          <div class="ws-stat-card">
+            <span class="material-symbols-outlined">folder</span>
+            <div><b id="wsOvStatProjects">0</b><small>Projects</small></div>
+          </div>
+          <div class="ws-stat-card">
+            <span class="material-symbols-outlined">campaign</span>
+            <div><b id="wsOvStatAnnouncements">0</b><small>Announcements</small></div>
+          </div>
+          <div class="ws-stat-card">
+            <span class="material-symbols-outlined">person</span>
+            <div><b id="wsOvStatOwner">—</b><small>Owner</small></div>
+          </div>
+        </div>
+        <p class="ws-overview-desc" id="wsOvDesc" style="margin-top:16px;">No description provided.</p>
+        <div class="ws-overview-tags" id="wsOvTags" style="margin-top:10px;"></div>
+      </article>
+
+      <!-- Projects section -->
+      <article class="card" style="grid-column: span 8;">
+        <div class="ws-ov-section-header">
+          <h3>Projects</h3>
+          <span class="ws-archived-badge" id="wsOvProjectCountBadge">0 total</span>
+        </div>
+        <div class="ws-ov-projects-grid" id="wsOvProjectsGrid">
+          <!-- Rendered dynamically -->
+        </div>
+      </article>
+
+      <!-- Right column: Members / Activity / Announcements tabs -->
+      <article class="card" style="grid-column: span 4;">
+        <nav class="ws-overview-tabs" id="wsOvTabs" style="padding:0 0 14px;margin-bottom:14px;">
+          <button class="ws-tab active" data-tab="members">Members</button>
+          <button class="ws-tab" data-tab="activity">Activity</button>
+          <button class="ws-tab" data-tab="announcements">Updates</button>
+        </nav>
+
+        <section class="ws-tab-panel active" id="wsOvTab-members">
+          <form class="ws-invite-row" id="wsOvInviteForm">
+            <input type="email" id="wsOvInviteEmail" placeholder="teammate@company.com" required />
+            <select id="wsOvInviteRole">
+              <option value="Team Member">Team Member</option>
+              <option value="Project Manager">Project Manager</option>
+              <option value="Admin">Admin</option>
+              <option value="Viewer">Viewer</option>
+            </select>
+            <button type="submit" class="primary-btn">Invite</button>
+          </form>
+          <ul class="ws-member-list" id="wsOvMemberList"></ul>
+        </section>
+
+        <section class="ws-tab-panel" id="wsOvTab-activity">
+          <ul class="ws-activity-list" id="wsOvActivityList"></ul>
+        </section>
+
+        <section class="ws-tab-panel" id="wsOvTab-announcements">
+          <form class="ws-announcement-form" id="wsOvAnnouncementForm">
+            <input type="text" id="wsOvAnnouncementTitle" maxlength="150" placeholder="Announcement title" required />
+            <textarea id="wsOvAnnouncementBody" maxlength="2000" rows="2" placeholder="Write an update..." required></textarea>
+            <button type="submit" class="primary-btn">Post</button>
+          </form>
+          <ul class="ws-announcement-list" id="wsOvAnnouncementList"></ul>
+        </section>
+      </article>
+    </section>
+
+    <!-- Bottom spacer inside scroll viewport -->
+    <div class="h-16"></div>
+  </main>
+
+  <div class="toast" id="toast">Command palette opened</div>
+
+  <!-- =========================================================
+       CREATE PROJECT MODAL (reuses the Create-Workspace-style modal
+       pattern already used on the Workspace Dashboard)
+       ========================================================= -->
+  <div class="ws-modal-overlay" id="projModalOverlay">
+    <div class="ws-modal" role="dialog" aria-modal="true" aria-labelledby="projModalTitle">
+      <div class="ws-modal-header">
+        <h3 id="projModalTitle">Create Project</h3>
+        <button class="ws-modal-close" id="projModalCloseBtn" type="button" aria-label="Close">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form id="projForm" class="ws-modal-body">
+        <p class="ws-form-error" id="projFormError" style="display:none;"></p>
+
+        <div class="ws-field">
+          <label for="projNameInput">Project Name</label>
+          <input type="text" id="projNameInput" maxlength="120" placeholder="e.g. Migration Sprint" required />
+        </div>
+
+        <div class="ws-field">
+          <label for="projDescInput">Description</label>
+          <textarea id="projDescInput" maxlength="500" rows="3" placeholder="What is this project about?"></textarea>
+        </div>
+
+        <div class="ws-field-row">
+          <div class="ws-field">
+            <label>Project Icon</label>
+            <div class="ws-icon-picker" id="projIconPicker">
+              <button type="button" class="ws-icon-opt active" data-icon="tactic"><span class="material-symbols-outlined">tactic</span></button>
+              <button type="button" class="ws-icon-opt" data-icon="rocket_launch"><span class="material-symbols-outlined">rocket_launch</span></button>
+              <button type="button" class="ws-icon-opt" data-icon="design_services"><span class="material-symbols-outlined">design_services</span></button>
+              <button type="button" class="ws-icon-opt" data-icon="database"><span class="material-symbols-outlined">database</span></button>
+              <button type="button" class="ws-icon-opt" data-icon="terminal"><span class="material-symbols-outlined">terminal</span></button>
+            </div>
+          </div>
+          <div class="ws-field">
+            <label>Project Color</label>
+            <div class="ws-color-picker" id="projColorPicker">
+              <button type="button" class="ws-color-opt active" data-color="purple" style="--dot: var(--primary)"></button>
+              <button type="button" class="ws-color-opt" data-color="orange" style="--dot: var(--orange)"></button>
+              <button type="button" class="ws-color-opt" data-color="cyan" style="--dot: var(--cyan)"></button>
+              <button type="button" class="ws-color-opt" data-color="success" style="--dot: var(--success)"></button>
+              <button type="button" class="ws-color-opt" data-color="danger" style="--dot: var(--danger)"></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-field-row">
+          <div class="ws-field">
+            <label>Priority</label>
+            <div class="ws-segmented" id="projPrioritySegmented">
+              <button type="button" class="ws-segment" data-priority="Low">Low</button>
+              <button type="button" class="ws-segment active" data-priority="Medium">Medium</button>
+              <button type="button" class="ws-segment" data-priority="High">High</button>
+              <button type="button" class="ws-segment" data-priority="Critical">Critical</button>
+            </div>
+          </div>
+          <div class="ws-field">
+            <label for="projDueDate">Due Date</label>
+            <input type="date" id="projDueDate" />
+          </div>
+        </div>
+
+        <div class="ws-field">
+          <label for="projTagsInput">Tags</label>
+          <input type="text" id="projTagsInput" placeholder="Backend, Q3 (comma separated)" />
+        </div>
+
+        <div class="ws-field">
+          <label>Members</label>
+          <div class="ws-member-checklist" id="projMembersChecklist">
+            <!-- populated with this workspace's members -->
+          </div>
+          <small class="ws-field-hint">Only members of this workspace can be added to a project.</small>
+        </div>
+
+        <div class="ws-modal-footer">
+          <button type="button" class="outline-btn" id="projCancelBtn">Cancel</button>
+          <button type="submit" class="primary-btn" id="projSubmitBtn">
+            <span id="projSubmitLabel">Create Project</span>
+            <span class="ws-spinner" id="projSubmitSpinner" style="display:none;"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       EDIT WORKSPACE / SETTINGS MODAL (same fields as the Create
+       Workspace modal on the Dashboard, reused here for Settings)
+       ========================================================= -->
+  <div class="ws-modal-overlay" id="wsEditModalOverlay">
+    <div class="ws-modal" role="dialog" aria-modal="true" aria-labelledby="wsEditModalTitle">
+      <div class="ws-modal-header">
+        <h3 id="wsEditModalTitle">Workspace Settings</h3>
+        <button class="ws-modal-close" id="wsEditModalCloseBtn" type="button" aria-label="Close">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form id="wsEditForm" class="ws-modal-body">
+        <p class="ws-form-error" id="wsEditFormError" style="display:none;"></p>
+
+        <div class="ws-field">
+          <label for="wsEditNameInput">Workspace Name</label>
+          <input type="text" id="wsEditNameInput" maxlength="100" required />
+        </div>
+
+        <div class="ws-field">
+          <label for="wsEditDescInput">Description</label>
+          <textarea id="wsEditDescInput" maxlength="500" rows="3"></textarea>
+        </div>
+
+        <div class="ws-field-row">
+          <div class="ws-field">
+            <label>Workspace Icon</label>
+            <div class="ws-icon-picker" id="wsEditIconPicker">
+              <button type="button" class="ws-icon-opt active" data-icon="rocket_launch"><span class="material-symbols-outlined">rocket_launch</span></button>
+              <button type="button" class="ws-icon-opt" data-icon="design_services"><span class="material-symbols-outlined">design_services</span></button>
+              <button type="button" class="ws-icon-opt" data-icon="database"><span class="material-symbols-outlined">database</span></button>
+              <button type="button" class="ws-icon-opt" data-icon="terminal"><span class="material-symbols-outlined">terminal</span></button>
+              <button type="button" class="ws-icon-opt" data-icon="insights"><span class="material-symbols-outlined">insights</span></button>
+              <button type="button" class="ws-icon-opt" data-icon="groups"><span class="material-symbols-outlined">groups</span></button>
+            </div>
+          </div>
+          <div class="ws-field">
+            <label>Workspace Color</label>
+            <div class="ws-color-picker" id="wsEditColorPicker">
+              <button type="button" class="ws-color-opt active" data-color="purple" style="--dot: var(--primary)"></button>
+              <button type="button" class="ws-color-opt" data-color="orange" style="--dot: var(--orange)"></button>
+              <button type="button" class="ws-color-opt" data-color="cyan" style="--dot: var(--cyan)"></button>
+              <button type="button" class="ws-color-opt" data-color="success" style="--dot: var(--success)"></button>
+              <button type="button" class="ws-color-opt" data-color="danger" style="--dot: var(--danger)"></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-field">
+          <label>Visibility</label>
+          <div class="ws-segmented" id="wsEditTypeSegmented">
+            <button type="button" class="ws-segment active" data-type="Private">
+              <span class="material-symbols-outlined">lock</span> Private
+            </button>
+            <button type="button" class="ws-segment" data-type="Public">
+              <span class="material-symbols-outlined">public</span> Public
+            </button>
+          </div>
+        </div>
+
+        <div class="ws-field">
+          <label for="wsEditTagsInput">Tags</label>
+          <input type="text" id="wsEditTagsInput" placeholder="Infrastructure, DevOps (comma separated)" />
+        </div>
+
+        <div class="ws-modal-footer">
+          <button type="button" class="outline-btn ws-danger-btn" id="wsEditDeleteBtn">Delete Workspace</button>
+          <button type="button" class="outline-btn" id="wsEditCancelBtn">Cancel</button>
+          <button type="submit" class="primary-btn" id="wsEditSubmitBtn">
+            <span id="wsEditSubmitLabel">Save Changes</span>
+            <span class="ws-spinner" id="wsEditSubmitSpinner" style="display:none;"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../shared/api-client.js"></script>
+  <script src="../shared/notification-badge.js"></script>
+  <script src="../shared/search_panel.js"></script>
+  <script src="./script.js"></script>
+  <script src="../shared/enterprise-footer.js"></script>
+</body>
+</html>

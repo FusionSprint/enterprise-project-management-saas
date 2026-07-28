@@ -55,16 +55,79 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   if (loginForm) {
-    loginForm.addEventListener("submit", event => {
+    loginForm.addEventListener("submit", async event => {
       event.preventDefault();
-      window.location.href = "../executive_dashboard/index.html";
+
+      const emailInput = document.getElementById("loginEmail");
+      const passwordInput = document.getElementById("loginPassword");
+      const errorEl = document.getElementById("loginError");
+      const submitBtn = document.getElementById("loginSubmitBtn");
+
+      if (!emailInput || !passwordInput || !window.EPM_API) {
+        window.location.href = "../workspace_dashboard/index.html";
+        return;
+      }
+
+      errorEl.style.display = "none";
+      const originalLabel = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = "Signing in…";
+
+      try {
+        const result = await window.EPM_API.auth.login(
+          emailInput.value.trim(),
+          passwordInput.value
+        );
+        window.EPM_API.setToken(result.access_token);
+        window.location.href = "../workspace_dashboard/index.html";
+      } catch (err) {
+        errorEl.textContent = err.message || "Login failed. Please try again.";
+        errorEl.style.display = "block";
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalLabel;
+      }
     });
   }
 
   if (registerForm) {
-    registerForm.addEventListener("submit", event => {
+    registerForm.addEventListener("submit", async event => {
       event.preventDefault();
-      window.location.href = "../executive_dashboard/index.html";
+
+      const nameInput = document.getElementById("registerName");
+      const emailInput = document.getElementById("registerEmail");
+      const passwordInput = document.getElementById("registerPassword");
+      const errorEl = document.getElementById("registerError");
+      const submitBtn = document.getElementById("registerSubmitBtn");
+
+      if (!nameInput || !emailInput || !passwordInput || !window.EPM_API) {
+        window.location.href = "../workspace_dashboard/index.html";
+        return;
+      }
+
+      errorEl.style.display = "none";
+      const originalLabel = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = "Creating account…";
+
+      try {
+        await window.EPM_API.auth.register(
+          nameInput.value.trim(),
+          emailInput.value.trim(),
+          passwordInput.value
+        );
+        // Registration succeeded; log the new user in immediately.
+        const result = await window.EPM_API.auth.login(
+          emailInput.value.trim(),
+          passwordInput.value
+        );
+        window.EPM_API.setToken(result.access_token);
+        window.location.href = "../workspace_dashboard/index.html";
+      } catch (err) {
+        errorEl.textContent = err.message || "Registration failed. Please try again.";
+        errorEl.style.display = "block";
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalLabel;
+      }
     });
   }
 });

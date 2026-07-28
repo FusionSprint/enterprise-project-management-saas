@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developer Hub | Acme Corp</title>
+
+  <link rel="stylesheet" href="../shared/base.css" />
+  <link rel="stylesheet" href="./styles.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../shared/enterprise-footer.css">
+</head>
+
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-icon">A</div>
+      <div>
+        <h2>Acme Corp</h2>
+        <p>Enterprise</p>
+      </div>
+    </div>
+
+    <button class="search-box" id="searchBtn">
+    <span>Search</span>
+    <span class="material-symbols-outlined">search</span>
+  </button>
+
+    <nav class="side-nav">
+      <a href="../workspace_dashboard/index.html">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </a>
+
+      <a href="../project_overview/index.html">
+        <span class="material-symbols-outlined">tactic</span>
+        Projects
+      </a>
+
+      <a href="../team_management/index.html">
+        <span class="material-symbols-outlined">group</span>
+        Team
+      </a>
+
+      <a href="../meeting_scheduler/index.html">
+        <span class="material-symbols-outlined">video_call</span>
+        Meetings
+      </a>
+
+      <a href="./index.html" class="active">
+        <span class="material-symbols-outlined">terminal</span>
+        Dev Hub
+      </a>
+
+      <a href="../executive_analytics/index.html">
+        <span class="material-symbols-outlined">analytics</span>
+        Analytics
+      </a>
+      <a href="../inbox/index.html">
+        <span class="material-symbols-outlined">inbox</span>
+        Inbox
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a href="../favorites/index.html">
+        <span class="material-symbols-outlined">star</span>
+        Favorites
+      </a>
+
+      <a href="../settings/index.html">
+        <span class="material-symbols-outlined">settings</span>
+        Settings
+      </a>
+
+      <a href="../profile_settings/index.html">
+        <span class="material-symbols-outlined">account_circle</span>
+        Profile
+      </a>
+      <!-- NEW: Connected Logout Link -->
+<a href="../enterprise_landing_page/index.html" id="logout-sidebar-btn" class="logout-link">
+  <span class="material-symbols-outlined">logout</span>
+  Logout
+</a>
+
+      <div class="user-card">
+        <div class="user-avatar">AR</div>
+        <div>
+          <h4>Alex Rivera</h4>
+          <p>Lead Architect</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+  <button class="menu-btn" id="menuBtn">
+    <span class="material-symbols-outlined">menu</span>
+  </button>
+
+  <div class="topbar-left">
+    <h1>Dev Hub</h1>
+
+    <nav class="dev-top-nav">
+      <a href="#" class="dev-tab active" data-dev-view="overviewView">Overview</a>
+      <a href="#" class="dev-tab" data-dev-view="githubView">Connect to GitHub</a>
+    </nav>
+  </div>
+
+  <div class="topbar-actions">
+    <!-- Professional Notification Dropdown -->
+    <div class="notif-wrapper" style="position: relative; display: inline-block;">
+      <button class="icon-btn" id="notif-trigger" type="button" style="position: relative; background: transparent; cursor: pointer; color: inherit;">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="notif-dot pulse" id="bell-dot"></span>
+      </button>
+
+      <div class="dropdown-panel" id="notif-menu">
+        <div class="notif-header">
+          <div class="notif-title-group">
+            <h3>Notifications</h3>
+            <span class="unread-badge" id="header-unread-count">6</span>
+          </div>
+          <button id="mark-all-read" class="mark-link">Mark all read</button>
+        </div>
+
+        <ul class="notif-list-container" id="notif-list">
+          <li class="notif-row unread">
+            <span class="material-symbols-outlined icon-blue">assignment_ind</span>
+            <div class="notif-info">
+              <p class="notif-headline">Task Assigned</p>
+              <p class="notif-sub">Sai assigned you "Implement Login API"</p>
+              <span class="notif-moment">2 mins ago</span>
+            </div>
+            <div class="dot-indicator"></div>
+          </li>
+          <li class="notif-row unread">
+            <span class="material-symbols-outlined icon-red">notification_important</span>
+            <div class="notif-info">
+              <p class="notif-headline">Deadline Warning <span class="tag-urgent">HIGH</span></p>
+              <p class="notif-sub">Dashboard UI - Due Tomorrow, 11:59 PM</p>
+              <span class="notif-moment">1 hour ago</span>
+            </div>
+            <div class="dot-indicator"></div>
+          </li>
+          <li class="notif-row unread">
+            <span class="material-symbols-outlined icon-cyan">alternate_email</span>
+            <div class="notif-info">
+              <p class="notif-headline">@ Mention</p>
+              <p class="notif-sub">Bhavani mentioned you in Project Alpha</p>
+              <span class="notif-moment">3 hours ago</span>
+            </div>
+            <div class="dot-indicator"></div>
+          </li>
+          <li class="notif-row unread">
+            <span class="material-symbols-outlined icon-orange">published_with_changes</span>
+            <div class="notif-info">
+              <p class="notif-headline">Project Update</p>
+              <p class="notif-sub">Authentication: Status set to Completed</p>
+              <span class="notif-moment">5 hours ago</span>
+            </div>
+            <div class="dot-indicator"></div>
+          </li>
+        </ul>
+
+        <div class="notif-footer">
+          <button id="view-all-notifs">View all notifications</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Connect GitHub Button -->
+    <button class="github-top-btn" id="topConnectGithubBtn">
+      <span class="material-symbols-outlined">link</span>
+      Connect GitHub
+    </button>
+
+    <!-- Messages Dropdown -->
+    <div class="notif-wrapper">
+      <button class="icon-btn" id="msg-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+        <span class="material-symbols-outlined">forum</span>
+        <span class="notif-dot pulse bg-secondary" id="msg-dot"></span>
+      </button>
+
+      <div class="dropdown-panel msg-panel-width" id="msg-menu">
+        <div class="notif-header border-none pb-0">
+          <div class="notif-title-group">
+            <h3>Messages</h3>
+            <span class="unread-badge bg-secondary-alpha text-secondary" id="msg-unread-count">12</span>
+          </div>
+          <button id="mark-msgs-read" class="mark-link text-secondary">Mark all read</button>
+        </div>
+        
+        <div class="px-4 py-3">
+          <div class="msg-search-box">
+            <span class="material-symbols-outlined">search</span>
+            <input type="text" id="msg-search" placeholder="Search conversations...">
+          </div>
+        </div>
+
+        <div class="max-h-[380px] overflow-y-auto custom-scrollbar">
+          <!-- Pinned -->
+          <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Pinned</div>
+          <ul class="msg-list">
+            <li class="msg-item unread" data-name="Enterprise SaaS Team">
+              <div class="avatar-box bg-primary-strong">ET</div>
+              <div class="msg-body">
+                <div class="msg-top">
+                  <span class="msg-name">Enterprise SaaS Team</span>
+                  <span class="msg-time">10:45 AM</span>
+                </div>
+                <p class="msg-text">Alex: I've updated the Figma design...</p>
+                <div class="tag-mention">@MENTION</div>
+              </div>
+              <div class="dot-indicator bg-secondary"></div>
+            </li>
+          </ul>
+
+          <!-- Direct Messages -->
+          <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Direct Messages</div>
+          <ul class="msg-list">
+            <li class="msg-item unread" data-name="Sai Bhavani">
+              <div class="avatar-box">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSJl441Mhxjix1FWsEaKwCpCvqaBUDs69WGQERAGR_FZIqdbmLR-claoFayeYu3KCMglo2zS4bYq8RMvvMoXleEQFQoTT8QrPhSKRVJf4gpjiMUx5xFAMvkb0LqyMHXUFTO5M-8uVgKJ0zVIRWapcKhDH6XN9sZYTasQ82XEUJ3ysQFwTmIKenyDMDa9Vt-Er_b8VjftbuvupmrR3pTIKFRJfQ6aH6RUtoeUXqeE3gnvc6TPU6k4E8_g" alt="">
+                <span class="online-status status-online"></span>
+              </div>
+              <div class="msg-body">
+                <div class="msg-top">
+                  <span class="msg-name">Sai Bhavani</span>
+                  <span class="msg-time">2m ago</span>
+                </div>
+                <p class="msg-text typing-target">Can you review the Login API?</p>
+                <div class="read-receipt">✓✓ Read</div>
+              </div>
+              <div class="dot-indicator bg-secondary"></div>
+            </li>
+          </ul>
+        </div>
+        <div class="notif-footer">
+    <button id="view-all-messages" onclick="window.location.href='../messages/index.html'">
+        View all messages
+    </button>
+</div>
+      </div> <!-- Closes dropdown-panel (msg-menu) -->
+    </div> <!-- Closes messages notif-wrapper -->
+
+    <!-- Top Avatar (Now placed correctly inside the topbar-actions) -->
+     <a href="../profile_settings/index.html" class="top-avatar-link" aria-label="Profile Settings">
+    <div class="top-avatar">A</div>
+     </a>
+  </div> <!-- Closes topbar-actions -->
+</header>
+
+    <section class="dev-page">
+      <section class="dev-view active" id="overviewView">
+        <section class="repo-stats-grid">
+          <article class="dev-card repo-health-card">
+            <div class="repo-head">
+              <div>
+                <p class="eyebrow">Repository</p>
+                <h2>
+                  <span class="material-symbols-outlined">account_tree</span>
+                  acme-core / monolith
+                </h2>
+              </div>
+
+              <span class="prod-badge">
+                <i></i>
+                Production
+              </span>
+            </div>
+
+            <div class="health-bottom">
+              <div>
+                <p>Health Score</p>
+                <h3>98.4%</h3>
+              </div>
+
+              <div class="mini-bars">
+                <span style="height: 42%"></span>
+                <span style="height: 58%"></span>
+                <span style="height: 48%"></span>
+                <span style="height: 78%"></span>
+                <span style="height: 88%"></span>
+                <span style="height: 100%"></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="dev-card metric-card">
+            <div class="metric-top">
+              <span class="material-symbols-outlined blue-icon">call_merge</span>
+              <small>+12% vs last week</small>
+            </div>
+            <h3>24</h3>
+            <p>Open Pull Requests</p>
+          </article>
+
+          <article class="dev-card metric-card">
+            <div class="metric-top">
+              <span class="material-symbols-outlined orange-icon">bug_report</span>
+              <small>0 Critical</small>
+            </div>
+            <h3>8</h3>
+            <p>Active Issues</p>
+          </article>
+        </section>
+
+        <section class="dev-main-grid">
+          <div class="dev-left">
+            <section class="branch-section">
+              <div class="section-head">
+                <h3>Active Branches</h3>
+                <button>View all</button>
+              </div>
+
+              <div class="branch-grid">
+                <article class="branch-card">
+                  <div>
+                    <span class="material-symbols-outlined">fork_right</span>
+                    <section>
+                      <h4>feat/auth-v2-redesign</h4>
+                      <p>Updated 2m ago by Sarah J.</p>
+                    </section>
+                  </div>
+                  <b class="ahead-badge">Ahead: 4</b>
+                </article>
+
+                <article class="branch-card">
+                  <div>
+                    <span class="material-symbols-outlined">fork_right</span>
+                    <section>
+                      <h4>fix/sidebar-overlap</h4>
+                      <p>Updated 15m ago by Alex K.</p>
+                    </section>
+                  </div>
+                  <b class="stale-badge">Stale</b>
+                </article>
+              </div>
+            </section>
+
+            <section class="dev-card commits-card">
+              <div class="commit-head">
+                <h3>Recent Commits</h3>
+                <div>
+                  <button id="refreshCommitsBtn">
+                    <span class="material-symbols-outlined">refresh</span>
+                  </button>
+                  <button>
+                    <span class="material-symbols-outlined">more_vert</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="commit-list">
+                <article class="commit-row">
+                  <div class="commit-line">
+                    <i class="active-dot"></i>
+                    <span></span>
+                  </div>
+
+                  <div class="commit-content">
+                    <div>
+                      <code>a8f9c2d</code>
+                      <h4>refactor: optimize data fetching for dashboard cards</h4>
+                    </div>
+
+                    <p>
+                      <span class="mini-avatar">MC</span>
+                      m_chen <b>•</b> main <b>•</b> Verified
+                    </p>
+                  </div>
+
+                  <button class="browse-btn">Browse</button>
+                </article>
+
+                <article class="commit-row">
+                  <div class="commit-line">
+                    <i></i>
+                    <span></span>
+                  </div>
+
+                  <div class="commit-content">
+                    <div>
+                      <code>e12b704</code>
+                      <h4>docs: update api reference for v3 authentication</h4>
+                    </div>
+
+                    <p>
+                      <span class="mini-avatar">SJ</span>
+                      sarah_j <b>•</b> docs-updates <b>•</b> 12h ago
+                    </p>
+                  </div>
+
+                  <button class="browse-btn">Browse</button>
+                </article>
+
+                <article class="commit-row">
+                  <div class="commit-line">
+                    <i></i>
+                  </div>
+
+                  <div class="commit-content">
+                    <div>
+                      <code>7d2e4a1</code>
+                      <h4>fix: resolve sidebar z-index collision on mobile</h4>
+                    </div>
+
+                    <p>
+                      <span class="mini-avatar">DA</span>
+                      dev_alex <b>•</b> fix/ui-glitch <b>•</b> Yesterday
+                    </p>
+                  </div>
+
+                  <button class="browse-btn">Browse</button>
+                </article>
+              </div>
+            </section>
+          </div>
+
+          <aside class="dev-right">
+            <section class="dev-card deployment-card">
+              <div class="deploy-head">
+                <div>
+                  <i></i>
+                  <h3>Deployment Status</h3>
+                </div>
+                <span>Live</span>
+              </div>
+
+              <div class="terminal-box" id="terminalBox">
+                <p><span>14:02:11.45</span> Starting build...</p>
+                <p><span>14:02:13.12</span> Checking for cached dependencies...</p>
+                <p><span>14:02:15.88</span> Dependency cache found. Skipping install.</p>
+                <p><span>14:02:18.01</span> Running <b>next build</b></p>
+                <p><span>14:02:44.23</span> Successfully compiled 143 pages.</p>
+                <p class="success-log"><span>14:02:45.90</span> Build completed successfully.</p>
+                <p><span>14:02:46.12</span> Deploying to <u>acme.vercel.app</u></p>
+
+                <div class="production-ready">
+                  <div>
+                    <span class="material-symbols-outlined">cloud_done</span>
+                  </div>
+                  <section>
+                    <h4>Production Ready</h4>
+                    <p>Deployed 2m ago via GitHub Actions</p>
+                  </section>
+                </div>
+              </div>
+
+              <div class="build-history">
+                <h4>Build History</h4>
+
+                <div>
+                  <span class="history-green"></span>
+                  <b>#1442</b>
+                  <p>4h ago</p>
+                  <i class="material-symbols-outlined success-icon">check_circle</i>
+                </div>
+
+                <div>
+                  <span class="history-red"></span>
+                  <b>#1441</b>
+                  <p>8h ago</p>
+                  <i class="material-symbols-outlined danger-icon">error</i>
+                </div>
+
+                <div>
+                  <span class="history-green"></span>
+                  <b>#1440</b>
+                  <p>Yesterday</p>
+                  <i class="material-symbols-outlined success-icon">check_circle</i>
+                </div>
+              </div>
+            </section>
+
+            <section class="dev-card api-card">
+              <h3>API Performance</h3>
+
+              <div class="api-metric">
+                <div>
+                  <span>Average Latency</span>
+                  <b>124ms</b>
+                </div>
+                <div class="api-track">
+                  <span style="width: 65%"></span>
+                </div>
+              </div>
+
+              <div class="api-metric">
+                <div>
+                  <span>Error Rate</span>
+                  <b class="success-text">0.04%</b>
+                </div>
+                <div class="api-track">
+                  <span class="green-fill" style="width: 5%"></span>
+                </div>
+              </div>
+            </section>
+          </aside>
+        </section>
+      </section>
+
+      <section class="dev-view" id="githubView">
+        <div class="github-layout">
+          <article class="dev-card github-hero">
+            <div class="github-icon">
+              <span class="material-symbols-outlined">hub</span>
+            </div>
+
+            <p class="eyebrow">GitHub Integration</p>
+            <h2>Connect and open your GitHub repository</h2>
+            <p>
+              Enter your repository URL and GitHub Personal Access Token. After validation,
+              this page will open your GitHub repository in a new tab.
+            </p>
+
+            <div class="github-form">
+              <label>
+                <span>GitHub Repository URL</span>
+                <input
+                  type="url"
+                  id="githubUrlInput"
+                  placeholder="https://github.com/username/repository"
+                />
+              </label>
+
+              <label>
+                <span>Personal Access Token</span>
+                <input
+                  type="password"
+                  id="githubTokenInput"
+                  placeholder="Paste your GitHub PAT"
+                />
+              </label>
+
+              <button id="connectGithubBtn">
+                <span class="material-symbols-outlined">open_in_new</span>
+                Connect & Open GitHub
+              </button>
+
+              <p class="github-note">
+                Your PAT is only checked in the browser demo. It is not sent inside the repository URL.
+              </p>
+            </div>
+          </article>
+
+          <aside class="github-side">
+            <article class="dev-card integration-checklist">
+              <h3>What will be connected?</h3>
+
+              <div>
+                <span class="material-symbols-outlined">check_circle</span>
+                <section>
+                  <h4>Repository Activity</h4>
+                  <p>Track commits, branches, contributors, and repository updates.</p>
+                </section>
+              </div>
+
+              <div>
+                <span class="material-symbols-outlined">check_circle</span>
+                <section>
+                  <h4>Pull Requests</h4>
+                  <p>Monitor PR status, review queue, and merge activity.</p>
+                </section>
+              </div>
+
+              <div>
+                <span class="material-symbols-outlined">check_circle</span>
+                <section>
+                  <h4>CI/CD Deployments</h4>
+                  <p>View build logs, deployment health, and production history.</p>
+                </section>
+              </div>
+
+              <div>
+                <span class="material-symbols-outlined">check_circle</span>
+                <section>
+                  <h4>Issue Tracking</h4>
+                  <p>See active issues, bug severity, and sprint blockers.</p>
+                </section>
+              </div>
+            </article>
+
+            <article class="dev-card connected-preview" id="connectedPreview">
+              <h3>Connection Status</h3>
+              <p id="githubStatusText">No repository connected yet.</p>
+              <span class="status-pill disconnected">Disconnected</span>
+            </article>
+          </aside>
+        </div>
+      </section>
+      <!-- Unified Enterprise Footer (Custom CSS Styled) -->
+      <footer class="enterprise-footer">
+        <div class="footer-grid">
+          
+          <!-- Col 1: Brand & Live Status Indicator -->
+          <div class="footer-col brand-col">
+            <div class="footer-brand">
+              <div class="brand-icon-box">A</div>
+              <div class="brand-text-box">
+                <h4>Acme Corp</h4>
+                <p>Enterprise Engine</p>
+              </div>
+            </div>
+            <p class="brand-desc">Simplifying collaborative developer workflows and deep enterprise operations analytics.</p>
+            
+            <!-- Live Status Pulsing Indicator -->
+            <div class="status-badge">
+              <span class="status-pulse-container">
+                <span class="pulse-ring"></span>
+                <span class="pulse-dot"></span>
+              </span>
+              <span class="status-text">All Systems Operational</span>
+            </div>
+          </div>
+
+          <!-- Col 2: Engineering Blogs -->
+          <div class="footer-col links-col">
+            <h4>Engineering Blogs</h4>
+            <ul>
+              <li>
+                <a href="#">SSO Sharding Best Practices</a>
+              </li>
+              <li>
+                <a href="#">Next.js Performance tuning</a>
+              </li>
+              <li>
+                <a href="#">MongoDB vs PostgreSQL at Scale</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Support & Contact Details -->
+          <div class="footer-col links-col">
+            <h4>Support & Contacts</h4>
+            <ul class="contact-list">
+              <li>
+                <span class="material-symbols-outlined">mail</span>
+                <span>ops@acme.corp</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">phone_in_talk</span>
+                <span>+1 (800) 555-ACME</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">support_agent</span>
+                <a href="#">Submit Incident Ticket</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 4: Newsletter Sign-up -->
+          <div class="footer-col newsletter-col">
+            <h4>Developer Broadcasts</h4>
+            <p class="newsletter-desc">Subscribe to get notified on API patch versions and downtime warnings.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); if(typeof triggerToast === 'function') { triggerToast('Subscribed to broadcasts successfully!'); } else if (typeof showToast === 'function') { showToast('Subscribed successfully!'); }">
+              <input type="email" placeholder="dev@acme.corp" required autocomplete="off">
+              <button type="submit">JOIN</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Divider line -->
+        <div class="footer-divider"></div>
+
+        <!-- Bottom Metadata Section -->
+        <div class="footer-bottom">
+          <div class="copyright-section">
+            <span>&copy; 2026 Acme Corp. All rights reserved.</span>
+            <span class="version-tag">v2.4.2-stable</span>
+          </div>
+          
+          <!-- Keyboard shortcuts visual helper -->
+          <div class="shortcut-section">
+            <span>Search Shortcuts:</span>
+            <kbd>Ctrl</kbd>
+            <span>+</span>
+            <kbd>K</kbd>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Bottom spacer inside scroll viewport -->
+      <div class="h-16"></div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop hidden" id="settings-interactive-modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-header">
+        <h3 id="modal-title">Dialog</h3>
+        <button class="modal-close-btn" id="modal-close-btn" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body-content"></div>
+      <div class="modal-actions">
+        <button class="modal-action secondary hidden" id="modal-action-cancel" type="button">Cancel</button>
+        <button class="modal-action primary hidden" id="modal-action-confirm" type="button">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-panel hidden" id="search-panel" role="dialog" aria-label="Search workspace">
+    <div class="search-panel-top">
+      <span class="material-symbols-outlined">search</span>
+      <input type="text" id="search-panel-input" placeholder="Search tabs, sections or pages..." autocomplete="off" />
+      <button class="search-panel-close" id="search-panel-close" type="button" aria-label="Close search">×</button>
+    </div>
+    <div class="search-panel-results" id="search-panel-results"></div>
+  </div>
+
+  <div class="toast" id="toast">Action completed</div>
+
+  <script src="./script.js"></script>
+  <script src="../shared/enterprise-footer.js"></script>
+</body>
+</html>

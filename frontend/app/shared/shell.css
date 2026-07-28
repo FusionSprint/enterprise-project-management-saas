@@ -1,0 +1,301 @@
+/* =========================================================
+   SHARED SHELL.CSS
+   Design-system tokens + Topbar/Button/Card/Scrollbar rules
+   copied 1:1 from workspace_dashboard/styles.css so that
+   Favorites, Profile, Settings, Notification Center and
+   Messages render with the exact same header, buttons,
+   cards and typography as the Workspace Dashboard reference.
+
+   This file is linked AFTER each page's own styles.css and
+   uses !important (same strategy as shared/base.css) so it
+   can safely layer on top of existing page CSS without
+   requiring any of it to be deleted.
+   ========================================================= */
+
+:root {
+  --bg: #0f0f12;
+  --sidebar: #18181c;
+  --card: #1d1d22;
+  --card-soft: #24242b;
+  --border: #3b3a46;
+  --text: #f4f1ff;
+  --muted: #b8b4c9;
+  --muted-2: #8f8b9f;
+  --primary: #c4b8ff;
+  --primary-strong: #8b7cff;
+  --orange: #ffb083;
+  --cyan: #7bdcff;
+  --success: #9dffcb;
+  --danger: #ff8d8d;
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  --sidebar-width: 240px;
+}
+
+body {
+  font-family: "Inter", sans-serif !important;
+}
+
+.material-symbols-outlined {
+  vertical-align: middle;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+/* NOTE: position/top/left/right/width are intentionally NOT forced here.
+   Workspace Dashboard positions .topbar as position:fixed because its
+   sidebar/header/main are flow siblings of <body>. The synced pages use
+   a different (also valid) layout: header + main are flex children inside
+   a flex-column wrapper, so the header stays in-flow. Forcing fixed
+   positioning here would make it overlap the content below it. Each
+   page's own layout classes (or inline Tailwind utility classes) continue
+   to control positioning; this rule only standardizes the visual look. */
+.topbar {
+  height: 64px !important;
+  min-height: 64px !important;
+  background: rgba(15, 15, 18, 0.86) !important;
+  backdrop-filter: blur(18px) !important;
+  border-bottom: 1px solid var(--border) !important;
+  z-index: 40 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 24px !important;
+  flex-shrink: 0 !important;
+}
+
+.menu-btn {
+  display: none;
+  background: transparent !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+.topbar-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 32px !important;
+}
+
+.topbar-left h1,
+.topbar-left h2 {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: var(--text) !important;
+  margin: 0 !important;
+}
+
+.top-nav {
+  display: flex !important;
+  align-items: center !important;
+  gap: 26px !important;
+  height: 100% !important;
+}
+
+.top-nav a,
+.top-nav button,
+.top-tab {
+  position: relative !important;
+  color: var(--muted) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 23px 0 !important;
+  background: transparent !important;
+  border: none !important;
+  transition: color 0.25s ease !important;
+}
+
+.top-nav a:hover,
+.top-nav a.active,
+.top-nav button:hover,
+.top-nav button.active,
+.top-tab:hover,
+.top-tab.active {
+  color: var(--primary) !important;
+}
+
+.top-nav a::after,
+.top-nav button::after,
+.top-tab::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 2px !important;
+  background: var(--primary) !important;
+  border-radius: 10px !important;
+  opacity: 0 !important;
+  transform: scaleX(0.6) !important;
+  transition: opacity 0.25s ease, transform 0.25s ease !important;
+}
+
+.top-nav a.active::after,
+.top-nav button.active::after,
+.top-tab.active::after {
+  opacity: 1 !important;
+  transform: scaleX(1) !important;
+}
+
+.topbar-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.icon-btn {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  color: var(--muted) !important;
+  border: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: 0.25s ease !important;
+}
+
+.icon-btn:hover {
+  background: var(--card-soft) !important;
+  color: var(--text) !important;
+  transform: translateY(-2px) !important;
+}
+
+.new-task-btn,
+.primary-btn {
+  background: linear-gradient(135deg, var(--primary), #9d91ff) !important;
+  color: #10094a !important;
+  font-weight: 800 !important;
+  border: none !important;
+  border-radius: 9px !important;
+  padding: 12px 18px !important;
+  box-shadow: 0 12px 30px rgba(139, 124, 255, 0.25) !important;
+  transition: 0.25s ease !important;
+}
+
+.new-task-btn:hover,
+.primary-btn:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 18px 40px rgba(139, 124, 255, 0.35) !important;
+}
+
+.outline-btn {
+  color: var(--text) !important;
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 9px !important;
+  padding: 12px 18px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: 0.25s ease !important;
+}
+
+.outline-btn:hover {
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+  transform: translateY(-3px) !important;
+}
+
+.topbar-actions .top-avatar,
+.topbar-actions .avatar {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #7bdcff, #8b7cff) !important;
+  color: #111 !important;
+  display: grid !important;
+  place-items: center !important;
+  font-weight: 900 !important;
+  border: 2px solid var(--border) !important;
+  overflow: hidden !important;
+}
+
+.topbar-actions .top-avatar img,
+.topbar-actions .avatar img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015)) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.hover-card {
+  transition: 0.3s ease !important;
+  position: relative !important;
+}
+
+.hover-card:hover {
+  border-color: var(--primary) !important;
+  transform: translateY(-7px) !important;
+}
+
+/* =========================
+   SCROLLBAR + TOAST
+========================= */
+
+.custom-scrollbar::-webkit-scrollbar,
+.hide-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+
+.toast {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  background: var(--card-soft) !important;
+  border: 1px solid var(--primary) !important;
+  color: var(--text) !important;
+  padding: 14px 18px !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow) !important;
+  transform: translateY(30px) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: 0.3s ease !important;
+  z-index: 100 !important;
+}
+
+.toast.show {
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+}
+
+/* =========================
+   RESPONSIVE (matches Workspace Dashboard breakpoints)
+========================= */
+
+@media (max-width: 820px) {
+  .menu-btn {
+    display: block !important;
+  }
+
+  .top-nav {
+    display: none !important;
+  }
+
+  .topbar-actions .icon-btn {
+    display: none;
+  }
+
+  .new-task-btn {
+    display: none;
+  }
+}

@@ -18,7 +18,8 @@
     rel="stylesheet"
   />
 
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="../shared/enterprise-footer.css">
 </head>
 
 <body>
@@ -28,7 +29,7 @@
       <!-- LOGIN FORM -->
       <section class="form-panel login-form-panel">
         <div class="form-card">
-          <a href="../index.html" class="brand">
+          <a href="../enterprise_landing_page/index.html" class="brand">
             <span class="brand-icon material-symbols-outlined">terminal</span>
             <span>Project Management</span>
           </a>
@@ -50,7 +51,7 @@
           <form id="loginForm">
             <div class="input-group">
               <label>Email</label>
-              <input type="email" placeholder="name@company.com" required />
+              <input type="email" id="loginEmail" placeholder="name@company.com" required />
             </div>
 
             <div class="input-group">
@@ -60,7 +61,7 @@
               </div>
 
               <div class="password-box">
-                <input type="password" placeholder="••••••••" class="password-input" required />
+                <input type="password" id="loginPassword" placeholder="••••••••" class="password-input" required />
                 <button type="button" class="toggle-password">
                   <span class="material-symbols-outlined">visibility</span>
                 </button>
@@ -72,7 +73,9 @@
               <span>Remember me for 30 days</span>
             </label>
 
-            <button class="submit-btn" type="submit">
+            <p class="auth-error" id="loginError" style="display:none;color:#ff8d8d;font-size:12px;margin:-8px 0 4px;"></p>
+
+            <button class="submit-btn" type="submit" id="loginSubmitBtn">
               Login
               <span class="material-symbols-outlined">arrow_forward</span>
             </button>
@@ -110,25 +113,27 @@
           <form id="registerForm">
             <div class="input-group">
               <label>Full Name</label>
-              <input type="text" placeholder="Enter your name" required />
+              <input type="text" id="registerName" placeholder="Enter your name" required />
             </div>
 
             <div class="input-group">
               <label>Email</label>
-              <input type="email" placeholder="name@company.com" required />
+              <input type="email" id="registerEmail" placeholder="name@company.com" required />
             </div>
 
             <div class="input-group">
               <label>Password</label>
               <div class="password-box">
-                <input type="password" placeholder="Create password" class="password-input" required />
+                <input type="password" id="registerPassword" placeholder="Create password" class="password-input" required />
                 <button type="button" class="toggle-password">
                   <span class="material-symbols-outlined">visibility</span>
                 </button>
               </div>
             </div>
 
-            <button class="submit-btn" type="submit">
+            <p class="auth-error" id="registerError" style="display:none;color:#ff8d8d;font-size:12px;margin:-8px 0 4px;"></p>
+
+            <button class="submit-btn" type="submit" id="registerSubmitBtn">
               Register
               <span class="material-symbols-outlined">arrow_forward</span>
             </button>
@@ -204,10 +209,14 @@
           <button class="ghost-btn" id="showLoginBtn">Login instead</button>
           
         </div>
+        
       </section>
     </div>
   </main>
 
+  <script src="../shared/api-client.js"></script>
+  <script src="../shared/notification-badge.js"></script>
   <script src="./script.js"></script>
+  <script src="../shared/enterprise-footer.js"></script>
 </body>
 </html>

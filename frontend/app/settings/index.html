@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html class="dark external-style-001" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="../shared/tailwind.config.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Geist:wght@400;500;600&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+<!-- Inline script to prevent theme flicker on page load -->
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme_preference') || 'dark';
+    if (savedTheme === 'dark' || (savedTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  })();
+</script>
+
+<link href="../shared/base.css" rel="stylesheet"/>
+<link href="./styles.css" rel="stylesheet"/>
+<link href="../shared/shell.css" rel="stylesheet"/>
+
+<!-- Inline Tailwind Config updated to resolve colors from CSS variables with fallbacks -->
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-dim": "var(--surface-dim, #131314)",
+                "surface-container-lowest": "var(--surface-container-lowest, #0e0e0f)",
+                "inverse-surface": "var(--inverse-surface, #e5e2e3)",
+                "background": "var(--background, #131314)",
+                "on-primary-fixed-variant": "var(--on-primary-fixed-variant, #3323cc)",
+                "error-container": "var(--error-container, #93000a)",
+                "outline": "var(--outline, #918fa1)",
+                "on-primary-fixed": "var(--on-primary-fixed, #0f0069)",
+                "tertiary-fixed-dim": "var(--tertiary-fixed-dim, #ffb695)",
+                "primary-fixed": "var(--primary-fixed, #e2dfff)",
+                "surface-tint": "var(--surface-tint, #c3c0ff)",
+                "on-error-container": "var(--on-error-container, #ffdad6)",
+                "on-secondary": "var(--on-secondary, #00344d)",
+                "surface-bright": "var(--surface-bright, #3a393a)",
+                "on-background": "var(--on-background, #e5e2e3)",
+                "on-primary": "var(--on-primary, #1d00a5)",
+                "on-secondary-container": "var(--on-secondary-container, #00344e)",
+                "tertiary": "var(--tertiary, #ffb695)",
+                "on-tertiary": "var(--on-tertiary, #571f00)",
+                "on-tertiary-fixed": "var(--on-tertiary-fixed, #351000)",
+                "surface-container-highest": "var(--surface-container-highest, #353436)",
+                "secondary-fixed-dim": "var(--secondary-fixed-dim, #89ceff)",
+                "on-secondary-fixed-variant": "var(--on-secondary-fixed-variant, #004c6e)",
+                "primary": "var(--primary, #c3c0ff)",
+                "on-tertiary-container": "var(--on-tertiary-container, #ffd2be)",
+                "surface-variant": "var(--surface-variant, #353436)",
+                "surface-container": "var(--surface-container, #201f20)",
+                "outline-variant": "var(--outline-variant, #464555)",
+                "on-surface-variant": "var(--on-surface-variant, #c7c4d8)",
+                "tertiary-container": "var(--tertiary-container, #a44100)",
+                "secondary": "var(--secondary, #89ceff)",
+                "inverse-primary": "var(--inverse-primary, #4d44e3)",
+                "inverse-on-surface": "var(--inverse-on-surface, #313031)",
+                "tertiary-fixed": "var(--tertiary-fixed, #ffdbcc)",
+                "on-secondary-fixed": "var(--on-secondary-fixed, #001e2f)",
+                "surface-container-high": "var(--surface-container-high, #2a2a2b)",
+                "secondary-fixed": "var(--secondary-fixed, #c9e6ff)",
+                "primary-fixed-dim": "var(--primary-fixed-dim, #c3c0ff)",
+                "primary-container": "var(--primary-container, #4f46e5)",
+                "secondary-container": "var(--secondary-container, #00a2e6)",
+                "on-error": "var(--on-error, #690005)",
+                "on-tertiary-fixed-variant": "var(--on-tertiary-fixed-variant, #7b2f00)",
+                "on-surface": "var(--on-surface, #e5e2e3)",
+                "surface-container-low": "var(--surface-container-low, #1c1b1c)",
+                "on-primary-container": "var(--on-primary-container, #dad7ff)",
+                "surface": "var(--surface, #131314)",
+                "error": "var(--error, #ffb4ab)"
+        },
+        "spacing": {
+                "sidebar-width": "240px",
+                "gutter": "16px",
+                "md": "16px",
+                "sm": "8px",
+                "lg": "24px",
+                "xs": "4px"
+        }
+      },
+    },
+  }
+</script>
+  <link rel="stylesheet" href="../shared/enterprise-footer.css">
+</head>
+<body class="font-body-md text-body-md overflow-hidden bg-background">
+<!-- Shell Layout -->
+<div class="flex h-screen w-full bg-background overflow-hidden">
+<!-- SideNavBar: matched exactly to standard other tabs -->
+<aside class="sidebar" id="sidebar">
+<!-- Header Section -->
+<div class="brand">
+      <div class="brand-icon">A</div>
+      <div>
+        <h2>Acme Corp</h2>
+        <p>Enterprise</p>
+      </div>
+    </div>
+<button class="search-box" id="searchBtn">
+    <span>Search</span>
+    <span class="material-symbols-outlined">search</span>
+  </button>
+<nav class="side-nav">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high" href="../workspace_dashboard/index.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="">Dashboard</span>
+</a>
+<!-- Projects -->
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high" href="../project_overview/index.html">
+<span class="material-symbols-outlined" data-icon="tactic">tactic</span>
+<span class="">Projects</span>
+</a>
+<!-- Team -->
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high" href="../team_management/index.html">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="">Team</span>
+</a>
+<!-- Meetings -->
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high" href="../meeting_scheduler/index.html">
+<span class="material-symbols-outlined" data-icon="video_call">video_call</span>
+<span class="">Meetings</span>
+</a>
+<!-- Dev Hub -->
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high" href="../developer_hub/index.html">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="">Dev Hub</span>
+</a>
+<!-- Analytics -->
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high" href="../executive_analytics/index.html">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="">Analytics</span>
+</a>
+<a href="../inbox/index.html">
+        <span class="material-symbols-outlined">inbox</span>
+        Inbox
+      </a>
+</nav>
+<!-- Footer Section -->
+<div class="sidebar-footer">
+<a href="../favorites/index.html">
+<span class="material-symbols-outlined" data-icon="star">star</span>
+<span class="">Favorites</span>
+</a>
+<!-- Settings (ACTIVE) -->
+<a class="active" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="">Settings</span>
+</a>
+<a href="../profile_settings/index.html">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="">Profile</span>
+</a>
+<!-- NEW: Connected Logout Link -->
+<a href="../enterprise_landing_page/index.html" id="logout-sidebar-btn" class="logout-link">
+  <span class="material-symbols-outlined">logout</span>
+  Logout
+</a>
+<div class="user-card">
+<div class="user-avatar font-bold text-xs text-background">AR</div>
+<div class="ml-2">
+<h4 class="text-xs font-semibold text-on-surface leading-tight">Alex Rivera</h4>
+<p class="text-[10px] text-on-surface-variant leading-none uppercase">Lead Architect</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="flex-1 ml-sidebar-width flex flex-col h-full overflow-hidden" id="main-content-layout">
+<!-- TopNavBar: Authority - Shared Component JSON -->
+<header class="topbar flex justify-between items-center h-16 px-gutter w-full bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant z-30">
+<button class="menu-btn" id="menuBtn">
+  <span class="material-symbols-outlined">menu</span>
+</button>
+<div class="topbar-left flex items-center gap-8">
+<h2 class="font-headline-md text-headline-md font-semibold text-on-surface dark:text-on-surface">Settings</h2>
+<nav class="top-nav hidden md:flex gap-6 h-full">
+<button class="active flex items-center h-16 font-semibold cursor-pointer outline-none focus:outline-none" id="subnav-account">Account</button>
+<button class="flex items-center h-16 font-semibold cursor-pointer outline-none focus:outline-none" id="subnav-security">Security</button>
+<button class="flex items-center h-16 font-semibold cursor-pointer outline-none focus:outline-none" id="subnav-billing">Billing</button>
+<button class="flex items-center h-16 font-semibold cursor-pointer outline-none focus:outline-none" id="subnav-workspace">Workspace</button>
+</nav>
+</div>
+<div class="topbar-actions flex items-center gap-4">
+    <!-- Notification Bell Trigger Dropdown -->
+    <div class="notif-wrapper" style="position: relative;">
+        <button class="icon-btn text-on-surface-variant cursor-pointer hover:text-primary relative" id="notif-trigger">
+            <span class="material-symbols-outlined">notifications</span>
+            <span id="bell-dot" class="notif-dot pulse"></span>
+        </button>
+
+        <div class="dropdown-panel" id="notif-menu">
+            <div class="notif-header">
+                <div class="notif-title-group">
+                    <h3>Notifications</h3>
+                    <span class="unread-badge" id="header-unread-count">6</span>
+                </div>
+                <button id="mark-all-read" class="mark-link">Mark all read</button>
+            </div>
+
+            <ul class="notif-list-container" id="notif-list">
+                <li class="notif-row unread">
+                    <span class="material-symbols-outlined icon-blue">assignment_ind</span>
+                    <div class="notif-info">
+                        <p class="notif-headline">Task Assigned</p>
+                        <p class="notif-sub">Sai assigned you "Implement Login API"</p>
+                        <span class="notif-moment">2 mins ago</span>
+                    </div>
+                    <div class="dot-indicator"></div>
+                </li>
+                <li class="notif-row unread">
+                    <span class="material-symbols-outlined icon-red">notification_important</span>
+                    <div class="notif-info">
+                        <p class="notif-headline">Deadline Warning <span class="tag-urgent">HIGH</span></p>
+                        <p class="notif-sub">Dashboard UI - Due Tomorrow, 11:59 PM</p>
+                        <span class="notif-moment">1 hour ago</span>
+                    </div>
+                    <div class="dot-indicator"></div>
+                </li>
+                <li class="notif-row unread">
+                    <span class="material-symbols-outlined icon-cyan">alternate_email</span>
+                    <div class="notif-info">
+                        <p class="notif-headline">@ Mention</p>
+                        <p class="notif-sub">Bhavani mentioned you in Project Alpha</p>
+                        <span class="notif-moment">3 hours ago</span>
+                    </div>
+                    <div class="dot-indicator"></div>
+                </li>
+                <li class="notif-row unread">
+                    <span class="material-symbols-outlined icon-orange">published_with_changes</span>
+                    <div class="notif-info">
+                        <p class="notif-headline">Project Update</p>
+                        <p class="notif-sub">Authentication: Status set to Completed</p>
+                        <span class="notif-moment">5 hours ago</span>
+                    </div>
+                    <div class="dot-indicator"></div>
+                </li>
+            </ul>
+
+            <div class="notif-footer">
+                <button id="view-all-notifs" onclick="window.location.href='../notification_center/index.html'">View all notifications</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messages Icon Trigger Dropdown -->
+    <div class="notif-wrapper" style="position: relative;">
+        <button class="icon-btn text-on-surface-variant cursor-pointer hover:text-primary relative" id="msg-trigger">
+            <span class="material-symbols-outlined">forum</span>
+            <span id="msg-dot" class="notif-dot pulse bg-secondary"></span>
+        </button>
+        <div class="dropdown-panel msg-panel-width" id="msg-menu">
+          <div class="notif-header border-none pb-0">
+            <div class="notif-title-group">
+              <h3>Messages</h3>
+              <span class="unread-badge bg-secondary-alpha text-secondary" id="msg-unread-count">12</span>
+            </div>
+            <button id="mark-msgs-read" class="mark-link text-secondary">Mark all read</button>
+          </div>
+          
+          <div class="px-4 py-3">
+            <div class="msg-search-box">
+              <span class="material-symbols-outlined">search</span>
+              <input type="text" id="msg-search" placeholder="Search conversations...">
+            </div>
+          </div>
+
+          <div class="max-h-[380px] overflow-y-auto custom-scrollbar">
+            <!-- Pinned -->
+            <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Pinned</div>
+            <ul class="msg-list">
+              <li class="msg-item unread" data-name="Enterprise SaaS Team">
+                <div class="avatar-box bg-primary-strong">ET</div>
+                <div class="msg-body">
+                  <div class="msg-top">
+                    <span class="msg-name">Enterprise SaaS Team</span>
+                    <span class="msg-time">10:45 AM</span>
+                  </div>
+                  <p class="msg-text">Alex: I've updated the Figma design...</p>
+                  <div class="tag-mention">@MENTION</div>
+                </div>
+                <div class="dot-indicator bg-secondary"></div>
+              </li>
+            </ul>
+
+            <!-- Direct Messages -->
+            <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Direct Messages</div>
+            <ul class="msg-list">
+              <li class="msg-item unread" data-name="Sai Bhavani">
+                <div class="avatar-box">
+                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSJl441Mhxjix1FWsEaKwCpCvqaBUDs69WGQERAGR_FZIqdbmLR-claoFayeYu3KCMglo2zS4bYq8RMvvMoXleEQFQoTT8QrPhSKRVJf4gpjiMUx5xFAMvkb0LqyMHXUFTO5M-8uVgKJ0zVIRWapcKhDH6XN9sZYTasQ82XEUJ3ysQFwTmIKenyDMDa9Vt-Er_b8VjftbuvupmrR3pTIKFRJfQ6aH6RUtoeUXqeE3gnvc6TPU6k4E8_g" alt=""/>
+                  <span class="online-status status-online"></span>
+                </div>
+                <div class="msg-body">
+                  <div class="msg-top">
+                    <span class="msg-name">Sai Bhavani</span>
+                    <span class="msg-time">2m ago</span>
+                  </div>
+                  <p class="msg-text typing-target">Can you review the Login API?</p>
+                  <div class="read-receipt">✓✓ Read</div>
+                </div>
+                <div class="dot-indicator bg-secondary"></div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="notif-footer">
+            <button id="view-all-messages" onclick="window.location.href='../messages/index.html'">View all messages</button>
+          </div>
+        </div>
+    </div>
+
+<button class="icon-btn text-on-surface-variant cursor-pointer hover:text-primary" data-icon="help" id="header-help-btn">
+  <span class="material-symbols-outlined">help</span>
+</button>
+<a href="../profile_settings/index.html" class="top-avatar-link" aria-label="Profile Settings">
+<div class="top-avatar">A</div>
+</a>
+</div>
+</header>
+<!-- Scrollable Content -->
+<main class="flex-1 overflow-y-auto p-gutter hide-scrollbar w-full">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- LEFT COLUMN: Profile & Appearance -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Profile Card (Account Section) -->
+<section class="card bg-surface-container p-lg border border-outline-variant rounded-lg relative overflow-hidden transition-all duration-300" id="section-profile-card">
+<div class="flex flex-col md:flex-row items-start gap-8 relative z-10">
+<div class="relative group">
+<div class="w-24 h-24 rounded-xl border border-outline-variant overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover" id="profile-avatar-img" alt="Alex Rivera Profile Image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3ptAj699oxYUR75s59wY4QM1i11gkHkM2MZ0jqJmbRB1_Txim1or_CMD12jBx2wMaHpz7h9QAoDYVMA4rlhG_ygS9y3czD7bdUqAg2Lfu5PsMfw_eYrU7JMu-kYZ4R_AwGGCOG01pLAKfDWzZ7JvaSioTWQtIqasgwl-xoHeugcP2lqooz21Qg7Hb_BNV5C-Hgf-zvSWeaJI4qqLM64s-U8roPjHdYL2AEXLUCS7Ukn1kNKtXmval1A"/>
+</div>
+<button class="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center border-4 border-surface-container cursor-pointer transition-all duration-150 hover:scale-105" id="profile-edit-avatar-btn">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+<div class="flex-1 space-y-4">
+<div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">Alex Rivera</h3>
+<p class="text-on-surface-variant font-body-md">Principal Software Engineer • Cloud Architecture</p>
+</div>
+<!-- Badges with whitespace-nowrap applied to prevent awkward clipping wraps -->
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container-highest rounded text-label-md border border-outline-variant whitespace-nowrap">L7 Engineer</span>
+<span class="px-2 py-1 bg-surface-container-highest rounded text-label-md border border-outline-variant whitespace-nowrap">12 yrs Experience</span>
+<span class="px-2 py-1 bg-primary-container/20 text-primary border border-primary/30 rounded text-label-md whitespace-nowrap">Maintainer</span>
+</div>
+<div class="pt-4 border-t border-outline-variant/30 flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary external-style-003">terminal</span>
+<span class="text-label-md text-on-surface-variant">arivera-dev</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary external-style-004">hub</span>
+<span class="text-label-md text-on-surface-variant">Connected to GitHub</span>
+</div>
+</div>
+</div>
+<button class="primary-btn px-4 py-2 bg-primary text-on-primary font-semibold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2 cursor-pointer" id="share-profile-btn">
+<span class="material-symbols-outlined text-[18px]">share</span>
+                                    Public Profile
+                                </button>
+</div>
+<!-- Subtle grid pattern background -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none external-style-005"></div>
+</section>
+<!-- GitHub Integration & Experience Stats (Bento Grid) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="section-stats-grid">
+<div class="md:col-span-2 card bg-surface-container-low border border-outline-variant rounded-lg p-md flex flex-col gap-4 transition-all duration-300" id="github-activity-card">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">data_object</span>
+<h4 class="font-headline-md text-headline-md">GitHub Activity</h4>
+</div>
+<span class="text-label-md text-on-surface-variant cursor-pointer hover:text-primary transition-colors flex items-center gap-1" id="github-sync-btn">
+    <span class="material-symbols-outlined text-xs" id="sync-icon">sync</span>
+    <span id="sync-text">Last synced: 2m ago</span>
+</span>
+</div>
+<div class="flex-1 flex items-end gap-1 overflow-hidden h-24 pt-4" id="commit-bars-container">
+<!-- Simple bar chart visual -->
+<div class="flex-1 bg-primary/20 h-[60%] rounded-t-sm transition-all duration-300"></div>
+<div class="flex-1 bg-primary/40 h-[40%] rounded-t-sm transition-all duration-300"></div>
+<div class="flex-1 bg-primary/60 h-[80%] rounded-t-sm transition-all duration-300"></div>
+<div class="flex-1 bg-primary h-[100%] rounded-t-sm transition-all duration-300"></div>
+<div class="flex-1 bg-primary/30 h-[50%] rounded-t-sm transition-all duration-300"></div>
+<div class="flex-1 bg-primary/50 h-[70%] rounded-t-sm transition-all duration-300"></div>
+<div class="flex-1 bg-primary/80 h-[30%] rounded-t-sm transition-all duration-300"></div>
+<div class="flex-1 bg-primary/20 h-[60%] rounded-t-sm transition-all duration-300"></div>
+<div class="flex-1 bg-primary/40 h-[40%] rounded-t-sm transition-all duration-300"></div>
+<div class="flex-1 bg-primary/60 h-[80%] rounded-t-sm transition-all duration-300"></div>
+<div class="flex-1 bg-primary h-[90%] rounded-t-sm transition-all duration-300"></div>
+<div class="flex-1 bg-primary/30 h-[55%] rounded-t-sm transition-all duration-300"></div>
+</div>
+<div class="flex justify-between border-t border-outline-variant pt-3">
+<div class="text-center">
+<p class="text-label-md text-on-surface-variant">Commits</p>
+<p class="font-bold" id="commits-count">1,248</p>
+</div>
+<div class="text-center">
+<p class="text-label-md text-on-surface-variant">PRs Merged</p>
+<p class="font-bold">156</p>
+</div>
+<div class="text-center">
+<p class="text-label-md text-on-surface-variant">Repositories</p>
+<p class="font-bold">42</p>
+</div>
+</div>
+</div>
+<div class="card bg-surface-container p-md border border-outline-variant rounded-lg flex flex-col justify-between transition-all duration-300" id="current-project-card">
+<div class="space-y-1">
+<h4 class="font-headline-md text-headline-md">Current Project</h4>
+<p class="text-label-md text-on-surface-variant">Apollo-Core Engine</p>
+</div>
+<div class="py-4">
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-3/4"></div>
+</div>
+<div class="flex justify-between mt-2">
+<span class="text-label-md">75% Complete</span>
+<span class="text-label-md text-on-surface-variant">Due Oct 12</span>
+</div>
+</div>
+<button class="w-full py-2 bg-surface-container-highest border border-outline-variant rounded text-label-md font-semibold hover:bg-surface-container-high transition-colors cursor-pointer" id="open-board-btn">
+                                    Open Board
+                                </button>
+</div>
+</div>
+<!-- Appearance Settings -->
+<section class="space-y-4 transition-all duration-300" id="section-appearance">
+<div class="flex flex-col">
+<h3 class="font-headline-md text-headline-md">Appearance</h3>
+<p class="text-on-surface-variant text-body-md">Customize how the interface looks and feels.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Light Theme -->
+<div class="relative group cursor-pointer" id="theme-light">
+<div class="aspect-[16/10] bg-[#f8f9fa] border border-outline-variant rounded-lg p-2 flex flex-col gap-1 transition-all group-hover:border-primary">
+<div class="w-1/2 h-2 bg-gray-200 rounded"></div>
+<div class="flex-1 flex gap-2">
+<div class="w-1/4 bg-gray-100 rounded"></div>
+<div class="flex-1 bg-white border border-gray-200 rounded"></div>
+</div>
+</div>
+<div class="mt-2 flex items-center justify-between">
+<span class="text-label-md font-semibold text-on-surface dark:text-on-surface">Light</span>
+<div class="w-4 h-4 rounded-full border border-outline-variant flex items-center justify-center group-hover:border-primary"></div>
+</div>
+</div>
+<!-- Dark Theme (Active) -->
+<div class="relative group cursor-pointer" id="theme-dark">
+<div class="aspect-[16/10] bg-surface-container-lowest border-2 border-primary rounded-lg p-2 flex flex-col gap-1 shadow-lg shadow-primary/10">
+<div class="w-1/2 h-2 bg-surface-container-highest rounded"></div>
+<div class="flex-1 flex gap-2">
+<div class="w-1/4 bg-surface-container-high rounded"></div>
+<div class="flex-1 bg-surface-container border border-outline-variant rounded"></div>
+</div>
+</div>
+<div class="mt-2 flex items-center justify-between text-primary">
+<span class="text-label-md font-semibold">Dark</span>
+<div class="w-4 h-4 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[10px] external-style-006">check</span>
+</div>
+</div>
+</div>
+<!-- System Theme -->
+<div class="relative group cursor-pointer" id="theme-system">
+<div class="aspect-[16/10] bg-surface-container-low border border-outline-variant rounded-lg overflow-hidden flex transition-all group-hover:border-primary">
+<div class="w-1/2 h-full bg-[#f8f9fa]"></div>
+<div class="w-1/2 h-full bg-surface-container-lowest"></div>
+</div>
+<div class="mt-2 flex items-center justify-between font-semibold">
+<span class="text-label-md text-on-surface dark:text-on-surface">System</span>
+<div class="w-4 h-4 rounded-full border border-outline-variant flex items-center justify-center group-hover:border-primary"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- RIGHT COLUMN: Security, Billing, Workspace -->
+<aside class="lg:col-span-4 space-y-6">
+<!-- Security Status Card -->
+<div class="card bg-surface-container p-md border border-outline-variant rounded-lg space-y-4 transition-all duration-300" id="section-security-card">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+<h4 class="font-headline-md text-headline-md">Security</h4>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center p-3 bg-surface-container-low rounded border border-outline-variant">
+<div class="space-y-0.5">
+<p class="text-label-md font-semibold">Two-factor Auth</p>
+<p class="text-[10px] text-secondary font-semibold uppercase tracking-wider">Enabled</p>
+</div>
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+</div>
+<div class="flex justify-between items-center p-3 bg-surface-container-low rounded border border-outline-variant cursor-pointer hover:bg-surface-container-high transition-colors" id="security-keys-btn">
+<div class="space-y-0.5">
+<p class="text-label-md font-semibold">Security Keys</p>
+<p class="text-[10px] text-on-surface-variant">Yubikey connected</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+<div class="flex justify-between items-center p-3 bg-surface-container-low rounded border border-outline-variant cursor-pointer hover:bg-surface-container-high transition-colors" id="security-password-btn">
+<div class="space-y-0.5">
+<p class="text-label-md font-semibold">Password</p>
+<p class="text-[10px] text-on-surface-variant">Changed 3mo ago</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Billing UI Card -->
+<div class="card bg-surface-container p-md border border-outline-variant rounded-lg space-y-4 transition-all duration-300" id="section-billing-card">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">credit_card</span>
+<h4 class="font-headline-md text-headline-md">Billing Plan</h4>
+</div>
+<div class="p-3 bg-gradient-to-br from-primary-container/20 to-secondary-container/20 border border-primary/20 rounded-lg flex justify-between items-center transition-all duration-300 hover:border-primary cursor-pointer" id="billing-upgrade-btn">
+    <div class="space-y-1">
+        <p class="text-label-md font-semibold text-primary">Pro Enterprise Plan</p>
+        <p class="text-[11px] text-on-surface-variant leading-tight">$49 / user / month</p>
+    </div>
+    <span class="text-[10px] font-bold bg-primary/20 text-primary border border-primary/30 px-2 py-0.5 rounded-full" id="billing-badge">ACTIVE</span>
+</div>
+</div>
+<!-- Workspace & Project Specifics -->
+<div class="card bg-surface-container p-md border border-outline-variant rounded-lg space-y-4 transition-all duration-300" id="section-workspace-card">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-tertiary-container">settings_suggest</span>
+<h4 class="font-headline-md text-headline-md">Workspace</h4>
+</div>
+<div class="space-y-4">
+<div>
+<label class="text-label-md text-on-surface-variant mb-2 block">Default Branch</label>
+<div class="flex items-center gap-2 px-3 py-2 bg-surface-container-low border border-outline-variant rounded cursor-pointer hover:border-primary transition-colors relative" id="branch-dropdown-trigger">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+<span class="text-body-md font-code-sm" id="branch-name">main</span>
+<span class="material-symbols-outlined text-[18px] ml-auto">expand_more</span>
+<!-- Collapsible elements list -->
+<div class="hidden absolute top-full left-0 right-0 mt-1 bg-surface-container border border-outline-variant rounded shadow-lg overflow-hidden z-20" id="branch-dropdown-menu">
+    <div class="px-3 py-2 text-xs hover:bg-surface-container-highest cursor-pointer font-mono" data-branch="main">main</div>
+    <div class="px-3 py-2 text-xs hover:bg-surface-container-highest cursor-pointer font-mono" data-branch="dev">dev</div>
+    <div class="px-3 py-2 text-xs hover:bg-surface-container-highest cursor-pointer font-mono" data-branch="staging">staging</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="space-y-1">
+<p class="text-label-md font-semibold">Auto-save</p>
+<p class="text-[10px] text-on-surface-variant">Save progress in real-time</p>
+</div>
+<div class="w-10 h-6 bg-primary rounded-full relative flex items-center px-1 cursor-pointer transition-colors duration-200" id="toggle-autosave">
+<div class="w-4 h-4 bg-on-primary rounded-full absolute right-1 transition-all duration-200" id="dot-autosave"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="space-y-1">
+<p class="text-label-md font-semibold">Show Analytics</p>
+<p class="text-[10px] text-on-surface-variant">Public metrics on dashboard</p>
+</div>
+<div class="w-10 h-6 bg-surface-container-highest rounded-full relative flex items-center px-1 cursor-pointer transition-colors duration-200" id="toggle-analytics">
+<div class="w-4 h-4 bg-outline rounded-full absolute left-1 transition-all duration-200" id="dot-analytics"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Danger Zone -->
+<button class="w-full py-2 text-error bg-error/5 hover:bg-error/10 border border-error/20 rounded text-label-md font-semibold transition-all duration-150" id="archive-workspace-btn">
+                            Archive Workspace
+                        </button>
+</aside>
+</div>
+<!-- Unified Enterprise Footer (Custom CSS Styled) -->
+      <footer class="enterprise-footer">
+        <div class="footer-grid">
+          
+          <!-- Col 1: Brand & Live Status Indicator -->
+          <div class="footer-col brand-col">
+            <div class="footer-brand">
+              <div class="brand-icon-box">A</div>
+              <div class="brand-text-box">
+                <h4>Acme Corp</h4>
+                <p>Enterprise Engine</p>
+              </div>
+            </div>
+            <p class="brand-desc">Simplifying collaborative developer workflows and deep enterprise operations analytics.</p>
+            
+            <!-- Live Status Pulsing Indicator -->
+            <div class="status-badge">
+              <span class="status-pulse-container">
+                <span class="pulse-ring"></span>
+                <span class="pulse-dot"></span>
+              </span>
+              <span class="status-text">All Systems Operational</span>
+            </div>
+          </div>
+
+          <!-- Col 2: Engineering Blogs -->
+          <div class="footer-col links-col">
+            <h4>Engineering Blogs</h4>
+            <ul>
+              <li>
+                <a href="#">SSO Sharding Best Practices</a>
+              </li>
+              <li>
+                <a href="#">Next.js Performance tuning</a>
+              </li>
+              <li>
+                <a href="#">MongoDB vs PostgreSQL at Scale</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Support & Contact Details -->
+          <div class="footer-col links-col">
+            <h4>Support & Contacts</h4>
+            <ul class="contact-list">
+              <li>
+                <span class="material-symbols-outlined">mail</span>
+                <span>ops@acme.corp</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">phone_in_talk</span>
+                <span>+1 (800) 555-ACME</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">support_agent</span>
+                <a href="#">Submit Incident Ticket</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 4: Newsletter Sign-up -->
+          <div class="footer-col newsletter-col">
+            <h4>Developer Broadcasts</h4>
+            <p class="newsletter-desc">Subscribe to get notified on API patch versions and downtime warnings.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); if(typeof triggerToast === 'function') { triggerToast('Subscribed to broadcasts successfully!'); } else if (typeof showToast === 'function') { showToast('Subscribed successfully!'); }">
+              <input type="email" placeholder="dev@acme.corp" required autocomplete="off">
+              <button type="submit">JOIN</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Divider line -->
+        <div class="footer-divider"></div>
+
+        <!-- Bottom Metadata Section -->
+        <div class="footer-bottom">
+          <div class="copyright-section">
+            <span>&copy; 2026 Acme Corp. All rights reserved.</span>
+            <span class="version-tag">v2.4.2-stable</span>
+          </div>
+          
+          <!-- Keyboard shortcuts visual helper -->
+          <div class="shortcut-section">
+            <span>Search Shortcuts:</span>
+            <kbd>Ctrl</kbd>
+            <span>+</span>
+            <kbd>K</kbd>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Bottom spacer inside scroll viewport -->
+      <div class="h-16"></div>
+</main>
+</div>
+</div>
+
+<!-- Modal Dialog Component -->
+<div id="settings-interactive-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 animate-modal-in" role="dialog" aria-modal="true">
+    <div class="bg-surface-container-low border border-outline-variant rounded-xl w-96 shadow-xl overflow-hidden modal-panel-enter">
+        <div class="px-md h-12 border-b border-outline-variant flex items-center justify-between bg-surface-container-high/30">
+            <h3 id="modal-title" class="font-label-md uppercase tracking-wider text-on-surface-variant text-[11px]">Details</h3>
+            <button id="modal-close-btn" class="text-on-surface-variant hover:text-on-surface">
+                <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+        </div>
+        <div class="p-md space-y-4 text-xs" id="modal-body-content">
+            <!-- Modal Body Content goes here -->
+        </div>
+        <div class="p-md bg-surface-container-lowest/50 border-t border-outline-variant flex gap-sm">
+            <button id="modal-action-cancel" class="flex-1 py-2 bg-surface-container-high border border-outline-variant rounded-lg text-xs font-bold text-on-surface hover:bg-surface-container-highest transition-all">CLOSE</button>
+            <button id="modal-action-confirm" class="flex-1 py-2 bg-primary text-on-primary rounded-lg text-xs font-bold hover:opacity-90 transition-all">CONFIRM</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2" role="region" aria-live="polite"></div>
+
+<script src="../shared/search_panel.js"></script>
+<script src="./script.js"></script>
+  <script src="../shared/enterprise-footer.js"></script>
+</body>
+</html>

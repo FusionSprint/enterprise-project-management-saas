@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html class="dark external-style-001" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="../shared/tailwind.config.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Geist:wght@400;500;600&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+<link href="../shared/base.css" rel="stylesheet"/>
+<link href="./styles.css" rel="stylesheet"/>
+<link href="../shared/shell.css" rel="stylesheet"/>
+
+<!-- Inline Tailwind Config to compile custom background tokens and spacing -->
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-dim": "#131314",
+                "surface-container-lowest": "#0e0e0f",
+                "inverse-surface": "#e5e2e3",
+                "background": "#131314",
+                "on-primary-fixed-variant": "#3323cc",
+                "error-container": "#93000a",
+                "outline": "#918fa1",
+                "on-primary-fixed": "#0f0069",
+                "tertiary-fixed-dim": "#ffb695",
+                "primary-fixed": "#e2dfff",
+                "surface-tint": "#c3c0ff",
+                "on-error-container": "#ffdad6",
+                "on-secondary": "#00344d",
+                "surface-bright": "#3a393a",
+                "on-background": "#e5e2e3",
+                "on-primary": "#1d00a5",
+                "on-secondary-container": "#00344e",
+                "tertiary": "#ffb695",
+                "on-tertiary": "#571f00",
+                "on-tertiary-fixed": "#351000",
+                "surface-container-highest": "#353436",
+                "secondary-fixed-dim": "#89ceff",
+                "on-secondary-fixed-variant": "#004c6e",
+                "primary": "#c3c0ff",
+                "on-tertiary-container": "#ffd2be",
+                "surface-variant": "#353436",
+                "surface-container": "#201f20",
+                "outline-variant": "#464555",
+                "on-surface-variant": "#c7c4d8",
+                "tertiary-container": "#a44100",
+                "secondary": "#89ceff",
+                "inverse-primary": "#4d44e3",
+                "inverse-on-surface": "#313031",
+                "tertiary-fixed": "#ffdbcc",
+                "on-secondary-fixed": "#001e2f",
+                "surface-container-high": "#2a2a2b",
+                "secondary-fixed": "#c9e6ff",
+                "primary-fixed-dim": "#c3c0ff",
+                "primary-container": "#4f46e5",
+                "secondary-container": "#00a2e6",
+                "on-error": "#690005",
+                "on-tertiary-fixed-variant": "#7b2f00",
+                "on-surface": "#e5e2e3",
+                "surface-container-low": "#1c1b1c",
+                "on-primary-container": "#dad7ff",
+                "surface": "#131314",
+                "error": "#ffb4ab"
+        },
+        "spacing": {
+                "sidebar-width": "240px",
+                "gutter": "16px",
+                "md": "16px",
+                "sm": "8px",
+                "lg": "24px",
+                "xs": "4px"
+        }
+      },
+    },
+  }
+</script>
+  <link rel="stylesheet" href="../shared/enterprise-footer.css">
+</head>
+<body class="font-body-md text-body-md overflow-hidden bg-background">
+<!-- Shell Layout -->
+<div class="flex h-screen w-full bg-background overflow-hidden">
+<!-- SideNavBar Component: Fully Linked and Operational -->
+<aside class="sidebar" id="sidebar">
+<div class="brand">
+      <div class="brand-icon">A</div>
+      <div>
+        <h2>Acme Corp</h2>
+        <p>Enterprise</p>
+      </div>
+    </div>
+<button class="search-box" id="searchBtn">
+    <span>Search</span>
+    <span class="material-symbols-outlined">search</span>
+  </button>
+<nav class="side-nav">
+<a href="../workspace_dashboard/index.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a href="../project_overview/index.html">
+<span class="material-symbols-outlined" data-icon="tactic">tactic</span>
+<span>Projects</span>
+</a>
+<a href="../team_management/index.html">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Team</span>
+</a>
+<a href="../meeting_scheduler/index.html">
+<span class="material-symbols-outlined" data-icon="video_call">video_call</span>
+<span>Meetings</span>
+</a>
+<a href="../developer_hub/index.html">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span>Dev Hub</span>
+</a>
+<a href="../executive_analytics/index.html">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="active" href="#">
+<span class="material-symbols-outlined" data-icon="inbox">inbox</span>
+<span>Inbox</span>
+</a>
+</nav>
+<div class="sidebar-footer">
+<a href="../favorites/index.html">
+<span class="material-symbols-outlined" data-icon="star">star</span>
+<span>Favorites</span>
+</a>
+<a href="../settings/index.html">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a href="../profile_settings/index.html">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span>Profile</span>
+</a>
+<a href="../enterprise_landing_page/index.html" id="logout-sidebar-btn" class="logout-link">
+<span class="material-symbols-outlined">logout</span>
+Logout
+</a>
+<div class="user-card">
+<div class="user-avatar">AR</div>
+<div>
+<h4>Alex Rivera</h4>
+<p>Lead Architect</p>
+</div>
+</div>
+</div>
+</aside>
+
+<!-- Main Content Wrapper -->
+<div class="flex-1 ml-sidebar-width flex flex-col h-full overflow-hidden" id="main-content-layout">
+<!-- TopNavBar: Shared Component JSON (Contains Both Dropdown Triggers) -->
+<header class="topbar flex justify-between items-center h-16 px-gutter w-full bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant z-30">
+<button class="menu-btn" id="menuBtn">
+  <span class="material-symbols-outlined">menu</span>
+</button>
+<div class="topbar-left flex items-center gap-8">
+<h2 class="font-headline-md text-headline-md font-semibold text-on-surface">Inbox</h2>
+<nav class="top-nav hidden md:flex gap-6 h-full">
+<button class="active flex items-center h-16 font-semibold cursor-pointer outline-none focus:outline-none" id="inbox-filter-all">Unread</button>
+<button class="flex items-center h-16 font-semibold cursor-pointer outline-none focus:outline-none" id="inbox-filter-done">Done</button>
+<button class="flex items-center h-16 font-semibold cursor-pointer outline-none focus:outline-none" id="inbox-filter-snoozed">Snoozed</button>
+</nav>
+</div>
+<div class="topbar-actions flex items-center gap-4">
+    <!-- Notification Bell Trigger Dropdown -->
+    <div class="notif-wrapper" style="position: relative; display: inline-block;">
+        <button class="icon-btn text-on-surface-variant cursor-pointer hover:text-primary relative" id="notif-trigger">
+            <span class="material-symbols-outlined">notifications</span>
+            <span id="bell-dot" class="notif-dot pulse"></span>
+        </button>
+
+        <div class="dropdown-panel" id="notif-menu">
+            <div class="notif-header">
+                <div class="notif-title-group">
+                    <h3>Notifications</h3>
+                    <span class="unread-badge" id="header-unread-count">6</span>
+                </div>
+                <button id="mark-all-read" class="mark-link">Mark all read</button>
+            </div>
+
+            <ul class="notif-list-container" id="notif-list">
+                <li class="notif-row unread">
+                    <span class="material-symbols-outlined icon-blue">assignment_ind</span>
+                    <div class="notif-info">
+                        <p class="notif-headline">Task Assigned</p>
+                        <p class="notif-sub">Sai assigned you "Implement Login API"</p>
+                        <span class="notif-moment">2 mins ago</span>
+                    </div>
+                    <div class="dot-indicator"></div>
+                </li>
+                <li class="notif-row unread">
+                    <span class="material-symbols-outlined icon-red">notification_important</span>
+                    <div class="notif-info">
+                        <p class="notif-headline">Deadline Warning <span class="tag-urgent">HIGH</span></p>
+                        <p class="notif-sub">Dashboard UI - Due Tomorrow, 11:59 PM</p>
+                        <span class="notif-moment">1 hour ago</span>
+                    </div>
+                    <div class="dot-indicator"></div>
+                </li>
+                <li class="notif-row unread">
+                    <span class="material-symbols-outlined icon-cyan">alternate_email</span>
+                    <div class="notif-info">
+                        <p class="notif-headline">@ Mention</p>
+                        <p class="notif-sub">Bhavani mentioned you in Project Alpha</p>
+                        <span class="notif-moment">3 hours ago</span>
+                    </div>
+                    <div class="dot-indicator"></div>
+                </li>
+                <li class="notif-row unread">
+                    <span class="material-symbols-outlined icon-orange">published_with_changes</span>
+                    <div class="notif-info">
+                        <p class="notif-headline">Project Update</p>
+                        <p class="notif-sub">Authentication: Status set to Completed</p>
+                        <span class="notif-moment">5 hours ago</span>
+                    </div>
+                    <div class="dot-indicator"></div>
+                </li>
+            </ul>
+
+            <div class="notif-footer">
+                <button id="view-all-notifs" onclick="window.location.href='../notification_center/index.html'">View all notifications</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messages Icon Trigger Dropdown -->
+    <div class="notif-wrapper" style="position: relative; display: inline-block;">
+        <button class="icon-btn text-on-surface-variant cursor-pointer hover:text-primary relative" id="msg-trigger">
+            <span class="material-symbols-outlined">forum</span>
+            <span id="msg-dot" class="notif-dot pulse bg-secondary"></span>
+        </button>
+        <div class="dropdown-panel msg-panel-width" id="msg-menu">
+          <div class="notif-header border-none pb-0">
+            <div class="notif-title-group">
+              <h3>Messages</h3>
+              <span class="unread-badge bg-secondary-alpha text-secondary" id="msg-unread-count">12</span>
+            </div>
+            <button id="mark-msgs-read" class="mark-link text-secondary">Mark all read</button>
+          </div>
+          
+          <div class="px-4 py-3">
+            <div class="msg-search-box">
+              <span class="material-symbols-outlined">search</span>
+              <input type="text" id="msg-search" placeholder="Search conversations...">
+            </div>
+          </div>
+
+          <div class="max-h-[380px] overflow-y-auto custom-scrollbar">
+            <!-- Pinned -->
+            <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Pinned</div>
+            <ul class="msg-list">
+              <li class="msg-item unread" data-name="Enterprise SaaS Team">
+                <div class="avatar-box bg-primary-strong">ET</div>
+                <div class="msg-body">
+                  <div class="msg-top">
+                    <span class="msg-name">Enterprise SaaS Team</span>
+                    <span class="msg-time">10:45 AM</span>
+                  </div>
+                  <p class="msg-text">Alex: I've updated the Figma design...</p>
+                  <div class="tag-mention">@MENTION</div>
+                </div>
+                <div class="dot-indicator bg-secondary"></div>
+              </li>
+            </ul>
+
+            <!-- Direct Messages -->
+            <div class="px-4 py-1 text-[10px] font-bold text-muted-2 uppercase tracking-widest bg-surface-3/30">Direct Messages</div>
+            <ul class="msg-list">
+              <li class="msg-item unread" data-name="Sai Bhavani">
+                <div class="avatar-box">
+                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSJl441Mhxjix1FWsEaKwCpCvqaBUDs69WGQERAGR_FZIqdbmLR-claoFayeYu3KCMglo2zS4bYq8RMvvMoXleEQFQoTT8QrPhSKRVJf4gpjiMUx5xFAMvkb0LqyMHXUFTO5M-8uVgKJ0zVIRWapcKhDH6XN9sZYTasQ82XEUJ3ysQFwTmIKenyDMDa9Vt-Er_b8VjftbuvupmrR3pTIKFRJfQ6aH6RUtoeUXqeE3gnvc6TPU6k4E8_g" alt=""/>
+                  <span class="online-status status-online"></span>
+                </div>
+                <div class="msg-body">
+                  <div class="msg-top">
+                    <span class="msg-name">Sai Bhavani</span>
+                    <span class="msg-time">2m ago</span>
+                  </div>
+                  <p class="msg-text typing-target">Can you review the Login API?</p>
+                  <div class="read-receipt">✓✓ Read</div>
+                </div>
+                <div class="dot-indicator bg-secondary"></div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="notif-footer">
+            <button id="view-all-messages" onclick="window.location.href='../messages/index.html'">View all messages</button>
+          </div>
+        </div>
+    </div>
+
+<button class="icon-btn text-on-surface-variant cursor-pointer hover:text-primary" id="header-help-btn">
+  <span class="material-symbols-outlined">help</span>
+</button>
+<a href="../profile_settings/index.html" class="top-avatar-link" aria-label="Profile Settings">
+<div class="top-avatar">A</div>
+</a>
+</div>
+</header>
+
+<!-- Split-Screen Inbox Workspace Container (With custom-scrollbar to enable vertical page scrolling) -->
+<main class="flex-1 overflow-y-auto w-full flex flex-col bg-background p-gutter custom-scrollbar" id="pageContent">
+    <div class="inbox-split-workspace w-full flex gap-4 min-h-[380px] h-[calc(100vh-460px)] shrink-0 mb-8">
+        
+        <!-- Master Left Panel: Inbox item lists -->
+        <section class="inbox-list-pane w-[360px] bg-surface-container-low border border-outline-variant rounded-xl flex flex-col overflow-hidden shrink-0">
+            <div class="px-4 h-14 border-b border-outline-variant flex items-center shrink-0">
+                <div class="relative flex-1">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+                    <input type="text" id="inbox-search" placeholder="Search unread items..." class="w-full bg-surface-container-lowest border-outline-variant border rounded-lg pl-9 pr-4 py-1.5 text-xs outline-none text-on-surface transition-all focus:border-primary">
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-y-auto py-2 space-y-1 custom-scrollbar" id="inbox-list-viewport">
+                <!-- Dynamic rendering of EPM items -->
+            </div>
+        </section>
+
+        <!-- Detail Right Panel: Expanded Item Details -->
+        <section class="inbox-details-pane flex-1 bg-surface-container-low border border-outline-variant rounded-xl flex flex-col overflow-hidden animate-modal-in" id="inbox-item-details-box">
+            <!-- details are injected dynamically -->
+        </section>
+         
+    </div>
+
+    <!-- Unified Enterprise Footer (Pure Tailwind CSS Styled for Universal Compatibility) -->
+    <!-- Unified Enterprise Footer (Custom CSS Styled) -->
+      <footer class="enterprise-footer">
+        <div class="footer-grid">
+
+          <!-- Col 1: Brand & Live Status Indicator -->
+          <div class="footer-col brand-col">
+            <div class="footer-brand">
+              <div class="brand-icon-box">A</div>
+              <div class="brand-text-box">
+                <h4>Acme Corp</h4>
+                <p>Enterprise Engine</p>
+              </div>
+            </div>
+            <p class="brand-desc">Simplifying collaborative developer workflows and deep enterprise operations analytics.</p>
+
+            <!-- Live Status Pulsing Indicator -->
+            <div class="status-badge">
+              <span class="status-pulse-container">
+                <span class="pulse-ring"></span>
+                <span class="pulse-dot"></span>
+              </span>
+              <span class="status-text">All Systems Operational</span>
+            </div>
+          </div>
+
+          <!-- Col 2: Engineering Blogs -->
+          <div class="footer-col links-col">
+            <h4>Engineering Blogs</h4>
+            <ul>
+              <li>
+                <a href="#">SSO Sharding Best Practices</a>
+              </li>
+              <li>
+                <a href="#">Next.js Performance tuning</a>
+              </li>
+              <li>
+                <a href="#">MongoDB vs PostgreSQL at Scale</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Support & Contact Details -->
+          <div class="footer-col links-col">
+            <h4>Support & Contacts</h4>
+            <ul class="contact-list">
+              <li>
+                <span class="material-symbols-outlined">mail</span>
+                <span>ops@acme.corp</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">phone_in_talk</span>
+                <span>+1 (800) 555-ACME</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">support_agent</span>
+                <a href="#">Submit Incident Ticket</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 4: Newsletter Sign-up -->
+          <div class="footer-col newsletter-col">
+            <h4>Developer Broadcasts</h4>
+            <p class="newsletter-desc">Subscribe to get notified on API patch versions and downtime warnings.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); if(typeof triggerToast === 'function') { triggerToast('Subscribed to broadcasts successfully!'); } else if (typeof showToast === 'function') { showToast('Subscribed successfully!'); }">
+              <input type="email" placeholder="dev@acme.corp" required autocomplete="off">
+              <button type="submit">JOIN</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Divider line -->
+        <div class="footer-divider"></div>
+
+        <!-- Bottom Metadata Section -->
+        <div class="footer-bottom">
+          <div class="copyright-section">
+            <span>&copy; 2026 Acme Corp. All rights reserved.</span>
+            <span class="version-tag">v2.4.2-stable</span>
+          </div>
+
+          <!-- Keyboard shortcuts visual helper -->
+          <div class="shortcut-section">
+            <span>Search Shortcuts:</span>
+            <kbd>Ctrl</kbd>
+            <span>+</span>
+            <kbd>K</kbd>
+          </div>
+        </div>
+      </footer>
+
+    <!-- Bottom spacer inside scroll viewport -->
+    <div class="h-16"></div>
+</main>
+</div>
+</div>
+
+<!-- Modal Dialog Component -->
+<div id="settings-interactive-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50" role="dialog" aria-modal="true">
+    <div class="bg-surface-container-low border border-outline-variant rounded-xl w-96 shadow-xl overflow-hidden modal-panel-enter">
+        <div class="px-md h-12 border-b border-outline-variant flex items-center justify-between bg-surface-container-high/30">
+            <h3 id="modal-title" class="font-label-md uppercase tracking-wider text-on-surface-variant text-[11px]">Details</h3>
+            <button id="modal-close-btn" class="text-on-surface-variant hover:text-on-surface">
+                <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+        </div>
+        <div class="p-md space-y-4 text-xs" id="modal-body-content"></div>
+        <div class="p-md bg-surface-container-lowest/50 border-t border-outline-variant flex gap-sm">
+            <button id="modal-action-cancel" class="flex-1 py-2 bg-surface-container-high border border-outline-variant rounded-lg text-xs font-bold text-on-surface hover:bg-surface-container-highest transition-all">CLOSE</button>
+            <button id="modal-action-confirm" class="flex-1 py-2 bg-primary text-on-primary rounded-lg text-xs font-bold hover:opacity-90 transition-all">CONFIRM</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2" role="region" aria-live="polite"></div>
+<script src="../shared/search_panel.js"></script><script src="./script.js"></script>
+  <script src="../shared/enterprise-footer.js"></script>
+</body>
+</html>

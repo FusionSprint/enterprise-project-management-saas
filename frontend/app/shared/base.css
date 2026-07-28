@@ -1,3 +1,998 @@
-/* Shared project-level styles. Feature-specific CSS lives in each feature folder. */
-html { scroll-behavior: smooth; }
-* { box-sizing: border-box; }
+/* =========================================================
+   SHARED BASE.CSS
+   Common sidebar design for all pages
+   ========================================================= */
+
+html {
+  zoom: 100%;
+  scroll-behavior: smooth;
+  background: #111113;
+}
+
+body {
+  font-size: 95%;
+  background: #111113;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --base-sidebar-width: 240px;
+  --base-sidebar-bg: #1c1c1f;
+  --base-sidebar-active: #353338;
+  --base-sidebar-hover: #2a292e;
+  --base-border: #3c3a43;
+  --base-text: #f5f2ff;
+  --base-muted: #d0cbe0;
+  --base-muted-2: #9d97ad;
+  --base-primary: #bdb5ff;
+  --base-primary-strong: #6254ff;
+  --base-cyan: #7fd3ff;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: var(--base-sidebar-width) !important;
+  height: 100vh !important;
+  background: var(--base-sidebar-bg) !important;
+  border-right: 1px solid var(--base-border) !important;
+  padding: 24px 0 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  z-index: 100 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 0;
+}
+
+/* =========================
+   BRAND
+========================= */
+
+.brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  padding: 0 20px 26px !important;
+  margin: 0 !important;
+}
+
+.brand-icon {
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  border-radius: 6px !important;
+  background: #5d50f5 !important;
+  color: #ffffff !important;
+  display: grid !important;
+  place-items: center !important;
+  font-weight: 900 !important;
+  box-shadow: none !important;
+}
+
+.brand-icon .material-symbols-outlined {
+  font-size: 24px !important;
+  color: #ffffff !important;
+}
+
+.brand h2 {
+  margin: 0 !important;
+  color: var(--base-text) !important;
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.5px !important;
+}
+
+.brand p {
+  margin: 6px 0 0 !important;
+  color: var(--base-primary) !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-box,
+.search-btn {
+  width: calc(100% - 22px) !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  margin: 0 11px 30px !important;
+  padding: 0 18px !important;
+  border-radius: 5px !important;
+  border: 1px solid var(--base-border) !important;
+  background: #242427 !important;
+  color: var(--base-muted) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  box-shadow: none !important;
+  transition: 0.22s ease !important;
+}
+
+.search-box span,
+.search-btn span {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+
+.search-box small,
+.search-btn small {
+  color: var(--base-muted-2) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.search-box:hover,
+.search-btn:hover {
+  border-color: var(--base-primary) !important;
+  color: var(--base-text) !important;
+  transform: none !important;
+}
+
+/* =========================
+   SEARCH PANEL
+========================= */
+
+.search-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background: rgba(7, 7, 9, 0.86);
+  backdrop-filter: blur(10px);
+}
+
+.search-panel.hidden {
+  display: none;
+}
+
+.search-panel-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto 12px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: #1b1b1f;
+  border: 1px solid var(--base-border);
+}
+
+.search-panel-top input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--base-text);
+  font-size: 16px;
+}
+
+.search-panel-close {
+  border: 0;
+  background: transparent;
+  color: var(--base-muted);
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.search-panel-results {
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-result-item {
+  width: 100%;
+  border: 1px solid var(--base-border);
+  border-radius: 12px;
+  background: #1f1f24;
+  color: var(--base-text);
+  text-align: left;
+  padding: 12px 14px;
+  cursor: pointer;
+}
+
+.search-result-item:hover {
+  border-color: var(--base-primary);
+  background: #28282d;
+}
+
+.search-result-item .item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.search-result-item .item-main strong {
+  font-size: 15px;
+}
+
+.search-result-item .item-main span {
+  font-size: 12px;
+  color: var(--base-muted-2);
+}
+
+.search-empty {
+  padding: 14px;
+  border-radius: 12px;
+  background: #202026;
+  color: var(--base-muted);
+  text-align: center;
+}
+
+/* =========================
+   MAIN NAV
+========================= */
+
+.side-nav {
+  flex: 1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: block !important;
+}
+
+.side-nav a,
+.sidebar-bottom a,
+.sidebar-footer a {
+  position: relative !important;
+  width: calc(100% - 24px) !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  padding: 0 18px 0 20px !important;
+  margin: 2px 12px !important;
+  border-radius: 10px !important;
+  border: none !important;
+  background: transparent !important;
+  color: var(--base-muted) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+  overflow: hidden !important;
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), color 220ms ease, background-color 220ms ease, box-shadow 220ms ease !important;
+}
+
+.side-nav a .material-symbols-outlined,
+.sidebar-bottom a .material-symbols-outlined,
+.sidebar-footer a .material-symbols-outlined {
+  width: 22px !important;
+  min-width: 22px !important;
+  font-size: 22px !important;
+  color: inherit !important;
+}
+
+.side-nav a::after,
+.sidebar-bottom a::after,
+.sidebar-footer a::after {
+  display: none !important;
+}
+
+.side-nav a::before,
+.sidebar-bottom a::before,
+.sidebar-footer a::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 50% !important;
+  width: 3px !important;
+  height: 18px !important;
+  border-radius: 0 20px 20px 0 !important;
+  background: var(--base-primary) !important;
+  opacity: 0 !important;
+  transform: translateY(-50%) scaleY(0.8) !important;
+  transition: opacity 220ms ease, transform 220ms ease !important;
+}
+
+.side-nav a:hover,
+.sidebar-bottom a:hover,
+.sidebar-footer a:hover {
+  background: rgba(255, 255, 255, 0.035) !important;
+  color: var(--base-text) !important;
+  transform: translateX(2px) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+}
+
+.side-nav a.active,
+.sidebar-bottom a.active,
+.sidebar-footer a.active {
+  background: rgba(255, 255, 255, 0.045) !important;
+  color: var(--base-text) !important;
+  border: none !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+}
+
+.side-nav a.active::before,
+.sidebar-bottom a.active::before,
+.sidebar-footer a.active::before {
+  opacity: 1 !important;
+  transform: translateY(-50%) scaleY(1) !important;
+}
+
+/* =========================
+   SIDEBAR BOTTOM
+========================= */
+
+.sidebar-bottom,
+.sidebar-footer {
+  border-top: 1px solid var(--base-border) !important;
+  padding: 16px 0 0 !important;
+  margin: 6px 0 0 !important;
+}
+
+/* =========================
+   USER PROFILE CARD
+========================= */
+
+.user-card {
+  margin: 20px 20px 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 13px !important;
+  transition: 0.2s ease !important;
+}
+
+.user-card:hover {
+  transform: translateY(-2px) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.user-avatar,
+.avatar,
+.top-avatar {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #7fd3ff, #6254ff) !important;
+  color: #ffffff !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  border: 1px solid rgba(190, 183, 255, 0.4) !important;
+  overflow: hidden !important;
+}
+
+.user-avatar img,
+.avatar img,
+.top-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+}
+
+.user-card h4 {
+  margin: 0 !important;
+  color: var(--base-text) !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  line-height: 1.1 !important;
+}
+
+.user-card p {
+  margin: 4px 0 0 !important;
+  color: var(--base-primary) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+/* =========================
+   MAIN LAYOUT FIX
+   avoids content going behind sidebar
+========================= */
+
+.main {
+  margin-left: var(--base-sidebar-width) !important;
+  width: calc(100% - var(--base-sidebar-width)) !important;
+  max-width: calc(100% - var(--base-sidebar-width)) !important;
+}
+
+/* For pages where header/topbar is outside main */
+body > .topbar {
+  left: 0px !important;
+  width: calc(100% - var(--base-sidebar-width)) !important;
+}
+
+/* Stop accidental page horizontal overflow */
+body {
+  overflow-x: hidden !important;
+}
+
+/* But allow inner sections like roadmap/kanban to scroll */
+.roadmap-scroll,
+.kanban-board {
+  overflow-x: auto !important;
+}
+
+/* =========================
+   TOPBAR SMALL FIX
+========================= */
+
+.topbar {
+  border-bottom: 1px solid var(--base-border) !important;
+}
+
+.top-nav a,
+.top-tab {
+  transition: 0.25s ease !important;
+}
+
+.top-nav a:hover,
+.top-tab:hover {
+  color: var(--base-primary) !important;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  html {
+    zoom: 100%;
+  }
+
+  .sidebar {
+    transform: translateX(-100%) !important;
+    transition: 0.3s ease !important;
+  }
+
+  .sidebar.show {
+    transform: translateX(0) !important;
+  }
+
+  .main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body > .topbar {
+    left: 0 !important;
+    width: 100% !important;
+  }
+}
+
+/* FIX: sidebar full height after 95% zoom */
+.sidebar {
+  height: 105.3vh !important;
+  min-height: 105.3vh !important;
+}
+
+/* Keep sidebar content properly arranged */
+.side-nav {
+  flex: 1 !important;
+}
+
+.sidebar-bottom,
+.sidebar-footer {
+  margin-top: auto !important;
+}
+
+/* Make sure user card stays inside sidebar */
+.user-card {
+  margin-bottom: 18px !important;
+}
+
+/* =========================================================
+   FINAL SIDEBAR FULL HEIGHT FIX - NO BLACK GAP
+   ========================================================= */
+
+html,
+body {
+  min-height: 100%;
+  background: #1c1c1f !important;
+}
+
+.sidebar {
+  top: 0 !important;
+  bottom: 0 !important;
+  height: auto !important;
+  min-height: 100vh !important;
+  background: #1c1c1f !important;
+  padding-bottom: 0 !important;
+}
+
+/* Extend sidebar color visually till bottom */
+.sidebar::after {
+  content: "" !important;
+  position: fixed !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: var(--base-sidebar-width) !important;
+  height: 100vh !important;
+  background: #1c1c1f !important;
+  z-index: -1 !important;
+}
+
+/* Keep footer/user profile inside sidebar */
+.sidebar-bottom,
+.sidebar-footer {
+  margin-top: auto !important;
+  padding-bottom: 18px !important;
+  background: #1c1c1f !important;
+}
+
+/* User card no bottom gap */
+.user-card {
+  margin-bottom: 0 !important;
+}
+
+/* =========================================================
+   EXTRA SMALL SIDEBAR
+   Add this at the VERY END of shared/base.css
+   ========================================================= */
+
+:root {
+  --base-sidebar-width: 185px;
+  --sidebar-width: 185px;
+}
+
+.sidebar {
+  width: 185px !important;
+  padding: 14px 0 8px !important;
+  overflow: hidden !important;
+}
+
+/* Brand smaller */
+.brand {
+  padding: 0 13px 14px !important;
+  gap: 10px !important;
+}
+
+.brand-icon {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  border-radius: 6px !important;
+}
+
+.brand h2 {
+  font-size: 17px !important;
+}
+
+.brand p {
+  font-size: 10px !important;
+  letter-spacing: 1.3px !important;
+}
+
+/* Search smaller */
+.search-box,
+.search-btn {
+  width: calc(100% - 16px) !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  margin: 0 8px 14px !important;
+  padding: 0 11px !important;
+}
+
+.search-box span,
+.search-btn span {
+  font-size: 13px !important;
+  gap: 7px !important;
+}
+
+.search-box small,
+.search-btn small {
+  font-size: 10px !important;
+}
+
+/* Nav links smaller */
+.side-nav a,
+.sidebar-bottom a,
+.sidebar-footer a {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 12px 0 18px !important;
+  gap: 12px !important;
+  font-size: 13.5px !important;
+}
+
+.side-nav a .material-symbols-outlined,
+.sidebar-bottom a .material-symbols-outlined,
+.sidebar-footer a .material-symbols-outlined {
+  width: 19px !important;
+  min-width: 19px !important;
+  font-size: 19px !important;
+}
+
+/* Bottom smaller */
+.sidebar-bottom,
+.sidebar-footer {
+  padding: 12px 0 8px !important;
+}
+
+/* User profile smaller */
+.user-card {
+  margin: 10px 12px 0 !important;
+  gap: 8px !important;
+}
+
+.user-avatar,
+.avatar {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  font-size: 10px !important;
+}
+
+.user-card h4 {
+  font-size: 11px !important;
+}
+
+.user-card p {
+  font-size: 10px !important;
+}
+
+/* Main content shift */
+.main {
+  margin-left: 185px !important;
+  width: calc(100% - 185px) !important;
+  max-width: calc(100% - 185px) !important;
+}
+
+body > .topbar {
+  left: 185px !important;
+  width: calc(100% - 185px) !important;
+}
+
+body {
+  --sidebar-width: 185px;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 185px !important;
+  }
+
+  .main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body > .topbar {
+    left: 0 !important;
+    width: 100% !important;
+  }
+}
+
+/* === SHARED SIDEBAR LOGOUT TAB STYLING === */
+.sidebar-footer .logout-link,
+.side-nav .logout-link {
+    color: var(--danger, #ff8d8d) !important;
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease !important;
+}
+
+.sidebar-footer .logout-link:hover,
+.side-nav .logout-link:hover {
+    background-color: rgba(255, 141, 141, 0.08) !important;
+    color: var(--danger, #ff8d8d) !important;
+    transform: translateX(4px) !important;
+}
+
+/* Red indicator line on hover */
+.sidebar-footer .logout-link::before,
+.side-nav .logout-link::before {
+    background: var(--danger, #ff8d8d) !important;
+}
+/* =========================================================
+   ENTERPRISE FOOTER CUSTOM CSS (No Tailwind Required)
+   ========================================================= */
+
+.enterprise-footer {
+  margin-top: 48px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  position: relative;
+  z-index: 10;
+}
+
+@media (max-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-col h4 {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+/* Brand Area */
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon-box {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #5d50f5;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 950;
+  font-size: 14px;
+}
+
+.brand-text-box h4 {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text) !important;
+  margin: 0 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+.brand-text-box p {
+  font-size: 10px;
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 4px 0 0 !important;
+}
+
+.brand-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Pulsing Status Badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: start;
+  padding: 6px 12px;
+  background: rgba(157, 255, 203, 0.08);
+  border: 1px solid rgba(157, 255, 203, 0.16);
+  border-radius: 20px;
+}
+
+.status-pulse-container {
+  position: relative;
+  display: flex;
+  width: 8px;
+  height: 8px;
+}
+
+.pulse-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #4ade80;
+  opacity: 0.75;
+  animation: pulseR 2s infinite;
+}
+
+.pulse-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #4ade80;
+}
+
+.status-text {
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* General Lists and Icons */
+.footer-col ul {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-col ul li {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none !important;
+}
+
+.footer-col ul li a {
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.footer-col ul li a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.contact-list .material-symbols-outlined {
+  font-size: 16px;
+  color: var(--primary);
+}
+
+/* Newsletter Signup Field */
+.newsletter-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.newsletter-form input {
+  flex: 1;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.newsletter-form input:focus {
+  border-color: var(--primary);
+}
+
+.newsletter-form button {
+  background-color: var(--primary);
+  color: #10094a;
+  font-weight: 800;
+  border-radius: 8px;
+  padding: 0 16px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.newsletter-form button:hover {
+  opacity: 0.9;
+}
+
+/* Divider & Meta Rows */
+.footer-divider {
+  margin: 24px 0;
+  border-top: 1px solid var(--border);
+  opacity: 0.3;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted-2);
+}
+
+@media (max-width: 600px) {
+  .footer-bottom {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+}
+
+.copyright-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.version-tag {
+  background-color: rgba(68, 67, 81, 0.3);
+  border: 1px solid rgba(68, 67, 81, 0.5);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.shortcut-section {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.shortcut-section kbd {
+  background-color: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+/* Subtle background overlay gradient */
+.enterprise-footer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.02;
+  pointer-events: none;
+  background-image: radial-gradient(var(--primary) 0.5px, transparent 0.5px);
+  background-size: 16px 16px;
+}
