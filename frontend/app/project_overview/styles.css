@@ -1038,6 +1038,40 @@ button {
   color: var(--primary);
 }
 
+.google-cal-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.google-cal-btn.is-connected {
+  border-color: var(--success, #4ade80);
+  color: var(--success, #4ade80);
+}
+
+.google-cal-status {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--muted-2, #8f8b9f);
+  white-space: nowrap;
+}
+
+.google-cal-status.is-connected {
+  color: var(--success, #4ade80);
+  border-color: var(--success, #4ade80);
+}
+
+.google-cal-status.is-unavailable {
+  color: var(--danger, #ff8d8d);
+  border-color: var(--danger, #ff8d8d);
+}
+
 .calendar-weekdays {
   margin-bottom: 12px;
 }
@@ -1124,6 +1158,101 @@ button {
   padding: 28px;
   display: grid;
   gap: 24px;
+}
+
+.wiki-content[hidden] {
+  display: none;
+}
+
+.wiki-content > h1,
+.wiki-content > h2,
+.wiki-content > h3,
+.wiki-content > h4 {
+  color: var(--text);
+  margin: 0;
+}
+
+.wiki-content > h1 { font-size: 30px; }
+.wiki-content > h2 { font-size: 24px; }
+.wiki-content > h3 { font-size: 19px; }
+.wiki-content > h4 { font-size: 16px; color: var(--primary); }
+
+.wiki-content > p,
+.wiki-content > li {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.wiki-content > ul,
+.wiki-content > ol {
+  padding-left: 22px;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.wiki-content > blockquote {
+  margin: 0;
+  padding: 10px 16px;
+  border-left: 3px solid var(--primary);
+  background: rgba(32, 32, 38, 0.5);
+  color: var(--muted);
+  border-radius: 0 8px 8px 0;
+}
+
+.wiki-content > pre {
+  margin: 0;
+  padding: 16px;
+  background: rgba(17, 17, 19, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+.wiki-content code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 12.5px;
+  color: var(--primary);
+}
+
+.wiki-content > pre code {
+  color: var(--text);
+}
+
+.wiki-content > hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+.wiki-content a {
+  color: var(--primary);
+}
+
+.wiki-content .wiki-empty {
+  color: var(--muted-2, #8f8b9f);
+  font-style: italic;
+}
+
+.wiki-markdown-editor {
+  width: calc(100% - 56px);
+  margin: 0 28px;
+  min-height: 420px;
+  resize: vertical;
+  background: rgba(17, 17, 19, 0.55);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  color: var(--text);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.wiki-markdown-editor:focus {
+  outline: none;
+  border-color: var(--primary);
 }
 
 .wiki-section {

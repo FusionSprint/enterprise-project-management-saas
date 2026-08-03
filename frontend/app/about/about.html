@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Project Management</title>
+  <style>
+    :root {
+      --bg: #111113;
+      --surface: #17171b;
+      --surface-2: #202026;
+      --surface-3: #2b2b33;
+      --border: #444351;
+      --text: #f1efff;
+      --muted: #c9c5d8;
+      --primary: #beb7ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+      padding: 40px 20px 80px;
+    }
+    .about-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .about-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+    .about-back:hover { color: var(--primary); }
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 20px;
+    }
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 0 0 6px;
+    }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    h2 { font-size: 18px; margin: 0 0 12px; }
+    h3 { font-size: 15px; margin: 0 0 6px; color: var(--primary); }
+    p { color: var(--muted); line-height: 1.7; margin: 0 0 12px; }
+    .about-section { margin-bottom: 28px; }
+    .about-section:last-child { margin-bottom: 0; }
+    .chip-grid, .tech-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .chip-grid span {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 12.5px;
+      color: var(--text);
+    }
+    .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+    .tech-grid > div {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .tech-grid ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 13px; }
+    .team-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+    }
+    .team-card strong { color: var(--text); }
+    .team-card span { color: var(--muted); font-size: 13px; }
+    .support-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+    .support-line a { color: var(--primary); text-decoration: none; }
+    .support-line a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="about-wrap">
+    <a class="about-back" href="../project_overview/index.html">&larr; Back to Project</a>
+
+    <div class="about-card">
+      <p class="eyebrow">Project Documentation</p>
+      <h1>About This Project</h1>
+      <p>
+        Welcome to the Enterprise Project Management platform. This page is the project's
+        knowledge base — overview, requirements, architecture, and who built it.
+      </p>
+    </div>
+
+    <div class="about-card">
+      <div class="about-section">
+        <h2>Overview</h2>
+        <p>
+          An enterprise-grade project management platform that enables organizations to manage
+          workspaces, projects, tasks, teams, meetings, developer workflows, and analytics from a
+          single application.
+        </p>
+      </div>
+
+      <div class="about-section">
+        <h2>Core Features</h2>
+        <div class="chip-grid">
+          <span>User Authentication</span>
+          <span>Workspace Management</span>
+          <span>Project Management</span>
+          <span>Task Tracking</span>
+          <span>Team Collaboration</span>
+          <span>Meeting Scheduler</span>
+          <span>Developer Hub</span>
+          <span>Analytics Dashboard</span>
+          <span>Notifications</span>
+          <span>Time Tracking</span>
+        </div>
+      </div>
+
+      <div class="about-section">
+        <h2>Architecture</h2>
+        <div class="tech-grid">
+          <div>
+            <h3>Frontend</h3>
+            <ul><li>Next.js</li><li>React</li><li>TypeScript</li><li>Tailwind CSS</li><li>shadcn/ui</li></ul>
+          </div>
+          <div>
+            <h3>Backend</h3>
+            <ul><li>FastAPI</li><li>Python</li></ul>
+          </div>
+          <div>
+            <h3>Database</h3>
+            <ul><li>MongoDB</li></ul>
+          </div>
+          <div>
+            <h3>Deployment</h3>
+            <ul><li>Vercel Frontend</li><li>Render Backend</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-card">
+      <div class="about-section">
+        <h2>Team</h2>
+        <div class="team-card">
+          <strong>Sai Bhavani Yedla</strong>
+          <span>CBIT · 3rd Year</span>
+        </div>
+        <div class="team-card">
+          <strong>Bhargavi</strong>
+          <span>Vasavi · 3rd Year</span>
+        </div>
+      </div>
+
+      <div class="about-section" style="margin-bottom:0;">
+        <h2>Support</h2>
+        <!-- TODO: replace with your real support inbox -->
+        <p class="support-line">📧 <a href="mailto:support@acmecorp.com">support@acmecorp.com</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

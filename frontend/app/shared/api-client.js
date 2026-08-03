@@ -291,6 +291,15 @@
       },
     },
 
+    googleCalendar: {
+      status() {
+        return request("/integrations/google-calendar/status", { method: "GET" });
+      },
+      connect() {
+        return request("/integrations/google-calendar/connect", { method: "GET" });
+      },
+    },
+
     notifications: {
       list(unreadOnly = false, archived = false) {
         const query = new URLSearchParams();

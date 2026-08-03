@@ -582,8 +582,12 @@ if (logoutBtn) {
 
   if (!workspaceId || !projectId) {
     // Page opened directly (design preview) rather than via "Open Project"
-    // from Workspace Overview — leave all existing static/demo content as-is,
-    // and keep Update Docs harmless (matches its original static behavior).
+    // from Workspace Overview — no real project to load, so just show the
+    // wiki's empty state and keep Update Docs harmless.
+    const previewContentEl = document.querySelector(".wiki-content");
+    if (previewContentEl) {
+      previewContentEl.innerHTML = '<p class="wiki-empty">Nothing written yet. Click “Edit Markdown” and write about this project\'s process.</p>';
+    }
     if (updateDocsBtn) {
       updateDocsBtn.addEventListener("click", () => showToast("Wiki documentation updated"));
     }
@@ -1405,18 +1409,168 @@ if (logoutBtn) {
     });
   }
 
-  // ---- Wiki: one persisted page per project, editable in place ----
+  // ---- Google Calendar: connect button drives the real backend OAuth
+  // flow. Project events + task deadlines already live in our own calendar
+  // (loadCalendarEvents above); this only adds the optional two-way sync
+  // handshake, which requires the backend to have real Google OAuth
+  // credentials configured. ----
+  async function wireGoogleCalendarConnect() {
+    const btn = document.getElementById("googleCalConnectBtn");
+    const statusEl = document.getElementById("googleCalStatus");
+    if (!btn) return;
+
+    function setStatus(text, variant) {
+      if (!statusEl) return;
+      statusEl.hidden = !text;
+      statusEl.textContent = text || "";
+      statusEl.classList.remove("is-connected", "is-unavailable");
+      if (variant) statusEl.classList.add(variant);
+    }
+
+    async function refreshStatus() {
+      try {
+        const status = await EPM_API.googleCalendar.status();
+        if (status.connected) {
+          setStatus("Google Calendar connected", "is-connected");
+          btn.textContent = "Reconnect Google Calendar";
+          btn.classList.add("is-connected");
+        } else if (!status.configured) {
+          setStatus("Google Calendar sync not configured", "is-unavailable");
+          btn.textContent = "Connect Google Calendar";
+          btn.classList.remove("is-connected");
+        } else {
+          setStatus(null);
+          btn.textContent = "Connect Google Calendar";
+          btn.classList.remove("is-connected");
+        }
+        return status;
+      } catch (err) {
+        // Non-fatal — the project calendar itself doesn't depend on this.
+        console.error("Couldn't load Google Calendar status —", err);
+        return null;
+      }
+    }
+
+    btn.addEventListener("click", async () => {
+      const status = (await refreshStatus()) || {};
+      if (!status.configured) {
+        showToast(
+          "Google Calendar isn't set up on this server yet — add GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET, and GOOGLE_OAUTH_REDIRECT_URI to the backend to enable it."
+        );
+        return;
+      }
+      try {
+        const { authorization_url } = await EPM_API.googleCalendar.connect();
+        window.location.href = authorization_url;
+      } catch (err) {
+        console.error("Couldn't start Google Calendar connect —", err);
+        showToast(err.message || "Couldn't start the Google Calendar connection");
+      }
+    });
+
+    refreshStatus();
+  }
+
+  // ---- Wiki: one persisted page per project, written and edited as raw
+  // Markdown — the same "type Markdown, save, it renders" flow as a
+  // GitHub README. Source is always what's persisted to the backend; the
+  // rendered HTML is only ever produced on read, client-side. ----
+  function renderMarkdown(source) {
+    const raw = String(source || "");
+    if (!raw.trim()) {
+      return '<p class="wiki-empty">Nothing written yet. Click “Edit Markdown” and write about this project\'s process.</p>';
+    }
+
+    const codeBlocks = [];
+    const escaped = escapeHtml(raw).replace(/```([\s\S]*?)```/g, (_, code) => {
+      codeBlocks.push(code.replace(/^\n/, "").replace(/\n$/, ""));
+      return `\u0000CODEBLOCK${codeBlocks.length - 1}\u0000`;
+    });
+
+    function inline(text) {
+      return text
+        .replace(/`([^`]+)`/g, "<code>$1</code>")
+        .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    }
+
+    const out = [];
+    let listType = null;
+    let paragraph = [];
+
+    const flushParagraph = () => {
+      if (paragraph.length) {
+        out.push(`<p>${paragraph.join(" ")}</p>`);
+        paragraph = [];
+      }
+    };
+    const closeList = () => {
+      if (listType) {
+        out.push(`</${listType}>`);
+        listType = null;
+      }
+    };
+
+    escaped.split("\n").forEach((rawLine) => {
+      const line = rawLine.replace(/\r$/, "");
+      const heading = line.match(/^(#{1,4})\s+(.*)$/);
+      const quote = line.match(/^&gt;\s?(.*)$/);
+      const ul = line.match(/^[-*]\s+(.*)$/);
+      const ol = line.match(/^\d+\.\s+(.*)$/);
+      const isHr = /^(-{3,}|\*{3,})$/.test(line.trim());
+
+      if (!line.trim()) {
+        flushParagraph();
+        closeList();
+      } else if (isHr) {
+        flushParagraph();
+        closeList();
+        out.push("<hr>");
+      } else if (heading) {
+        flushParagraph();
+        closeList();
+        const level = heading[1].length;
+        out.push(`<h${level}>${inline(heading[2])}</h${level}>`);
+      } else if (quote) {
+        flushParagraph();
+        closeList();
+        out.push(`<blockquote>${inline(quote[1])}</blockquote>`);
+      } else if (ul) {
+        flushParagraph();
+        if (listType !== "ul") { closeList(); out.push("<ul>"); listType = "ul"; }
+        out.push(`<li>${inline(ul[1])}</li>`);
+      } else if (ol) {
+        flushParagraph();
+        if (listType !== "ol") { closeList(); out.push("<ol>"); listType = "ol"; }
+        out.push(`<li>${inline(ol[1])}</li>`);
+      } else {
+        closeList();
+        paragraph.push(inline(line));
+      }
+    });
+    flushParagraph();
+    closeList();
+
+    return out
+      .join("\n")
+      .replace(/\u0000CODEBLOCK(\d+)\u0000/g, (_, i) => `<pre><code>${codeBlocks[Number(i)]}</code></pre>`);
+  }
+
+  function showWikiPage(page) {
+    const contentEl = document.querySelector(".wiki-content");
+    const editorEl = document.getElementById("wikiMarkdownEditor");
+    if (contentEl) contentEl.innerHTML = renderMarkdown(page ? page.body : "");
+    if (editorEl) editorEl.value = page ? page.body : "";
+  }
+
   async function loadWiki() {
     try {
       const pages = await EPM_API.wiki.list(workspaceId, projectId);
-      if (pages.length) {
-        currentWikiPage = pages[0];
-        const contentEl = document.querySelector(".wiki-content");
-        if (contentEl) contentEl.innerHTML = currentWikiPage.body;
-      }
-      // If no page exists yet, the static template content already in the
-      // markup is kept as the starting draft — it becomes real, versioned
-      // content the first time "Update Docs" is used to save it.
+      currentWikiPage = pages.length ? pages[0] : null;
+      showWikiPage(currentWikiPage);
+      // No page exists until the user writes one via "Edit Markdown" — the
+      // empty state above is what's shown until then.
     } catch (err) {
       console.error("Couldn't load the wiki —", err);
       showToast(err.message || "Couldn't load the wiki");
@@ -1433,8 +1587,7 @@ if (logoutBtn) {
       if (!title || !title.trim()) return;
       try {
         currentWikiPage = await EPM_API.wiki.create(workspaceId, projectId, { title: title.trim(), body: "" });
-        const contentEl = document.querySelector(".wiki-content");
-        if (contentEl) contentEl.innerHTML = "";
+        showWikiPage(currentWikiPage);
         showToast("New wiki page created");
       } catch (err) {
         showToast(err.message || "Couldn't create wiki page");
@@ -1451,8 +1604,7 @@ if (logoutBtn) {
         const page = pages.find((item) => item.title === selectedTitle);
         if (!page) return;
         currentWikiPage = page;
-        const contentEl = document.querySelector(".wiki-content");
-        if (contentEl) contentEl.innerHTML = page.body;
+        showWikiPage(page);
         showToast(`Opened ${page.title}`);
       } catch (err) {
         showToast(err.message || "Couldn't load wiki pages");
@@ -1469,8 +1621,7 @@ if (logoutBtn) {
         }
         const page = pages[0];
         currentWikiPage = page;
-        const contentEl = document.querySelector(".wiki-content");
-        if (contentEl) contentEl.innerHTML = page.body;
+        showWikiPage(page);
         showToast(`Opened ${page.title}`);
       } catch (err) {
         showToast(err.message || "Couldn't search wiki pages");
@@ -1495,38 +1646,43 @@ if (logoutBtn) {
   function wireWikiEditing() {
     if (!updateDocsBtn) return;
 
-    updateDocsBtn.addEventListener("click", async () => {
-      const contentEl = document.querySelector(".wiki-content");
-      if (!contentEl) return;
+    const contentEl = document.querySelector(".wiki-content");
+    const editorEl = document.getElementById("wikiMarkdownEditor");
+    if (!contentEl || !editorEl) return;
 
-      const isEditing = contentEl.getAttribute("contenteditable") === "true";
+    updateDocsBtn.addEventListener("click", async () => {
+      const isEditing = !editorEl.hidden;
 
       if (!isEditing) {
-        contentEl.setAttribute("contenteditable", "true");
-        contentEl.focus();
-        updateDocsBtn.textContent = "Save Docs";
-        showToast("Editing enabled — click Save Docs when done");
+        editorEl.value = currentWikiPage ? currentWikiPage.body : "";
+        editorEl.hidden = false;
+        contentEl.hidden = true;
+        editorEl.focus();
+        updateDocsBtn.textContent = "Save";
+        showToast("Write Markdown, then click Save");
         return;
       }
 
-      contentEl.setAttribute("contenteditable", "false");
-      updateDocsBtn.textContent = "Update Docs";
-
+      const markdown = editorEl.value;
       try {
         if (currentWikiPage) {
           currentWikiPage = await EPM_API.wiki.update(workspaceId, projectId, currentWikiPage.id, {
-            body: contentEl.innerHTML,
+            body: markdown,
           });
         } else {
           currentWikiPage = await EPM_API.wiki.create(workspaceId, projectId, {
             title: "Project Documentation",
-            body: contentEl.innerHTML,
+            body: markdown,
           });
         }
-        showToast("Wiki documentation updated");
+        showWikiPage(currentWikiPage);
+        editorEl.hidden = true;
+        contentEl.hidden = false;
+        updateDocsBtn.textContent = "Edit Markdown";
+        showToast("Wiki page saved");
       } catch (err) {
         console.error("Couldn't save the wiki —", err);
-      showToast(err.message || "Couldn't save the wiki");
+        showToast(err.message || "Couldn't save the wiki");
       }
     });
   }
@@ -1541,6 +1697,7 @@ if (logoutBtn) {
   wireMyTasksFilter();
   wireProjectSettings();
   wireCalendarActions();
+  wireGoogleCalendarConnect();
   wireWikiNavigation();
   wireWikiEditing();
 })();
