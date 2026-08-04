@@ -298,6 +298,12 @@
       connect() {
         return request("/integrations/google-calendar/connect", { method: "GET" });
       },
+      updateSettings(preferences) {
+        return request("/integrations/google-calendar/settings", { method: "PUT", body: preferences });
+      },
+      disconnect() {
+        return request("/integrations/google-calendar/disconnect", { method: "DELETE" });
+      },
     },
 
     notifications: {

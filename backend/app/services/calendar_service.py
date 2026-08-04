@@ -43,6 +43,7 @@ def _serialize_event(doc: Dict[str, Any]) -> Dict[str, Any]:
         "notes": doc.get("notes"),
         "google_sync_enabled": doc.get("google_sync_enabled", False),
         "google_sync_status": doc.get("google_sync_status", "not_requested"),
+        "google_event_id": doc.get("google_event_id"),
     }
 
 
@@ -104,10 +105,13 @@ def create_event(
         "reminder_minutes": payload.reminder_minutes, "participant_ids": payload.participant_ids,
         "location": payload.location, "color": payload.color, "notes": payload.notes,
         "google_sync_enabled": payload.google_sync_enabled,
-        "google_sync_status": "pending_connection" if payload.google_sync_enabled else "not_requested",
+        "google_sync_status": "pending",
     }
     result = calendar_events_collection.insert_one(doc)
     doc["_id"] = result.inserted_id
+    from app.services.google_calendar_service import sync_item
+    sync_item(current_user["_id"], doc, "calendar_event")
+    doc = calendar_events_collection.find_one({"_id": doc["_id"]}) or doc
     return _serialize_event(doc)
 
 
@@ -162,6 +166,7 @@ def update_event(
     project_id: str,
     event_id: str,
     payload: CalendarEventUpdate,
+    current_user: Dict[str, Any],
 ) -> Dict[str, Any]:
     doc = _get_event_doc(project_id, event_id)
 
@@ -181,10 +186,15 @@ def update_event(
     updates["updated_at"] = datetime.now(UTC)
     calendar_events_collection.update_one({"_id": doc["_id"]}, {"$set": updates})
     doc.update(updates)
+    from app.services.google_calendar_service import sync_item
+    sync_item(current_user["_id"], doc, "calendar_event")
+    doc = calendar_events_collection.find_one({"_id": doc["_id"]}) or doc
     return _serialize_event(doc)
 
 
-def delete_event(workspace_id: str, project_id: str, event_id: str) -> Dict[str, Any]:
+def delete_event(workspace_id: str, project_id: str, event_id: str, current_user: Dict[str, Any]) -> Dict[str, Any]:
     doc = _get_event_doc(project_id, event_id)
+    from app.services.google_calendar_service import delete_synced_item
+    delete_synced_item(current_user["_id"], doc, "calendar_event")
     calendar_events_collection.delete_one({"_id": doc["_id"]})
     return {"message": "Calendar event deleted successfully"}

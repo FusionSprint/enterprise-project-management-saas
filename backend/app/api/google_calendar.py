@@ -19,6 +19,8 @@ from app.config import settings
 from app.core.auth import get_current_user
 from app.core.crypto import encrypt_value
 from app.database.database import google_calendar_tokens_collection
+from app.schemas.google_calendar_schema import GoogleCalendarStatus, GoogleCalendarSyncPreferences
+from app.services import google_calendar_service
 
 router = APIRouter()
 
@@ -30,10 +32,21 @@ def _configured():
     return all((settings.GOOGLE_OAUTH_CLIENT_ID, settings.GOOGLE_OAUTH_CLIENT_SECRET, settings.GOOGLE_OAUTH_REDIRECT_URI))
 
 
-@router.get("/status")
+@router.get("/status", response_model=GoogleCalendarStatus)
 def google_status(current_user=Depends(get_current_user)):
     token = google_calendar_tokens_collection.find_one({"user_id": current_user["_id"]})
-    return {"connected": bool(token), "configured": _configured()}
+    return {"connected": bool(token and token.get("connected", True) and token.get("access_token")), "configured": _configured(), "preferences": google_calendar_service.preferences_for(current_user["_id"])}
+
+
+@router.put("/settings", response_model=GoogleCalendarSyncPreferences)
+def update_sync_preferences(payload: GoogleCalendarSyncPreferences, current_user=Depends(get_current_user)):
+    return google_calendar_service.update_preferences(current_user["_id"], payload.model_dump())
+
+
+@router.delete("/disconnect")
+def disconnect_google(current_user=Depends(get_current_user)):
+    google_calendar_service.disconnect(current_user["_id"])
+    return {"message": "Google Calendar disconnected. Existing Google Calendar events were not deleted."}
 
 
 @router.get("/connect")
@@ -83,6 +96,7 @@ def google_callback(code: str, state: str):
         "scope": token_data.get("scope"),
         "token_type": token_data.get("token_type"),
         "expires_at": now + timedelta(seconds=expires_in),
+        "connected": True,
         "updated_at": now,
     }
     # Google only returns a refresh_token on the *first* consent for a given

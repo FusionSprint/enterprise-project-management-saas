@@ -34,6 +34,8 @@ def _serialize_task(doc: Dict[str, Any]) -> Dict[str, Any]:
         "due_date": doc.get("due_date"),
         "labels": doc.get("labels", []),
         "comments": doc.get("comments", []),
+        "google_event_id": doc.get("google_event_id"),
+        "google_sync_status": doc.get("google_sync_status", "not_requested"),
         "created_at": doc["created_at"],
         "updated_at": doc["updated_at"],
     }
@@ -103,12 +105,17 @@ def create_task(
         "due_date": payload.due_date,
         "labels": payload.labels or [],
         "comments": [],
+        "google_sync_status": "pending",
         "created_at": now,
         "updated_at": now,
     }
 
     result = tasks_collection.insert_one(doc)
     doc["_id"] = result.inserted_id
+
+    from app.services.google_calendar_service import sync_item
+    sync_item(current_user["_id"], doc, "task")
+    doc = tasks_collection.find_one({"_id": doc["_id"]}) or doc
 
     if assignee and assignee["user_id"] != current_user["_id"]:
         from app.services.notification_service import create_notification
@@ -177,6 +184,10 @@ def update_task(
     tasks_collection.update_one({"_id": doc["_id"]}, {"$set": updates})
     doc.update(updates)
 
+    from app.services.google_calendar_service import sync_item
+    sync_item(current_user["_id"], doc, "task")
+    doc = tasks_collection.find_one({"_id": doc["_id"]}) or doc
+
     assignee = updates.get("assignee")
     if assignee and assignee["user_id"] != current_user["_id"]:
         from app.services.notification_service import create_notification
@@ -185,9 +196,11 @@ def update_task(
     return _serialize_task(doc)
 
 
-def delete_task(workspace_id: str, project_id: str, task_id: str) -> Dict[str, Any]:
+def delete_task(workspace_id: str, project_id: str, task_id: str, current_user: Dict[str, Any]) -> Dict[str, Any]:
     _get_project_for_scope(workspace_id, project_id)
     doc = _get_task_doc(project_id, task_id)
+    from app.services.google_calendar_service import delete_synced_item
+    delete_synced_item(current_user["_id"], doc, "task")
     tasks_collection.delete_one({"_id": doc["_id"]})
     return {"message": "Task deleted successfully"}
 

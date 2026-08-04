@@ -2,6 +2,7 @@ const menuBtn = document.getElementById("menuBtn");
 const sidebar = document.getElementById("sidebar");
 const searchBtn = document.getElementById("searchBtn");
 const newTaskBtn = document.getElementById("newTaskBtn");
+const calendarAddTaskBtn = document.getElementById("calendarAddTaskBtn");
 const updateDocsBtn = document.getElementById("updateDocsBtn");
 const toast = document.getElementById("toast");
 
@@ -40,6 +41,16 @@ if (newTaskBtn) {
       createBackendTask();
     } else {
       createTaskCard();
+    }
+  });
+}
+
+if (calendarAddTaskBtn) {
+  calendarAddTaskBtn.addEventListener("click", () => {
+    if (window.__activeProject && window.EPM_API && window.openTaskModal) {
+      window.openTaskModal("create");
+    } else {
+      showToast("Open a project before adding a task");
     }
   });
 }
@@ -889,7 +900,10 @@ if (logoutBtn) {
     const descInput = document.getElementById("taskModalDescInput");
     const assigneeSelect = document.getElementById("taskModalAssigneeSelect");
     const prioritySelect = document.getElementById("taskModalPrioritySelect");
-    const dueInput = document.getElementById("taskModalDueInput");
+    const dueDateInput = document.getElementById("taskModalDueDateInput");
+    const dueTimeInput = document.getElementById("taskModalDueTimeInput");
+    const dueShortcutButtons = document.querySelectorAll(".task-date-shortcuts [data-due-offset]");
+    const modalHint = document.getElementById("taskModalHint");
     const labelsInput = document.getElementById("taskModalLabelsInput");
     const statusField = document.getElementById("taskModalStatusField");
     const statusSelect = document.getElementById("taskModalStatusSelect");
@@ -899,9 +913,14 @@ if (logoutBtn) {
     const commentInput = document.getElementById("taskModalCommentInput");
     const commentBtn = document.getElementById("taskModalCommentBtn");
     const deleteBtn = document.getElementById("taskModalDeleteBtn");
+    const deleteConfirmation = document.getElementById("taskDeleteConfirmation");
+    const deleteCancelBtn = document.getElementById("taskDeleteCancelBtn");
+    const deleteConfirmBtn = document.getElementById("taskDeleteConfirmBtn");
     const cancelBtn = document.getElementById("taskModalCancelBtn");
     const closeBtn = document.getElementById("taskModalCloseBtn");
     const saveBtn = document.getElementById("taskModalSaveBtn");
+    const quickCreateForm = document.getElementById("taskQuickCreateForm");
+    const quickCreateInput = document.getElementById("taskQuickCreateInput");
 
     let modalMode = "create"; // "create" | "edit"
     let editingTask = null;
@@ -993,21 +1012,26 @@ if (logoutBtn) {
 
       if (mode === "create") {
         titleEl.textContent = "New Task";
+        modalHint.textContent = "Start with a name. Add a date only when it needs one.";
         saveBtn.textContent = "Create Task";
         deleteBtn.style.display = "none";
+        deleteConfirmation.style.display = "none";
         commentsSection.style.display = "none";
 
         titleInput.value = "";
         descInput.value = "";
         prioritySelect.value = "Medium";
-        dueInput.value = "";
+        dueDateInput.value = "";
+        dueTimeInput.value = "";
         labelsInput.value = "";
         populateAssigneeOptions("");
         populateStatusOptions(presetStatus || "Backlog");
       } else {
         titleEl.textContent = "Task Details";
+        modalHint.textContent = "Update details here. Changes are saved together.";
         saveBtn.textContent = "Save Changes";
         deleteBtn.style.display = "inline-flex";
+        deleteConfirmation.style.display = "none";
         commentsSection.style.display = "flex";
 
         titleInput.value = task.title || "";
@@ -1016,14 +1040,15 @@ if (logoutBtn) {
         if (task.due_date) {
           const d = new Date(task.due_date);
           if (!Number.isNaN(d.getTime())) {
-            dueInput.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
-              d.getDate()
-            ).padStart(2, "0")}`;
+            dueDateInput.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+            dueTimeInput.value = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
           } else {
-            dueInput.value = "";
+            dueDateInput.value = "";
+            dueTimeInput.value = "";
           }
         } else {
-          dueInput.value = "";
+          dueDateInput.value = "";
+          dueTimeInput.value = "";
         }
         labelsInput.value = (task.labels || []).join(", ");
         populateAssigneeOptions(task.assignee ? task.assignee.user_id : "");
@@ -1039,11 +1064,14 @@ if (logoutBtn) {
     function close() {
       overlay.classList.remove("open");
       editingTask = null;
+      deleteConfirmation.style.display = "none";
+      deleteBtn.style.display = "none";
     }
 
     function buildDueDateIso() {
-      if (!dueInput.value) return null;
-      return `${dueInput.value}T00:00:00`;
+      if (!dueDateInput.value) return null;
+      const dueDate = new Date(`${dueDateInput.value}T${dueTimeInput.value || "09:00"}:00`);
+      return Number.isNaN(dueDate.getTime()) ? null : dueDate.toISOString();
     }
 
     async function handleSave() {
@@ -1091,7 +1119,13 @@ if (logoutBtn) {
 
     async function handleDelete() {
       if (!editingTask) return;
-      if (!window.confirm(`Delete "${editingTask.title}"? This cannot be undone.`)) return;
+      deleteBtn.style.display = "none";
+      deleteConfirmation.style.display = "inline-flex";
+    }
+
+    async function confirmDelete() {
+      if (!editingTask) return;
+      deleteConfirmBtn.disabled = true;
       try {
         await EPM_API.tasks.remove(workspaceId, projectId, editingTask.id);
         showToast("Task deleted");
@@ -1100,6 +1134,10 @@ if (logoutBtn) {
         await loadCalendarEvents();
       } catch (err) {
         showToast(err.message || "Couldn't delete the task");
+        deleteConfirmation.style.display = "none";
+        deleteBtn.style.display = "inline-flex";
+      } finally {
+        deleteConfirmBtn.disabled = false;
       }
     }
 
@@ -1122,6 +1160,11 @@ if (logoutBtn) {
 
     saveBtn.addEventListener("click", handleSave);
     deleteBtn.addEventListener("click", handleDelete);
+    deleteCancelBtn.addEventListener("click", () => {
+      deleteConfirmation.style.display = "none";
+      deleteBtn.style.display = "inline-flex";
+    });
+    deleteConfirmBtn.addEventListener("click", confirmDelete);
     commentBtn.addEventListener("click", handleAddComment);
     commentInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) handleAddComment();
@@ -1133,6 +1176,52 @@ if (logoutBtn) {
     });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && overlay.classList.contains("open")) close();
+      if ((e.metaKey || e.ctrlKey) && e.key === "Enter" && overlay.classList.contains("open") && document.activeElement !== commentInput) {
+        e.preventDefault();
+        handleSave();
+      }
+    });
+    dueShortcutButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const dueDate = new Date();
+        dueDate.setHours(9, 0, 0, 0);
+        dueDate.setDate(dueDate.getDate() + Number(button.dataset.dueOffset || 0));
+        dueDateInput.value = `${dueDate.getFullYear()}-${String(dueDate.getMonth() + 1).padStart(2, "0")}-${String(dueDate.getDate()).padStart(2, "0")}`;
+        if (!dueTimeInput.value) dueTimeInput.value = "09:00";
+      });
+    });
+
+    quickCreateForm?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!window.__activeProject || !window.EPM_API) {
+        showToast("Open a project before adding a task");
+        return;
+      }
+      const title = quickCreateInput.value.trim();
+      if (!title) {
+        quickCreateInput.focus();
+        return;
+      }
+      const submitBtn = quickCreateForm.querySelector("button[type='submit']");
+      submitBtn.disabled = true;
+      try {
+        await EPM_API.tasks.create(workspaceId, projectId, {
+          title,
+          description: null,
+          status: "Backlog",
+          priority: "Medium",
+          assignee_id: null,
+          due_date: null,
+          labels: [],
+        });
+        quickCreateInput.value = "";
+        showToast("Task added to Backlog");
+        await loadTasks();
+      } catch (err) {
+        showToast(err.message || "Couldn't create the task");
+      } finally {
+        submitBtn.disabled = false;
+      }
     });
 
     window.openTaskModal = open;
@@ -1384,6 +1473,132 @@ if (logoutBtn) {
       showToast(err.message || "Couldn't update the event");
     }
   };
+
+  function wireCalendarEventModal() {
+    const overlay = document.getElementById("calendarEventModalOverlay");
+    if (!overlay) return;
+    const titleEl = document.getElementById("calendarEventModalTitle");
+    const hintEl = document.getElementById("calendarEventModalHint");
+    const titleInput = document.getElementById("calendarEventTitleInput");
+    const descriptionInput = document.getElementById("calendarEventDescriptionInput");
+    const typeSelect = document.getElementById("calendarEventTypeSelect");
+    const prioritySelect = document.getElementById("calendarEventPrioritySelect");
+    const startDate = document.getElementById("calendarEventStartDateInput");
+    const startTime = document.getElementById("calendarEventStartTimeInput");
+    const endDate = document.getElementById("calendarEventEndDateInput");
+    const endTime = document.getElementById("calendarEventEndTimeInput");
+    const errorEl = document.getElementById("calendarEventModalError");
+    const closeBtn = document.getElementById("calendarEventModalCloseBtn");
+    const cancelBtn = document.getElementById("calendarEventCancelBtn");
+    const saveBtn = document.getElementById("calendarEventSaveBtn");
+    const deleteBtn = document.getElementById("calendarEventDeleteBtn");
+    const confirmation = document.getElementById("calendarEventDeleteConfirmation");
+    const keepBtn = document.getElementById("calendarEventDeleteCancelBtn");
+    const confirmBtn = document.getElementById("calendarEventDeleteConfirmBtn");
+    const addEventBtn = document.getElementById("addCalendarEventBtn");
+    let editingEvent = null;
+
+    const setError = (message) => {
+      errorEl.style.display = message ? "block" : "none";
+      errorEl.textContent = message || "";
+    };
+    const localParts = (value) => {
+      const date = value ? new Date(value) : null;
+      if (!date || Number.isNaN(date.getTime())) return ["", ""];
+      return [`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`, `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`];
+    };
+    const buildDateTime = (dateInput, timeInput) => {
+      if (!dateInput.value) return null;
+      const date = new Date(`${dateInput.value}T${timeInput.value || "09:00"}:00`);
+      return Number.isNaN(date.getTime()) ? null : date.toISOString();
+    };
+    function close() {
+      overlay.classList.remove("open");
+      editingEvent = null;
+      confirmation.style.display = "none";
+    }
+    function open(event = null) {
+      editingEvent = event;
+      setError("");
+      confirmation.style.display = "none";
+      deleteBtn.style.display = event ? "inline-flex" : "none";
+      titleEl.textContent = event ? "Edit Event" : "New Event";
+      hintEl.textContent = event ? "Update the schedule or event details, then save your changes." : "Add the essential details for your project calendar.";
+      saveBtn.textContent = event ? "Save Changes" : "Create Event";
+      titleInput.value = event?.title || "";
+      descriptionInput.value = event?.description || "";
+      typeSelect.value = event?.event_type || "Event";
+      prioritySelect.value = event?.priority || "Medium";
+      let startParts = localParts(event?.start_time);
+      let endParts = localParts(event?.end_time);
+      if (!event) {
+        const now = new Date();
+        now.setMinutes(0, 0, 0);
+        now.setHours(now.getHours() + 1);
+        startParts = localParts(now);
+        const oneHourLater = new Date(now.getTime() + 3600000);
+        endParts = localParts(oneHourLater);
+      }
+      [startDate.value, startTime.value] = startParts;
+      [endDate.value, endTime.value] = endParts;
+      overlay.classList.add("open");
+      titleInput.focus();
+    }
+    async function save() {
+      const title = titleInput.value.trim();
+      const start = buildDateTime(startDate, startTime);
+      const end = buildDateTime(endDate, endTime);
+      if (!title) { setError("Event name is required."); titleInput.focus(); return; }
+      if (!start) { setError("Choose a start date for the event."); startDate.focus(); return; }
+      if (end && new Date(end) < new Date(start)) { setError("The end must be after the start."); return; }
+      saveBtn.disabled = true;
+      const payload = { title, description: descriptionInput.value.trim() || null, event_type: typeSelect.value, priority: prioritySelect.value, start_time: start, end_time: end };
+      try {
+        if (editingEvent) {
+          await EPM_API.calendarEvents.update(workspaceId, projectId, editingEvent.id, payload);
+          showToast("Calendar event updated");
+        } else {
+          await EPM_API.calendarEvents.create(workspaceId, projectId, payload);
+          showToast("Calendar event added");
+        }
+        close();
+        await loadCalendarEvents();
+      } catch (err) {
+        console.error("Couldn't save calendar event —", err);
+        setError(err.message || "Couldn't save the event");
+      } finally { saveBtn.disabled = false; }
+    }
+    deleteBtn.addEventListener("click", () => { deleteBtn.style.display = "none"; confirmation.style.display = "inline-flex"; });
+    keepBtn.addEventListener("click", () => { confirmation.style.display = "none"; deleteBtn.style.display = "inline-flex"; });
+    confirmBtn.addEventListener("click", async () => {
+      if (!editingEvent) return;
+      confirmBtn.disabled = true;
+      try {
+        await EPM_API.calendarEvents.remove(workspaceId, projectId, editingEvent.id);
+        showToast("Calendar event deleted");
+        close();
+        await loadCalendarEvents();
+      } catch (err) {
+        setError(err.message || "Couldn't delete the event");
+        confirmation.style.display = "none";
+        deleteBtn.style.display = "inline-flex";
+      } finally { confirmBtn.disabled = false; }
+    });
+    saveBtn.addEventListener("click", save);
+    cancelBtn.addEventListener("click", close);
+    closeBtn.addEventListener("click", close);
+    overlay.addEventListener("click", (event) => { if (event.target === overlay) close(); });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && overlay.classList.contains("open")) close();
+      if ((event.ctrlKey || event.metaKey) && event.key === "Enter" && overlay.classList.contains("open")) { event.preventDefault(); save(); }
+    });
+    addEventBtn.addEventListener("click", () => open());
+    window.openCalendarEventModal = open;
+    window.manageCalendarEvent = (eventId) => {
+      const event = currentCalendarEventList.find((item) => item.id === eventId);
+      if (event) open(event);
+    };
+  }
 
   function wireCalendarActions() {
     const addEventBtn = document.getElementById("addCalendarEventBtn");
@@ -1696,7 +1911,7 @@ if (logoutBtn) {
   wireTaskFilters();
   wireMyTasksFilter();
   wireProjectSettings();
-  wireCalendarActions();
+  wireCalendarEventModal();
   wireGoogleCalendarConnect();
   wireWikiNavigation();
   wireWikiEditing();
