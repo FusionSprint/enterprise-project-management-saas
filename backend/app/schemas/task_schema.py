@@ -68,5 +68,7 @@ class TaskOut(BaseModel):
     due_date: Optional[datetime] = None
     labels: List[str] = Field(default_factory=list)
     comments: List[TaskCommentOut] = Field(default_factory=list)
+    google_event_id: Optional[str] = None
+    google_sync_status: str = "not_requested"
     created_at: datetime
     updated_at: datetime

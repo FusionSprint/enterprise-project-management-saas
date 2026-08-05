@@ -76,3 +76,4 @@ class CalendarEventOut(BaseModel):
     notes: Optional[str] = None
     google_sync_enabled: bool = False
     google_sync_status: str = "not_requested"
+    google_event_id: Optional[str] = None

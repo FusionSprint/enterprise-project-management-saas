@@ -514,6 +514,12 @@
           </div>
         </div>
 
+        <form class="task-quick-create" id="taskQuickCreateForm">
+          <span class="material-symbols-outlined" aria-hidden="true">add_task</span>
+          <input id="taskQuickCreateInput" type="text" maxlength="200" placeholder="Add a task — press Enter to save" aria-label="New task title" />
+          <button type="submit">Add</button>
+        </form>
+
         <section class="task-panel active" id="taskBoard">
           <div class="kanban-board" id="kanbanBoard">
             <article class="kanban-column">
@@ -665,7 +671,16 @@
 
         <section class="task-panel" id="taskCalendar">
           <article class="card task-calendar-card">
-            <h3>Task Calendar</h3>
+            <div class="task-calendar-header">
+              <div>
+                <h3>Task Calendar</h3>
+                <p>Click a task to edit it, or add a scheduled task.</p>
+              </div>
+              <button type="button" class="task-calendar-add-btn" id="calendarAddTaskBtn">
+                <span class="material-symbols-outlined">add</span>
+                Add task
+              </button>
+            </div>
 
             <div class="mini-calendar" id="taskMiniCalendar">
               <div><small>Mon</small><b>12</b><span>SSO audit</span></div>
@@ -871,21 +886,98 @@
 
   <div class="toast" id="toast">Action completed</div>
 
+  <!-- Calendar Event Modal: mirrors the task popup so calendar actions never
+       fall back to browser prompts. -->
+  <div class="task-modal-overlay" id="calendarEventModalOverlay">
+    <div class="task-modal calendar-event-modal" role="dialog" aria-modal="true" aria-labelledby="calendarEventModalTitle">
+      <div class="task-modal-header">
+        <div>
+          <h3 id="calendarEventModalTitle">New Event</h3>
+          <p class="task-modal-hint" id="calendarEventModalHint">Add the essential details for your project calendar.</p>
+        </div>
+        <button type="button" class="task-modal-close" id="calendarEventModalCloseBtn" aria-label="Close">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="task-modal-body">
+        <div class="task-field">
+          <label for="calendarEventTitleInput">Event</label>
+          <input class="task-title-input" type="text" id="calendarEventTitleInput" maxlength="150" placeholder="What is happening?" />
+        </div>
+        <div class="task-field">
+          <label for="calendarEventDescriptionInput">Description</label>
+          <textarea id="calendarEventDescriptionInput" rows="3" maxlength="1000" placeholder="Add context (optional)"></textarea>
+        </div>
+        <div class="task-field-row">
+          <div class="task-field">
+            <label for="calendarEventTypeSelect">Type</label>
+            <select id="calendarEventTypeSelect">
+              <option value="Event">Event</option>
+              <option value="Meeting">Meeting</option>
+              <option value="Milestone">Milestone</option>
+              <option value="Deadline">Deadline</option>
+            </select>
+          </div>
+          <div class="task-field">
+            <label for="calendarEventPrioritySelect">Priority</label>
+            <select id="calendarEventPrioritySelect">
+              <option value="Low">Low</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="High">High</option>
+              <option value="Critical">Critical</option>
+            </select>
+          </div>
+        </div>
+        <div class="task-field-row">
+          <div class="task-field task-schedule-field">
+            <label for="calendarEventStartDateInput">Starts</label>
+            <div class="task-schedule-inputs">
+              <input type="date" id="calendarEventStartDateInput" aria-label="Start date" />
+              <input type="time" id="calendarEventStartTimeInput" step="900" aria-label="Start time" />
+            </div>
+          </div>
+          <div class="task-field task-schedule-field">
+            <label for="calendarEventEndDateInput">Ends</label>
+            <div class="task-schedule-inputs">
+              <input type="date" id="calendarEventEndDateInput" aria-label="End date" />
+              <input type="time" id="calendarEventEndTimeInput" step="900" aria-label="End time" />
+            </div>
+          </div>
+        </div>
+        <div class="task-modal-error" id="calendarEventModalError" style="display:none;"></div>
+      </div>
+      <div class="task-modal-footer">
+        <button type="button" class="task-modal-btn task-modal-btn-danger" id="calendarEventDeleteBtn" style="display:none;">Delete</button>
+        <div class="task-delete-confirmation" id="calendarEventDeleteConfirmation" style="display:none;">
+          <span>Delete this event?</span>
+          <button type="button" class="task-modal-btn task-modal-btn-secondary" id="calendarEventDeleteCancelBtn">Keep</button>
+          <button type="button" class="task-modal-btn task-modal-btn-danger" id="calendarEventDeleteConfirmBtn">Delete</button>
+        </div>
+        <span style="flex:1;"></span>
+        <button type="button" class="task-modal-btn task-modal-btn-secondary" id="calendarEventCancelBtn">Cancel</button>
+        <button type="button" class="task-modal-btn task-modal-btn-primary" id="calendarEventSaveBtn">Create Event</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Task Modal: used for both "New Task" (create mode) and clicking an
        existing task card (edit mode). Comments + Delete are hidden in
        create mode since they only make sense once a task exists. -->
   <div class="task-modal-overlay" id="taskModalOverlay">
     <div class="task-modal" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
       <div class="task-modal-header">
-        <h3 id="taskModalTitle">New Task</h3>
+        <div>
+          <h3 id="taskModalTitle">New Task</h3>
+          <p class="task-modal-hint" id="taskModalHint">Add the essentials now; you can fill in the rest later.</p>
+        </div>
         <button type="button" class="task-modal-close" id="taskModalCloseBtn" aria-label="Close">
           <span class="material-symbols-outlined">close</span>
         </button>
       </div>
       <div class="task-modal-body">
         <div class="task-field">
-          <label for="taskModalTitleInput">Title</label>
-          <input type="text" id="taskModalTitleInput" maxlength="200" placeholder="e.g. Draft Q3 rollout plan" />
+          <label for="taskModalTitleInput">Task</label>
+          <input class="task-title-input" type="text" id="taskModalTitleInput" maxlength="200" placeholder="What needs to be done?" />
         </div>
 
         <div class="task-field">
@@ -912,9 +1004,17 @@
         </div>
 
         <div class="task-field-row">
-          <div class="task-field">
-            <label for="taskModalDueInput">Due date</label>
-            <input type="date" id="taskModalDueInput" />
+          <div class="task-field task-schedule-field">
+            <label for="taskModalDueDateInput">Due</label>
+            <div class="task-schedule-inputs">
+              <input type="date" id="taskModalDueDateInput" aria-label="Due date" />
+              <input type="time" id="taskModalDueTimeInput" step="900" aria-label="Due time" />
+            </div>
+            <div class="task-date-shortcuts" aria-label="Quick due date">
+              <button type="button" data-due-offset="0">Today</button>
+              <button type="button" data-due-offset="1">Tomorrow</button>
+              <button type="button" data-due-offset="7">Next week</button>
+            </div>
           </div>
           <div class="task-field" id="taskModalStatusField" style="display:none;">
             <label for="taskModalStatusSelect">Status</label>
@@ -942,6 +1042,11 @@
       </div>
       <div class="task-modal-footer">
         <button type="button" class="task-modal-btn task-modal-btn-danger" id="taskModalDeleteBtn" style="display:none;">Delete</button>
+        <div class="task-delete-confirmation" id="taskDeleteConfirmation" style="display:none;">
+          <span>Delete this task?</span>
+          <button type="button" class="task-modal-btn task-modal-btn-secondary" id="taskDeleteCancelBtn">Keep</button>
+          <button type="button" class="task-modal-btn task-modal-btn-danger" id="taskDeleteConfirmBtn">Delete</button>
+        </div>
         <span style="flex:1;"></span>
         <button type="button" class="task-modal-btn task-modal-btn-secondary" id="taskModalCancelBtn">Cancel</button>
         <button type="button" class="task-modal-btn task-modal-btn-primary" id="taskModalSaveBtn">Create Task</button>

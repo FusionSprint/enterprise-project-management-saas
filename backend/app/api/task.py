@@ -103,7 +103,7 @@ def delete_task(
     current_user=Depends(get_current_user),
 ):
     get_workspace_and_member(workspace_id, current_user)
-    return task_service.delete_task(workspace_id, project_id, task_id)
+    return task_service.delete_task(workspace_id, project_id, task_id, current_user)
 
 
 @router.post(

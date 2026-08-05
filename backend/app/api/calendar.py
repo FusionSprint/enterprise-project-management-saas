@@ -81,7 +81,7 @@ def update_event(
     current_user=Depends(get_current_user),
 ):
     get_workspace_and_member(workspace_id, current_user)
-    return calendar_service.update_event(workspace_id, project_id, event_id, payload)
+    return calendar_service.update_event(workspace_id, project_id, event_id, payload, current_user)
 
 
 @router.delete(
@@ -96,4 +96,4 @@ def delete_event(
     current_user=Depends(get_current_user),
 ):
     get_workspace_and_member(workspace_id, current_user)
-    return calendar_service.delete_event(workspace_id, project_id, event_id)
+    return calendar_service.delete_event(workspace_id, project_id, event_id, current_user)
